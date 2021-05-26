@@ -1,7 +1,6 @@
 ! URxvt
 URxvt.geometry: 92x24
 URxvt*.letterSpace: -1
-lol*.letterSpace: -1
 
 *.font: xft:mono:pixelsize=22:antialias=true:autohint=true
 
