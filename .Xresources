@@ -20,7 +20,7 @@ URxvt*.letterSpace: -1
 *.color9: #FD7873
 
 ! green replaced with purple
-*.color2: #7E86FF
+*.color2: #8086e8
 *.color10: #7E86FF
 
 ! yellow
