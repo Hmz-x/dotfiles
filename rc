@@ -15,5 +15,5 @@ bind -f common J win-mv-after
 # move track down in playlist
 bind -f common K win-mv-before
 
-# set colorscheme
-colorscheme default
+# set colorscheme to green (but it's actually purple)
+colorscheme green

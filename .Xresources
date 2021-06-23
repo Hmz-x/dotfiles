@@ -1,3 +1,5 @@
+! Note: This ricing focuses mainly on the color purple.
+
 ! URxvt
 URxvt.geometry: 92x24
 URxvt*.letterSpace: -1
@@ -17,9 +19,9 @@ URxvt*.letterSpace: -1
 *.color1: #EE615C
 *.color9: #FD7873
 
-! green
-*.color2: #80C080
-*.color10: #77B277
+! green replaced with purple
+*.color2: #7E86FF
+*.color10: #7E86FF
 
 ! yellow
 *.color3: #b08500
