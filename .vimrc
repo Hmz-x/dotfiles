@@ -5,9 +5,17 @@ Plug 'morhetz/gruvbox'
 
 call plug#end()
 
+" Create empty space
 map s a<space><ESC>
+
+" Write buffer not fitting on to the current line to the next line
 map ! g$bi<return><ESC>
-map F si<return><backspace>{<return><return>}<ESC>ki<tab>
+
+" Create { } for function and enter insert mode 
+map <C-P> si<return><backspace>{<return><return>}<ESC>ki<tab>
+
+" Create function prototype
+map <C-X> JA;<ESC>jv%d
 
 set nocompatible  
 filetype off
@@ -15,6 +23,7 @@ filetype off
 set nocp
 syntax on
 set tabstop=4 softtabstop=4 shiftwidth=4
+set textwidth=140
 set nu
 set noswapfile
 set smartcase
