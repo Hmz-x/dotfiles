@@ -18,11 +18,12 @@ alias v='vim'
 alias c='clear'
 alias e='exit'
 alias pt='pkill tmux'
+alias ds='sudo nmcli dev status'
 
 # Workflow
 set -o vi
 wm="bspwm"
-if pgrep -x "$wm"; then
+if res="$(pgrep -x "$wm")" && [ -n "$res" ]; then
 	xrdb .Xresources
 	[ -z "$TMUX" ] && tmux.sh && exit 0 
 fi
