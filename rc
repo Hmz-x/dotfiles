@@ -17,3 +17,6 @@ bind -f common K win-mv-before
 
 # set colorscheme to green (but it's actually purple)
 colorscheme green
+
+# disable mpris
+set mpris=false
