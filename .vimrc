@@ -30,6 +30,7 @@ set smartcase
 set incsearch
 set nosmartindent
 set nohls
+set autowrite
 
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 
