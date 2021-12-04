@@ -12,7 +12,7 @@ export VISUAL='vim'
 export USB='/mnt/usb'
 
 # Aliases
-#alias pa='pactl set-sink-volume @DEFAULT_SINK@ 110%'
+# alias pa='pactl set-sink-volume @DEFAULT_SINK@ 110%'
 alias sd='loginctl poweroff'
 alias v='vim'
 alias c='clear'
@@ -39,7 +39,7 @@ rs()
 	done
 }
 
-#transmissions torrent stuff
+# Transmissions torrent stuff
 t-daemon()
 {
 	sudo rc-service transmission start
@@ -79,7 +79,7 @@ t-mv()
 	sudo mv -v /var/lib/transmission/downloads/ "$dir"
 }
 
-#nmcli connection stuff
+# Nmcli connection stuff
 wcon()
 {
 	nmcli dev wifi connect "$1" --ask
@@ -98,4 +98,30 @@ wdel()
 wshow()
 {
 	nmcli connection show
+}
+
+# Git stuff
+ga()
+{
+	git add "$@"
+}
+
+gc()
+{
+	git commit -m "$@"
+}
+
+gp()
+{
+	git push -u origin master
+}
+
+gs()
+{
+	git status
+}
+
+gl()
+{
+	git log
 }

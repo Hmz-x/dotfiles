@@ -1,8 +1,8 @@
 # play next 
-bind -f common [ player-next
+bind -f common ] player-next
 unbind -f common b 
 # play previous 
-bind -f common ] player-prev
+bind -f common [ player-prev
 unbind -f common z
 
 # add to que
