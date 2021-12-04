@@ -18,7 +18,6 @@ alias v='vim'
 alias c='clear'
 alias e='exit'
 alias pt='pkill tmux'
-alias cs='nmcli connection show'
 alias pi='ssh pi@192.168.1.119'
 alias br='xrandr --output LVDS-1 --brightness 0.7'
 
@@ -40,6 +39,7 @@ rs()
 	done
 }
 
+#transmissions torrent stuff
 t-daemon()
 {
 	sudo rc-service transmission start
@@ -79,7 +79,23 @@ t-mv()
 	sudo mv -v /var/lib/transmission/downloads/ "$dir"
 }
 
-wifi()
+#nmcli connection stuff
+wcon()
 {
 	nmcli dev wifi connect "$1" --ask
+}
+
+wscan()
+{
+	nmcli dev wifi 
+}
+
+wdel()
+{
+	nmcli con del "$1"
+}
+
+wshow()
+{
+	nmcli connection show
 }
