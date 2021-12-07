@@ -11,10 +11,12 @@ export EDITOR='vim'
 export VISUAL='vim'
 export USB='/mnt/usb'
 
-# Aliases
+# General Aliases
 # alias pa='pactl set-sink-volume @DEFAULT_SINK@ 110%'
-alias sd='loginctl poweroff'
+alias po='loginctl poweroff'
+alias rb='loginctl reboot'
 alias v='vim'
+alias p='pacman'
 alias c='clear'
 alias e='exit'
 alias pt='pkill tmux'
@@ -66,6 +68,17 @@ t-purge()
 	transmission-remote -t "$1" --remove-and-delete
 }
 
+t-stop()
+{
+	transmission-remote -t "$1" --stop
+}
+
+t-start()
+{
+	transmission-remote -t "$1" --start
+}
+
+# Screenshot
 ss()
 {
 	import -window root "$1"
@@ -124,4 +137,9 @@ gs()
 gl()
 {
 	git log
+}
+
+gr()
+{
+	git rm "$@"
 }
