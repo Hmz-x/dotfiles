@@ -3,12 +3,18 @@
 #
 #
 
+###### Control PulseAudio #######
 # Control volume buttons
 XF86AudioLowerVolume
-	amixer set Master 5-
+	pamixer --decrease 10
 XF86AudioRaiseVolume
-	amixer set Master 5+
+	(( "$(pamixer --get-volume)" < 130 )) && pamixer --allow-boost --increase 10
 
+# Toggle Mute
+XF86AudioMute
+	pamixer --toggle-mute
+########################
+#
 ###### CMUS CONTROLS #######
 # Play/Pause CMUS
 F1
@@ -17,19 +23,31 @@ F2
 	cmus-remote --prev
 F3
 	cmus-remote --next
+
+# Raise/Lower volume
+alt + XF86AudioLowerVolume
+	cmus-remote --vol -10%
+alt + XF86AudioRaiseVolume
+	cmus-remote --vol +10%
+
+# Seek +30/-30 in track
+alt + F2
+	cmus-remote --seek -30
+alt + F3
+	cmus-remote --seek +30
 ########################
 
 ###### LAUNCH PROGRAMS #######
 # terminal emulator
-super + alt + t
+alt + t
 	urxvt
 
 # browser
-super + alt + w
+alt + w
 	brave-browser-nightly
 
 # Freetube
-super + alt + f
+alt + f
 	freetube
 ########################
 
