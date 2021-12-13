@@ -3,6 +3,15 @@
 #
 #
 
+###### Poweroff/Reboot #######
+# Poweroff
+#	ctrl + alt + F4
+#		export POWER_STATUS="poweroff" && killall bspwm
+# Reboot
+#	ctrl + alt + F5
+		#loginctl reboot
+########################
+
 ###### Control PulseAudio #######
 # Control volume buttons
 XF86AudioLowerVolume
@@ -44,11 +53,20 @@ alt + t
 
 # browser
 alt + w
-	brave-browser-nightly
+	"$BROWSER"
 
 # Freetube
 alt + f
-	freetube
+	"$YT_CLIENT"
+
+alt + q
+	qjackctl
+
+alt + s
+	sudo timeshift-gtk
+
+alt + a
+	ardour6
 ########################
 
 # program launcher

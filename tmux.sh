@@ -2,8 +2,6 @@
 
 # Constants
 SESH="default" # default session
-MUSIC_PLAYER="cmus"
-FILE_MAN="lf"
 
 { [ -n "$1" ] && dir="$1"; } || dir="$HOME"
 { [ -n "$EDITOR" ] && editor="$EDITOR"; } || editor="vim"
@@ -28,7 +26,7 @@ tmux send-keys -t "$SESH":$wbi.$((pbi+1)) "cd $dir; clear" C-m
 # In "manager" window, launch file manager
 tmux send-keys -t "$SESH":$((wbi+1)) "cd $dir; clear; $FILE_MAN" C-m
 # In "music" window, launch music player
-tmux send-keys -t "$SESH":$((wbi+2)) "cd $dir; clear; $MUSIC_PLAYER" C-m
+tmux send-keys -t "$SESH":$((wbi+2)) "cd $dir; clear; $MUS_PLAYER" C-m
 
 # Select the starting window and attach session
 tmux select-window -t "$SESH":$((wbi+2))

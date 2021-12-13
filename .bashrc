@@ -7,12 +7,21 @@
 
 # Environment Variables
 export PS1='\[\033[0;0m\][\u:\w]\$ '
-export EDITOR='vim'
 export VISUAL='vim'
 export USB='/mnt/usb'
+export BOOK='/home/hkm/Documents/pdf/UNIX_Admin_Handbook.pdf'
+#export POWER_STATUS='ACTIVE'
+
+export EDITOR='vim' # Text Editor
+export BROWSER='brave-browser-nightly' # Web Browser
+export YT_CLIENT='freetube' # YouTube Client
+export VID_PLAYER='mpv' # Video/Media Player
+export MUS_PLAYER='cmus' # Music Player
+export FILE_MAN='lf' # File Manager
+export WM='bspwm' # Window Manager
+#export TERM='urxvt' # Terminal
 
 # General Aliases
-# alias pa='pactl set-sink-volume @DEFAULT_SINK@ 110%'
 alias po='loginctl poweroff'
 alias rb='loginctl reboot'
 alias v='vim'
@@ -22,16 +31,18 @@ alias e='exit'
 alias pt='pkill tmux'
 alias pi='ssh pi@192.168.1.119'
 alias br='xrandr --output LVDS-1 --brightness 0.7'
+alias z='zathura "$BOOK" &'
+alias tb='nc termbin.com 9999'
 
 # Workflow
 set -o vi
-wm="bspwm"
-if res="$(pgrep -x "$wm")" && [ -n "$res" ]; then
+if res="$(pgrep -x "$WM")" && [ -n "$res" ]; then
 	xrdb .Xresources
-	[ -z "$TMUX" ] && tmux.sh && exit 0 
+	[ -z "$TMUX" ] && tmux.sh && exit 
 fi
 
-# Functions
+# General Functions
+# Call redshift "$1" times
 rs()
 {
 	count="$(echo "$1" | grep [[:digit:]])"
@@ -39,6 +50,14 @@ rs()
 	for ((i=0; i<"$count"; i++)); do
 		redshift -O 5000
 	done
+}
+
+# CD into dirname of given file
+cd()
+{
+	{ [ -z "$1" ] && command cd ~; } ||
+	{ [ -f "$1" ] && command cd "$(dirname $1)"; } || 
+	command cd "$1"
 }
 
 # Transmissions torrent stuff
@@ -76,12 +95,6 @@ t-stop()
 t-start()
 {
 	transmission-remote -t "$1" --start
-}
-
-# Screenshot
-ss()
-{
-	import -window root "$1"
 }
 
 t-mv()

@@ -23,7 +23,7 @@ filetype off
 set nocp
 syntax on
 set tabstop=4 softtabstop=4 shiftwidth=4
-set textwidth=140
+set textwidth=96
 set nu
 set noswapfile
 set smartcase
