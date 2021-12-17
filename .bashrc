@@ -5,21 +5,21 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# Environment Variables
+# General Environment Variables
 export PS1='\[\033[0;0m\][\u:\w]\$ '
 export VISUAL='vim'
 export USB='/mnt/usb'
 export BOOK='/home/hkm/Documents/pdf/UNIX_Admin_Handbook.pdf'
-#export POWER_STATUS='ACTIVE'
 
+# Program Environment Variables
 export EDITOR='vim' # Text Editor
 export BROWSER='brave-browser-nightly' # Web Browser
+export BROWSER_GEN='brave' # Browser General Name
 export YT_CLIENT='freetube' # YouTube Client
 export VID_PLAYER='mpv' # Video/Media Player
 export MUS_PLAYER='cmus' # Music Player
 export FILE_MAN='lf' # File Manager
-export WM='bspwm' # Window Manager
-#export TERM='urxvt' # Terminal
+export TERMINAL='urxvt' # Terminal
 
 # General Aliases
 alias po='loginctl poweroff'
@@ -33,12 +33,13 @@ alias pi='ssh pi@192.168.1.119'
 alias br='xrandr --output LVDS-1 --brightness 0.7'
 alias z='zathura "$BOOK" &'
 alias tb='nc termbin.com 9999'
+alias vhc='vim .config/herbstluftwm/autostart' # vim Hl config
 
 # Workflow
 set -o vi
 if res="$(pgrep -x "$WM")" && [ -n "$res" ]; then
 	xrdb .Xresources
-	[ -z "$TMUX" ] && tmux.sh && exit 
+	#[ -z "$TMUX" ] && tmux.sh && exit 
 fi
 
 # General Functions
@@ -155,4 +156,41 @@ gl()
 gr()
 {
 	git rm "$@"
+}
+
+# Mount stuff
+mnt()
+{
+	sudo mount /dev/"$1" "$USB"
+}
+
+umnt()
+{
+	sudo umount "$USB"
+}
+
+mnt-mv()
+{
+	df -h "$USB"
+
+	mkdir "$1" && 
+	sudo mv -v "$USB"/* "$1" &&
+
+	du -h "$1" && 
+	df -h "$USB" && 
+
+	umnt
+}
+
+mnt-cp()
+{
+	df -h "$USB"
+
+	mkdir "$1" && 
+	sudo cp -vr "$USB"/* "$1" &&
+
+	du -h "$1" && 
+	df -h "$USB" &&
+	
+	umnt
 }
