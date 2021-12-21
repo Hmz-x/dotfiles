@@ -34,6 +34,8 @@ alias br='xrandr --output LVDS-1 --brightness 0.7'
 alias z='zathura "$BOOK" &'
 alias tb='nc termbin.com 9999'
 alias vhc='vim .config/herbstluftwm/autostart' # vim Hl config
+alias cdt='cd ~/CS/tool-references' 
+alias d='date'
 
 # Workflow
 set -o vi
@@ -193,4 +195,10 @@ mnt-cp()
 	df -h "$USB" &&
 	
 	umnt
+}
+
+# Diff stuff
+t-diff()
+{
+	diff <(tree "$1") <(tree "$2") | less
 }
