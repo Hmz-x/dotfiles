@@ -40,8 +40,9 @@ alias d='date'
 # Workflow
 set -o vi
 if res="$(pgrep -x "$WM")" && [ -n "$res" ]; then
-	xrdb .Xresources
+	#xrdb .Xresources
 	#[ -z "$TMUX" ] && tmux.sh && exit 
+	:
 fi
 
 # General Functions
@@ -59,7 +60,7 @@ rs()
 cd()
 {
 	{ [ -z "$1" ] && command cd ~; } ||
-	{ [ -f "$1" ] && command cd "$(dirname $1)"; } || 
+	{ [ -f "$1" ] && command cd "$(dirname "$1")"; } || 
 	command cd "$1"
 }
 
@@ -201,4 +202,24 @@ mnt-cp()
 t-diff()
 {
 	diff <(tree "$1") <(tree "$2") | less
+}
+
+# Ffmpeg stuff
+fcon() # ffmpeg convert
+{
+	in="wav"
+	out="mp3"
+
+	for file in *."$in"; do
+		new_file="$(echo "$file" | cut -d '_' -f 1).${out}"
+		ffmpeg -i "$file" "$new_file" && rm "$file"
+	done
+}
+
+# Unzip stuff
+uzip()
+{
+	for file in *.zip; do
+		unzip "$file" && rm -r "$file"
+	done
 }
