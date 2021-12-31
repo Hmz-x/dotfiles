@@ -17,6 +17,11 @@ map <C-P> si<return><backspace>{<return><return>}<ESC>ki<tab>
 " Create function prototype
 map <C-X> JA;<ESC>jv%d
 
+" Comment out line using '#'
+map <C-H> I#<ESC>j 
+
+ab ## ######
+
 set nocompatible  
 filetype off
 
@@ -33,7 +38,6 @@ set nohls
 set autowrite
 
 highlight ColorColumn ctermbg=0 guibg=lightgrey
-
 colorscheme gruvbox
 set background=dark
 let g:ycm_global_ycm_extra_conf='/home/hkm/.vim/plugged/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'

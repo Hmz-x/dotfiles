@@ -14,24 +14,27 @@ xsetroot -solid '#8086e8'
 hc keyunbind --all
 
 # Constants
-WM_KEY="Super"
-SPAWN_KEY="Alt"
-KILL_KEY="Alt"
+WM_MOD="Super"
+SPAWN_MOD="Alt"
+KILL_MOD="Alt"
+VERT_MOD="Shift"
 
 # Quit/Reload Herbstluftwm
-hc keybind "$WM_KEY"-"$KILL_KEY"-q quit
-hc keybind "$WM_KEY"-Shift-r reload
+hc keybind "$WM_MOD"-"$KILL_MOD"-q quit
+hc keybind "$WM_MOD"-"$KILL_MOD"-r reload
 
 # Close window
-hc keybind "$KILL_KEY"-F4 close
+hc keybind "$KILL_MOD"-F4 spawn close_window_and_frame.sh
 
 # Spawn programs
-hc keybind "$SPAWN_KEY"-t spawn "$TERMINAL"
-hc keybind "$SPAWN_KEY"-w spawn "$BROWSER"
-hc keybind "$SPAWN_KEY"-s spawn sudo timeshift-gtk
-hc keybind "$SPAWN_KEY"-f spawn "$YT_CLIENT"
-hc keybind "$SPAWN_KEY"-a spawn ardour6
-hc keybind "$SPAWN_KEY"-q spawn	qjackctl 
+hc keybind "$SPAWN_MOD"-t spawn spawn_frame_and_program.sh "$TERMINAL" "horizontal"
+hc keybind "$SPAWN_MOD"-"$VERT_MOD"-t spawn "$TERMINAL" #spawn_frame_and_program.sh "$TERMINAL" "vertical"
+
+hc keybind "$SPAWN_MOD"-w spawn "$BROWSER"
+hc keybind "$SPAWN_MOD"-s spawn sudo timeshift-gtk
+hc keybind "$SPAWN_MOD"-f spawn "$YT_CLIENT"
+hc keybind "$SPAWN_MOD"-a spawn ardour6
+hc keybind "$SPAWN_MOD"-q spawn	qjackctl 
 
 # Music/Audio controls
 hc keybind F1 spawn cmus-remote -u
@@ -43,30 +46,30 @@ hc keybind XF86AudioMute spawn pamixer --mute
 
 # basic movement in tiling and floating mode
 # focusing clients
-hc keybind "$WM_KEY"-h focus left
-hc keybind "$WM_KEY"-j focus down
-hc keybind "$WM_KEY"-k focus up
-hc keybind "$WM_KEY"-l focus right
+hc keybind "$WM_MOD"-h focus left
+hc keybind "$WM_MOD"-j focus down
+hc keybind "$WM_MOD"-k focus up
+hc keybind "$WM_MOD"-l focus right
 
 # moving clients in tiling and floating mode
-hc keybind "$WM_KEY"-Shift-h shift left
-hc keybind "$WM_KEY"-Shift-j shift down
-hc keybind "$WM_KEY"-Shift-k shift up
-hc keybind "$WM_KEY"-Shift-l shift right
+hc keybind "$WM_MOD"-Shift-h shift left
+hc keybind "$WM_MOD"-Shift-j shift down
+hc keybind "$WM_MOD"-Shift-k shift up
+hc keybind "$WM_MOD"-Shift-l shift right
 
 # splitting frames
 # create an empty frame at the specified direction
-hc keybind "$WM_KEY"-bracketleft split vertical 0.5
-hc keybind "$WM_KEY"-bracketright split horizontal 0.5
+hc keybind "$WM_MOD"-bracketleft split vertical 0.5
+hc keybind "$WM_MOD"-bracketright split horizontal 0.5
 # let the current frame explode into subframes
-hc keybind "$WM_KEY"-Control-space split explode
+hc keybind "$WM_MOD"-Control-space split explode
 
 # resizing frames and floating clients
 resizestep=0.05
-hc keybind "$WM_KEY"-Control-h resize left +"$resizestep"
-hc keybind "$WM_KEY"-Control-j resize down +"$resizestep"
-hc keybind "$WM_KEY"-Control-k resize up +"$resizestep"
-hc keybind "$WM_KEY"-Control-l resize right +"$resizestep"
+hc keybind "$WM_MOD"-Control-h resize left +"$resizestep"
+hc keybind "$WM_MOD"-Control-j resize down +"$resizestep"
+hc keybind "$WM_MOD"-Control-k resize up +"$resizestep"
+hc keybind "$WM_MOD"-Control-l resize right +"$resizestep"
 
 # tags
 tag_names=( {1..9} )
@@ -77,43 +80,43 @@ for i in "${!tag_names[@]}" ; do
     hc add "${tag_names[$i]}"
     key="${tag_keys[$i]}"
     if ! [ -z "$key" ] ; then
-        hc keybind ""$WM_KEY"-$key" use_index "$i"
-        hc keybind ""$WM_KEY"-Shift-$key" move_index "$i"
+        hc keybind ""$WM_MOD"-$key" use_index "$i"
+        hc keybind ""$WM_MOD"-Shift-$key" move_index "$i"
     fi
 done
 
 # cycle through tags
-hc keybind "$WM_KEY"-period use_index +1 --skip-visible
-hc keybind "$WM_KEY"-comma  use_index -1 --skip-visible
+hc keybind "$WM_MOD"-period use_index +1 --skip-visible
+hc keybind "$WM_MOD"-comma  use_index -1 --skip-visible
 
 # layouting
-hc keybind "$WM_KEY"-r remove
-hc keybind "$WM_KEY"-s floating toggle
-hc keybind "$WM_KEY"-f fullscreen toggle
-hc keybind "$WM_KEY"-Shift-f set_attr clients.focus.floating toggle
-hc keybind "$WM_KEY"-Shift-m set_attr clients.focus.minimized true
-hc keybind "$WM_KEY"-Control-m jumpto last-minimized
-hc keybind "$WM_KEY"-p pseudotile toggle
+hc keybind "$WM_MOD"-r remove
+hc keybind "$WM_MOD"-s floating toggle
+hc keybind "$WM_MOD"-f fullscreen toggle
+hc keybind "$WM_MOD"-Shift-f set_attr clients.focus.floating toggle
+hc keybind "$WM_MOD"-Shift-m set_attr clients.focus.minimized true
+hc keybind "$WM_MOD"-Control-m jumpto last-minimized
+hc keybind "$WM_MOD"-p pseudotile toggle
 # The following cycles through the available layouts within a frame, but skips
 # layouts, if the layout change wouldn't affect the actual window positions.
 # I.e. if there are two windows within a frame, the grid layout is skipped.
-hc keybind "$WM_KEY"-space                                                           \
+hc keybind "$WM_MOD"-space                                                           \
             or , and . compare tags.focus.curframe_wcount = 2                   \
                      . cycle_layout +1 vertical horizontal max vertical grid    \
                , cycle_layout +1
 
 # mouse
 hc mouseunbind --all
-hc mousebind "$WM_KEY"-Button1 move
-hc mousebind "$WM_KEY"-Button2 zoom
-hc mousebind "$WM_KEY"-Button3 resize
+hc mousebind "$WM_MOD"-Button1 move
+hc mousebind "$WM_MOD"-Button2 zoom
+hc mousebind "$WM_MOD"-Button3 resize
 
 # focus
-hc keybind "$WM_KEY"-BackSpace   cycle_monitor
-hc keybind "$WM_KEY"-Tab         cycle_all +1
-hc keybind "$WM_KEY"-Shift-Tab   cycle_all -1
-hc keybind "$WM_KEY"-c cycle
-hc keybind "$WM_KEY"-i jumpto urgent
+hc keybind "$WM_MOD"-BackSpace   cycle_monitor
+hc keybind "$WM_MOD"-Tab         cycle_all +1
+hc keybind "$WM_MOD"-Shift-Tab   cycle_all -1
+hc keybind "$WM_MOD"-c cycle
+hc keybind "$WM_MOD"-i jumpto urgent
 
 # theme
 hc attr theme.tiling.reset 1
@@ -125,7 +128,7 @@ hc set frame_bg_active_color '#345F0Caa'
 hc set frame_border_width 1
 hc set always_show_frame on
 hc set frame_bg_transparent on
-hc set frame_transparent_width 5
+hc set frame_transparent_width 0
 hc set frame_gap 4
 
 hc attr theme.title_height 15

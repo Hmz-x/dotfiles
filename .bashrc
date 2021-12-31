@@ -33,8 +33,9 @@ alias pi='ssh pi@192.168.1.119'
 alias br='xrandr --output LVDS-1 --brightness 0.7'
 alias z='zathura "$BOOK" &'
 alias tb='nc termbin.com 9999'
-alias vhc='vim .config/herbstluftwm/autostart' # vim Hl config
-alias cdt='cd ~/CS/tool-references' 
+alias vhc='vim /home/hkm/.config/herbstluftwm/autostart' # vim Hl config
+alias cdt='cd /home/hkm/CS/tool-references' 
+alias cdl='cd /usr/local/bin'
 alias d='date'
 
 # Workflow
