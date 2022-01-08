@@ -30,9 +30,13 @@ hc keybind "$KILL_MOD"-F4 spawn close_window_and_frame.sh
 hc keybind "$SPAWN_MOD"-t spawn spawn_frame_and_program.sh "$TERMINAL" "horizontal"
 hc keybind "$SPAWN_MOD"-"$VERT_MOD"-t spawn "$TERMINAL" #spawn_frame_and_program.sh "$TERMINAL" "vertical"
 
-hc keybind "$SPAWN_MOD"-w spawn "$BROWSER"
+hc keybind "$SPAWN_MOD"-w spawn spawn_frame_and_program.sh "$BROWSER"
+hc keybind "$SPAWN_MOD"-"$VERT_MOD"-w spawn "$BROWSER"
+
+hc keybind "$SPAWN_MOD"-f spawn spawn_frame_and_program.sh "$YT_CLIENT"
+hc keybind "$SPAWN_MOD"-"$VERT_MOD"-f spawn "$YT_CLIENT"
+
 hc keybind "$SPAWN_MOD"-s spawn sudo timeshift-gtk
-hc keybind "$SPAWN_MOD"-f spawn "$YT_CLIENT"
 hc keybind "$SPAWN_MOD"-a spawn ardour6
 hc keybind "$SPAWN_MOD"-q spawn	qjackctl 
 
@@ -41,8 +45,8 @@ hc keybind F1 spawn cmus-remote -u
 hc keybind F3 spawn cmus-remote --next
 hc keybind F2 spawn cmus-remote --prev
 hc keybind XF86AudioLowerVolume spawn pamixer --decrease 10
-hc keybind XF86AudioRaiseVolume spawn pamixer --increase 10
-hc keybind XF86AudioMute spawn pamixer --mute
+hc keybind XF86AudioRaiseVolume spawn pamixer_increase.sh
+hc keybind XF86AudioMute spawn pamixer --toggle-mute
 
 # basic movement in tiling and floating mode
 # focusing clients
