@@ -4,5 +4,5 @@ xrdb .Xresources
 # Start Pulseadio daemon
 pulseaudio -D
 
-# export WM and exec it
-export WM="herbstluftwm" && exec "$WM"
+# export wm_envvar and exec it
+export wm_envvar="herbstluftwm" && exec "$wm_envvar"
