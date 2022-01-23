@@ -26,6 +26,10 @@ hc keybind "$WM_MOD"-"$KILL_MOD"-r reload
 # Close window
 hc keybind "$KILL_MOD"-F4 spawn close_window_and_frame.sh
 
+# Raise/Lower brightness
+hc keybind F9 spawn raise_lower_brightness.sh 0
+hc keybind F10 spawn raise_lower_brightness.sh 1
+
 # Spawn programs
 hc keybind "$SPAWN_MOD"-t spawn spawn_frame_and_program.sh "$TERMINAL" "horizontal"
 hc keybind "$SPAWN_MOD"-"$VERT_MOD"-t spawn "$TERMINAL" #spawn_frame_and_program.sh "$TERMINAL" "vertical"
