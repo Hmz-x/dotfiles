@@ -17,11 +17,15 @@ hc keyunbind --all
 WM_MOD="Super"
 SPAWN_MOD="Alt"
 KILL_MOD="Alt"
-VERT_MOD="Shift"
+ALT_MOD="Shift" # Alternative mod
 
 # Quit/Reload Herbstluftwm
 hc keybind "$WM_MOD"-"$KILL_MOD"-q quit
 hc keybind "$WM_MOD"-"$KILL_MOD"-r reload
+
+# Loginctl
+hc keybind "$KILL_MOD"-Delete spawn loginctl poweroff
+hc keybind "$KILL_MOD"-"$ALT_MOD"-Delete spawn loginctl reboot
 
 # Close window
 hc keybind "$KILL_MOD"-F4 spawn close_window_and_frame.sh
@@ -32,13 +36,13 @@ hc keybind F10 spawn raise_lower_brightness.sh 1
 
 # Spawn programs
 hc keybind "$SPAWN_MOD"-t spawn spawn_frame_and_program.sh "$TERMINAL" "horizontal"
-hc keybind "$SPAWN_MOD"-"$VERT_MOD"-t spawn "$TERMINAL" #spawn_frame_and_program.sh "$TERMINAL" "vertical"
+hc keybind "$SPAWN_MOD"-"$ALT_MOD"-t spawn "$TERMINAL" #spawn_frame_and_program.sh "$TERMINAL" "vertical"
 
 hc keybind "$SPAWN_MOD"-w spawn spawn_frame_and_program.sh "$BROWSER"
-hc keybind "$SPAWN_MOD"-"$VERT_MOD"-w spawn "$BROWSER"
+hc keybind "$SPAWN_MOD"-"$ALT_MOD"-w spawn "$BROWSER"
 
 hc keybind "$SPAWN_MOD"-f spawn spawn_frame_and_program.sh "$YT_CLIENT"
-hc keybind "$SPAWN_MOD"-"$VERT_MOD"-f spawn "$YT_CLIENT"
+hc keybind "$SPAWN_MOD"-"$ALT_MOD"-f spawn "$YT_CLIENT"
 
 hc keybind "$SPAWN_MOD"-s spawn sudo timeshift-gtk
 hc keybind "$SPAWN_MOD"-a spawn ardour6
