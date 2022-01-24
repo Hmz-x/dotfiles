@@ -2,7 +2,7 @@
 
 # Raise or lower brightness based on given argument. Written by Hamza Kerem Mumcu.
 
-rc_file="${HOME}/.config/.brightnessrc"
+rc_file="${HOME}/.config/.adjust_brightnessrc"
 max_brightness_val=10
 min_brightness_val=0
 
