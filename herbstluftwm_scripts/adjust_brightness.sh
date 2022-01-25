@@ -44,6 +44,10 @@ xrandr_brightness(){
 	xrandr --output LVDS-1 --brightness 0.$brightness_envvar
 }
 
+# Check if xrandr is executable, if not exit
+[ -x "$(command -v xrandr)" ] || 
+{ printf 'Unable to execute xrandr. Exitting\n' 2>&1 && exit 1; }
+
 # Check if rc_file exists and then read data from it
 [ -r "$rc_file" ] || { printf 'Unable to read %s. Exitting.\n' "$rc_file" 2>&1 && exit 1; }
 source "$rc_file"
