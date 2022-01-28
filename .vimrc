@@ -4,6 +4,10 @@ Plug 'morhetz/gruvbox'
 
 call plug#end()
 
+
+" Map Ctrl-e to 
+map <C-e> i.EQ<return><return>.EN<ESC>ki
+
 " Map Ctrl-b to :%s/“/"/g<return>
 map <C-b> :%s/“/"/g<return>:%s/”/"/g<return>
 
