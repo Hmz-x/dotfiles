@@ -24,15 +24,15 @@ hc keybind "$WM_MOD"-"$KILL_MOD"-q quit
 hc keybind "$WM_MOD"-"$KILL_MOD"-r reload
 
 # Loginctl
-hc keybind "$KILL_MOD"-Delete spawn loginctl poweroff
-hc keybind "$KILL_MOD"-"$ALT_MOD"-Delete spawn loginctl reboot
+hc keybind "$WM_MOD"-"$KILL_MOD"-Delete spawn loginctl poweroff
+hc keybind "$WM_MOD"-"$KILL_MOD"-"$ALT_MOD"-Delete spawn loginctl reboot
 
 # Close window
 hc keybind "$KILL_MOD"-F4 spawn close_window_and_frame.sh
 
 # Raise/Lower brightness
-hc keybind F9 spawn raise_lower_brightness.sh 0
-hc keybind F10 spawn raise_lower_brightness.sh 1
+hc keybind F9 spawn adjust_brightness.sh 0
+hc keybind F10 spawn adjust_brightness.sh 1
 
 # Spawn programs
 hc keybind "$SPAWN_MOD"-t spawn spawn_frame_and_program.sh "$TERMINAL" "horizontal"
