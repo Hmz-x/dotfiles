@@ -1,8 +1,8 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 # this is a simple config for herbstluftwm
 
-hc() {
+hc(){
     herbstclient "$@"
 }
 
@@ -83,19 +83,16 @@ hc keybind "$WM_MOD"-Control-j resize down +"$resizestep"
 hc keybind "$WM_MOD"-Control-k resize up +"$resizestep"
 hc keybind "$WM_MOD"-Control-l resize right +"$resizestep"
 
-# tags
-tag_names=( {1..9} )
-tag_keys=( {1..9} 0 )
-
-hc rename default "${tag_names[0]}" || true
-for i in "${!tag_names[@]}" ; do
-    hc add "${tag_names[$i]}"
-    key="${tag_keys[$i]}"
-    if ! [ -z "$key" ] ; then
-        hc keybind ""$WM_MOD"-$key" use_index "$i"
-        hc keybind ""$WM_MOD"-Shift-$key" move_index "$i"
-    fi
+# Rename the first tag to 1 and add 8 more tags
+hc rename default 1 2> /dev/null
+for i in $(seq 1 9); do
+	hc add $i
+	# Keyname is the same as tagname
+	hc keybind "$WM_MOD"-$i use $i
+	hc keybind "$WM_MOD"-Shift-$i move_index $i
 done
+
+# If GUI app, sleep for 5 seconds, if CLI .5 seconds
 
 # cycle through tags
 hc keybind "$WM_MOD"-period use_index +1 --skip-visible
@@ -198,9 +195,6 @@ hc unlock
 # hc detect_monitors
 
 # find the panel
-panel=~/.config/herbstluftwm/panel.sh
-[ -x "$panel" ] || panel=/etc/xdg/herbstluftwm/panel.sh
-for monitor in $(hc list_monitors | cut -d: -f1) ; do
-    # start it on each monitor
-    "$panel" "$monitor" &
-done
+
+# Set up tags
+exec set_tags.sh
