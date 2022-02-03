@@ -34,6 +34,11 @@ hc keybind "$KILL_MOD"-F4 spawn close_window_and_frame.sh
 hc keybind F9 spawn adjust_brightness.sh 0
 hc keybind F10 spawn adjust_brightness.sh 1
 
+# Raise/Lower redshift value
+hc keybind "$SPAWN_MOD"-F9 spawn adjust_redshift.sh 0
+hc keybind "$SPAWN_MOD"-F10 spawn adjust_redshift.sh 1
+
+
 # Spawn programs
 hc keybind "$SPAWN_MOD"-t spawn spawn_frame_and_program.sh "$TERMINAL" "horizontal"
 hc keybind "$SPAWN_MOD"-"$ALT_MOD"-t spawn "$TERMINAL" #spawn_frame_and_program.sh "$TERMINAL" "vertical"

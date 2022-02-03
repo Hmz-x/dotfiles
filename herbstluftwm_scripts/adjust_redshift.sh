@@ -2,6 +2,7 @@
 
 # Raise or lower redshift value based on given argument. Written by Hamza Kerem Mumcu.
 
+program_name="adjust_redshift"
 rc_file="${HOME}/.config/.adjust_redshiftrc"
 min_redshift_val=0 # default value
 max_redshift_val=10
@@ -40,13 +41,18 @@ write_to_rc()
 
 change_redshift_val()
 {
-	echo "in change_redshift_val"
-	redshift -x -m vidmode # reset and remove adjustments
-	for i in $(seq 1 $redshift_envvar); do
-	echo "in loop"
+	if [ "$1" = "1" ]; then
+		redshift -x -m vidmode # reset and remove adjustments
+		for i in $(seq 1 $redshift_envvar); do
+			redshift -O $redshift_temp -m vidmode
+		done
+	else
 		redshift -O $redshift_temp -m vidmode
-	done
+	fi
 }
+
+# If program is already running in another instance, exit
+[ "$(pgrep "$program_name" | wc -l)" -gt 2 ] && exit 0
 
 # Check if redshift is executable, if not exit
 [ -x "$(command -v redshift)" ] || 
@@ -64,4 +70,4 @@ write_to_rc "$1"
 source "$rc_file" 
 
 # Change redshift value
-change_redshift_val
+change_redshift_val "$1"
