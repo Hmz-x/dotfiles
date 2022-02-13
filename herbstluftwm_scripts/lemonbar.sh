@@ -14,13 +14,23 @@ get_nmcli_info()
 	echo $output_string
 }
 
+get_mpc_info()
+{
+	vol="$(mpc status '%volume%')"
+	song="$(mpc current)"
+	songpos="$(mpc status '%songpos%')"
+	pl_length="$(mpc status '%length%')"
+
+	printf -- "%s\n" "mpc volume:${vol} ${song} (${songpos}/${pl_length})"
+}
+
 while true; do
 	sleep_time=1
 	sleep $sleep_time
 
 	lstring="%{l} $(get_nmcli_info)"
-	cstring="%{c} Volume: $(pamixer --get-volume) | $(get_acpi_info)"
-	rstring="%{r} $(date '+%c')"
+	cstring="%{c} PA volume: $(pamixer --get-volume) | $(get_mpc_info)"
+	rstring="%{r} $(get_acpi_info) | $(date '+%c')"
 	
 	printf -- "%s\n" "${lstring} ${cstring} ${rstring}"
 done

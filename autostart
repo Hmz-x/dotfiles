@@ -53,13 +53,16 @@ hc keybind "$SPAWN_MOD"-s spawn sudo timeshift-gtk
 hc keybind "$SPAWN_MOD"-a spawn ardour6
 hc keybind "$SPAWN_MOD"-q spawn	qjackctl 
 
-# Music/Audio controls
-hc keybind F1 spawn cmus-remote -u
-hc keybind F3 spawn cmus-remote --next
-hc keybind F2 spawn cmus-remote --prev
-hc keybind "$SPAWN_MOD"-XF86AudioLowerVolume spawn cmus-remote --volume -10%
-hc keybind "$SPAWN_MOD"-XF86AudioRaiseVolume spawn cmus-remote --volume +10%
+# mpc controls
+hc keybind F1 spawn play_pause_mpc.sh
+hc keybind F3 spawn mpc next
+hc keybind F2 spawn mpc prev
+hc keybind "$SPAWN_MOD"-XF86AudioLowerVolume spawn mpc volume -10
+hc keybind "$SPAWN_MOD"-XF86AudioRaiseVolume spawn mpc volume +10
+hc keybind "$SPAWN_MOD"-F2 spawn mpc seek '-00:00:10'
+hc keybind "$SPAWN_MOD"-F3 spawn mpc seek '+00:00:10'
 
+# Pulseaudio controls
 hc keybind XF86AudioLowerVolume spawn pamixer --decrease 10
 hc keybind XF86AudioRaiseVolume spawn pamixer_increase.sh
 hc keybind XF86AudioMute spawn pamixer --toggle-mute
