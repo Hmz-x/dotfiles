@@ -205,4 +205,5 @@ hc unlock
 # find the panel
 
 # Set up tags
-exec set_tags.sh
+set_tags.sh
+lemonbar.sh | lemonbar -p
