@@ -57,6 +57,9 @@ hc keybind "$SPAWN_MOD"-q spawn	qjackctl
 hc keybind F1 spawn cmus-remote -u
 hc keybind F3 spawn cmus-remote --next
 hc keybind F2 spawn cmus-remote --prev
+hc keybind "$SPAWN_MOD"-XF86AudioLowerVolume spawn cmus-remote --volume -10%
+hc keybind "$SPAWN_MOD"-XF86AudioRaiseVolume spawn cmus-remote --volume +10%
+
 hc keybind XF86AudioLowerVolume spawn pamixer --decrease 10
 hc keybind XF86AudioRaiseVolume spawn pamixer_increase.sh
 hc keybind XF86AudioMute spawn pamixer --toggle-mute
