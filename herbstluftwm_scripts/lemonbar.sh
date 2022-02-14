@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -x
 
 get_acpi_info()
 {
@@ -16,16 +16,31 @@ get_nmcli_info()
 
 get_mpc_info()
 {
+	# Basic stuff
 	vol="$(mpc status '%volume%')"
 	song="$(mpc current)"
 	songpos="$(mpc status '%songpos%')"
 	pl_length="$(mpc status '%length%')"
 
-	printf -- "%s\n" "mpc volume:${vol} ${song} (${songpos}/${pl_length})"
+	# Status stuff
+	random_status="$(mpc status '%random%')"
+	random_status_letter="."
+	[ "$random_status" = "on" ] && random_status_letter="R"
+
+	single_status="$(mpc status '%single%')"
+	single_status_letter="."
+	[ "$single_status" = "on" ] && single_status_letter="S"
+
+	repeat_status="$(mpc status '%repeat%')"
+	repeat_status_letter="."
+	[ "$repeat_status" = "on" ] && repeat_status_letter="R"
+
+	printf -- "%s" "mpc volume:${vol} ${song} (${songpos}/${pl_length}) "
+	printf -- "%s\n" "(${random_status_letter}${single_status_letter}${repeat_status_letter})"
 }
 
 while true; do
-	sleep_time=1
+	sleep_time='0.5'
 	sleep $sleep_time
 
 	lstring="%{l} $(get_nmcli_info)"

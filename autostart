@@ -1,6 +1,9 @@
 #!/bin/sh
 
-# this is a simple config for herbstluftwm
+# kill the following programs before relaunching them when hlwm is reloaded
+pkill nitrogen &
+pkill lemonbar.sh &
+pkill lemonbar &
 
 hc(){
     herbstclient "$@"
@@ -9,6 +12,7 @@ hc(){
 hc emit_hook reload
 
 xsetroot -solid '#8086e8'
+nitrogen --restore &
 
 # remove all existing keybindings
 hc keyunbind --all
@@ -62,6 +66,8 @@ hc keybind "$SPAWN_MOD"-XF86AudioRaiseVolume spawn mpc volume +10
 hc keybind "$SPAWN_MOD"-F2 spawn mpc seek '-00:00:10'
 hc keybind "$SPAWN_MOD"-F3 spawn mpc seek '+00:00:10'
 hc keybind "$SPAWN_MOD"-F1 spawn mpc random
+hc keybind "$SPAWN_MOD"-F4 spawn mpc single
+hc keybind "$SPAWN_MOD"-F5 spawn mpc repeat
 
 # Pulseaudio controls
 hc keybind XF86AudioLowerVolume spawn pamixer --decrease 10
@@ -209,5 +215,6 @@ hc unlock
 # find the panel
 
 # Set up tags
-set_tags.sh
-lemonbar.sh | lemonbar -p
+#set_tags.sh
+# Set lemonbar: Magenta background, very light purple foreground
+lemonbar.sh | lemonbar -p -B '#696ebf' -F '#FFCCFF'
