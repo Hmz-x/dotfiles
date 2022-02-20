@@ -1,10 +1,10 @@
-#!/bin/sh -x
+#!/bin/sh
 
 get_acpi_info()
 {
 	charging_percentage="$(acpi | cut -d ' ' -f 4 | cut -b -3)"
 	charging_status="$(acpi | cut -d ' ' -f 3 | cut -d ',' -f 1)"
-	printf -- "%s\n" "${charging_status} ${charging_percentage}"
+	echo "${charging_status} ${charging_percentage}"
 }
 
 get_nmcli_info()
@@ -35,17 +35,32 @@ get_mpc_info()
 	repeat_status_letter="."
 	[ "$repeat_status" = "on" ] && repeat_status_letter="R"
 
-	printf -- "%s" "mpc volume:${vol} ${song} (${songpos}/${pl_length}) "
-	printf -- "%s\n" "(${random_status_letter}${single_status_letter}${repeat_status_letter})"
+	# If --ttf-font-awesome is passed, echo icon strings too
+	if [ "X$1" = 'X--ttf-font-awesome' ]; then
+		state_status="$(mpc status '%state%')"
+		[ "$state_status" = "playing" ] && state_icon="\\uf001"
+		[ "$state_status" = "paused" ] && state_icon="\\uf05e"
+
+	fi	
+
+	echo "mpc volume:${vol} ${song} (${songpos}/${pl_length}) " \
+		"(${random_status_letter}${single_status_letter}${repeat_status_letter}) " \
+		"${state_icon}"
+}
+
+get_hlwm_info()
+{
+	#printf -- "%s\n" "$hlwm_tag_envvar"
+	:
 }
 
 while true; do
-	sleep_time='0.5'
+	sleep_time='0.2'
 	sleep $sleep_time
 
-	lstring="%{l} $(get_nmcli_info)"
-	cstring="%{c} PA volume: $(pamixer --get-volume) | $(get_mpc_info)"
+	lstring="%{l} $(get_hlwm_info) | $(get_nmcli_info)"
+	cstring="%{c} PA volume: $(pamixer --get-volume) | $(get_mpc_info "$1")"
 	rstring="%{r} $(get_acpi_info) | $(date '+%c')"
 	
-	printf -- "%s\n" "${lstring} ${cstring} ${rstring}"
+	echo -e "${lstring} ${cstring} ${rstring}"
 done

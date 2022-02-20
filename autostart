@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # kill the following programs before relaunching them when hlwm is reloaded
+pkill picom &
 pkill nitrogen &
 pkill lemonbar.sh &
 pkill lemonbar &
@@ -11,7 +12,9 @@ hc(){
 
 hc emit_hook reload
 
+# Launch neccessary programs
 xsetroot -solid '#8086e8'
+picom -b -c
 nitrogen --restore &
 
 # remove all existing keybindings
@@ -66,7 +69,7 @@ hc keybind "$SPAWN_MOD"-XF86AudioRaiseVolume spawn mpc volume +10
 hc keybind "$SPAWN_MOD"-F2 spawn mpc seek '-00:00:10'
 hc keybind "$SPAWN_MOD"-F3 spawn mpc seek '+00:00:10'
 hc keybind "$SPAWN_MOD"-F1 spawn mpc random
-hc keybind "$SPAWN_MOD"-F4 spawn mpc single
+#hc keybind "$SPAWN_MOD"-F4 spawn mpc single
 hc keybind "$SPAWN_MOD"-F5 spawn mpc repeat
 
 # Pulseaudio controls
@@ -107,6 +110,7 @@ for i in $(seq 1 9); do
 	hc add $i
 	# Keyname is the same as tagname
 	hc keybind "$WM_MOD"-$i use $i
+		#printf -- "%s\n"'export hlwm_tag_envvar="$i"' > ~/.config/lmao
 	hc keybind "$WM_MOD"-Shift-$i move_index $i
 done
 
@@ -207,14 +211,11 @@ hc set tree_style '╾│ ├└╼─┐'
 # unlock, just to be sure
 hc unlock
 
-# do multi monitor setup here, e.g.:
-# hc set_monitors 1280x1024+0+0 1280x1024+1280+0
-# or simply:
-# hc detect_monitors
-
-# find the panel
-
 # Set up tags
 #set_tags.sh
-# Set lemonbar: Magenta background, very light purple foreground
-lemonbar.sh | lemonbar -p -B '#696ebf' -F '#FFCCFF'
+# Get ttf-font-awesome version
+ttf_fa_version="$(pacman -Qe | grep ttf-font-awesome | cut -d ' ' -f 2 | cut -d '.' -f 1)"
+# Set lemonbar: Magenta background, very light purple foreground, font awesome fonts
+lemonbar.sh --ttf-font-awesome | lemonbar -p -B "#696ebf" -F "#FEBAFF" -f "fixed" \
+	-f "Font Awesome ${ttf_fa_version} Free" -f "Font Awesome ${ttf_fa_version} Brands" \
+	-f "Font Awesome ${ttf_fa_version} Free Solid"
