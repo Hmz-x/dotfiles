@@ -45,7 +45,7 @@ get_mpc_info()
 		[ "$state_status" = "paused" ] && state_icon="\\uf05e"
 	fi	
 
-	echo "mpc volume:${vol} ${song} (${songpos}/${pl_length}) " \
+	echo "mpc volume:${vol} | ${song} (${songpos}/${pl_length}) " \
 		"(${random_status_letter}${single_status_letter}${repeat_status_letter}) " \
 		"${state_icon}"
 }
@@ -55,9 +55,21 @@ get_date_info()
 	date '+%c'
 }
 
+get_pulseaudio_info()
+{
+	echo "PA volume: $(pamixer --get-volume)"
+}
+
 call_later()
 {
-	echo "$1"
+	# Create temp file if non-existent
+	if [ ! -f "$temp_file" ]; then
+		temp_file="$(mktemp)" || 
+		{ printf -- "%s\n" "Fatal: Couldn't create temporary file. Exitting" 2>&1; exit 1; }
+	fi
+	
+	# Write alignment_direction and executable_function to temp_file
+	printf -- "%s %s\n" "$1" "$2" >> "$temp_file"
 }
 
 parse_options()
@@ -66,6 +78,12 @@ parse_options()
 	ttf_fa_bool="false"
 	# Result to default sleep_time if --sleep-time SLEEP_TIME isn't passed
 	sleep_time="$DEFAULT_SLEEP_TIME"
+	# Set default allignment bools
+	#left_aligned_bool="false"
+	#center_aligned_bool="true"
+	#right_aligned_bool="false"
+	# default alignment direction is c (center)
+	alignment_direction="c"
 
 	while [ "$#" -gt 0 ]; do
 		case "$1" in
@@ -77,29 +95,44 @@ parse_options()
 					sleep_time="$2";
 					shift
 				fi;;
+			'-l') alignment_direction="l";;
+			'-r') alignment_direction="r";;
+			'-c') alignment_direction="c";;
 			*) output="$("$1" 2> /dev/null || printf -- "%s\n" "INVALID_INPUT")"; 
-				[ "X$output" != "XINVALID_INPUT" ] && call_later "$1";;
+				[ "X$output" != "XINVALID_INPUT" ] && 
+				call_later "$alignment_direction" "$1";;
 		esac
 	shift	
 	done
 }
 
+lemonbar_loop()
+{
+	while true; do
+		#echo "sleep: $sleep_time"
+		sleep "$sleep_time"
+
+		lemonbar_string=""
+		while read alignment_direction_in executable_function_in; do
+			lemonbar_string="${lemonbar_string} %{${alignment_direction_in}} $("$executable_function_in")"	
+		done < "$temp_file"
+
+		#lstring="%{l} $(get_nmcli_info)"
+		#cstring="%{c} PA volume: $(pamixer --get-volume) | $(get_mpc_info)"
+		#rstring="%{r} $(get_acpi_info) | $(get_date_info)"
+		
+		echo -e "$lemonbar_string"
+	done
+}
 
 # Parse pos-param options
 parse_options "$@"
 
-lemonbar_loop()
-{
-	while true; do
-		echo "sleep: $sleep_time"
-		sleep $sleep_time
+#cat "$temp_file"
+#rm "$temp_file"
 
-		lstring="%{l} $(get_nmcli_info)"
-		cstring="%{c} PA volume: $(pamixer --get-volume) | $(get_mpc_info)"
-		rstring="%{r} $(get_acpi_info) | $(get_date_info)"
-		
-		echo -e "${lstring} ${cstring} ${rstring}"
-	done
-}
+# If temp_file is non-existent after pos-params are parsed, none were passed
+[ ! -f "$temp_file" ] && exit 0
 
-lemonbar_loop "$@"
+# Loop over passed pos-param executable functions
+lemonbar_loop 

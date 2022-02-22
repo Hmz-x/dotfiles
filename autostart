@@ -3,7 +3,7 @@
 # kill the following programs before relaunching them when hlwm is reloaded
 pkill picom &
 pkill nitrogen &
-pkill lemonbar.sh &
+pkill set_lemonbar.sh &
 pkill lemonbar &
 
 hc(){
@@ -213,9 +213,21 @@ hc unlock
 
 # Set up tags
 #set_tags.sh
+
 # Get ttf-font-awesome version
 ttf_fa_version="$(pacman -Qe | grep ttf-font-awesome | cut -d ' ' -f 2 | cut -d '.' -f 1)"
-# Set lemonbar: Magenta background, very light purple foreground, font awesome fonts
-lemonbar.sh --ttf-font-awesome | lemonbar -p -B "#696ebf" -F "#FEBAFF" -f "fixed" \
+
+# Set lemonbar: Magenta background, very light purple foreground 
+# specified + font awesome fonts
+set_lemonbar.sh --sleep-time 0.2 --ttf-font-awesome -l get_pulseaudio_info -c get_mpc_info \
+	| lemonbar \
+	-p -g x30+0+0 -B "#696ebf" -F "#FEBAFF" \
+	-f "xft:Source Code Pro" \
 	-f "Font Awesome ${ttf_fa_version} Free" -f "Font Awesome ${ttf_fa_version} Brands" \
-	-f "Font Awesome ${ttf_fa_version} Free Solid"
+	-f "Font Awesome ${ttf_fa_version} Free Solid" &
+
+# Set lemonbar: Purple background, dark grey foreground
+# specified font + docked (-b)
+set_lemonbar.sh --sleep-time 1 -l get_nmcli_info -r get_date_info \
+	| lemonbar -p -b -g x30+0+0 -B "#DE6FFF" -F "#333333" \
+	-f "xft:Source Code Pro" 
