@@ -69,8 +69,8 @@ hc keybind "$SPAWN_MOD"-XF86AudioRaiseVolume spawn mpc volume +10
 hc keybind "$SPAWN_MOD"-F2 spawn mpc seek '-00:00:10'
 hc keybind "$SPAWN_MOD"-F3 spawn mpc seek '+00:00:10'
 hc keybind "$SPAWN_MOD"-F1 spawn mpc random
-#hc keybind "$SPAWN_MOD"-F4 spawn mpc single
-hc keybind "$SPAWN_MOD"-F5 spawn mpc repeat
+hc keybind "$SPAWN_MOD"-XF86AudioMute spawn mpc single
+hc keybind "$SPAWN_MOD"-XF86AudioMicMute spawn mpc repeat
 
 # Pulseaudio controls
 hc keybind XF86AudioLowerVolume spawn pamixer --decrease 10
@@ -228,6 +228,6 @@ set_lemonbar.sh --sleep-time 0.2 --ttf-font-awesome -l get_pulseaudio_info -c ge
 
 # Set lemonbar: Purple background, dark grey foreground
 # specified font + docked (-b)
-set_lemonbar.sh --sleep-time 1 -l get_nmcli_info -r get_date_info \
+set_lemonbar.sh --sleep-time 1 -l get_nmcli_info -r get_date_info -c get_acpi_info \
 	| lemonbar -p -b -g x30+0+0 -B "#DE6FFF" -F "#333333" \
 	-f "xft:Source Code Pro" 
