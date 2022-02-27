@@ -1,0 +1,15 @@
+# Mpd stuff
+mpd_host = "127.0.0.1"
+mpd_port = "6600"
+mpd_music_dir = ~/Music
+
+# General
+ask_before_clearing_playlists = no
+# mouse_support = no
+
+# Display
+playlist_display_mode = columns
+user_interface = alternative
+media_library_primary_tag = album_artist
+media_library_albums_split_by_date = yes
+main_window_color = green
