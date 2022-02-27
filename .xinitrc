@@ -18,5 +18,8 @@ adj_redshiftrc_file="${HOME}/.config/.adjust_redshiftrc"
 def_redshift_val=0 # Aka min_redshift_val
 printf 'export redshift_envvar=%s' $def_redshift_val > "$adj_redshiftrc_file"
 
-# export wm_envvar and exec it
-export wm_envvar="herbstluftwm" && exec "$wm_envvar"
+# export misc. env vars
+export MUSIC_DIR_ENVVAR="${HOME}/Music"
+
+# export WM env var and exec it
+export WM_ENVVAR="herbstluftwm" && exec "$WM_ENVVAR"
