@@ -3,6 +3,36 @@
 # Script constants
 DEFAULT_SLEEP_TIME="1"
 
+get_hlwm_info()
+{
+	# Local constants
+	SPACE_COUNT=10
+	REGULAR_TAG_COLOR="#FFFFFF"
+	CURRENT_TAG_COLOR="#000000"
+	TOTAL_MONITOR_COUNT=9
+
+	current_tag="$(herbstclient list_monitors | cut -d '"' -f 2)"
+	
+	# Print all tags one by one	
+	for tag in $(seq 1 $TOTAL_MONITOR_COUNT); do
+		# Print color formatting
+		if [ "$current_tag" = "$tag" ]; then
+			printf -- "%s" "%{F${CURRENT_TAG_COLOR}} "
+		else
+			printf -- "%s" "%{F${REGULAR_TAG_COLOR}} "
+		fi
+		
+		# Print regular tag number
+		printf "%s" "$tag"
+	
+		# Print space
+		for j in $(seq $SPACE_COUNT); do
+			printf "%s" " "
+		done
+	done
+	printf "\n"
+}
+
 get_acpi_info()
 {
 	charging_percentage="$(acpi | cut -d ' ' -f 4 | cut -b -3)"
@@ -62,6 +92,9 @@ get_pulseaudio_info()
 
 call_later()
 {
+	passed_alignment_direction="$1"
+	passed_executable_function="$2"
+
 	# Create temp file if non-existent
 	if [ ! -f "$temp_file" ]; then
 		temp_file="$(mktemp)" || 
@@ -69,6 +102,12 @@ call_later()
 	fi
 	
 	# Write alignment_direction and executable_function to temp_file
+	while read -r read_alignment_direction read_executable_function; do
+		# If the passed alignment_direction is the same as the read one,
+	    # append the passed exec function to the line 	
+		#[ "$read_alignment_direction" = "$passed_alignment_direction" ] &&
+		:
+	done < "$temp_file"
 	printf -- "%s %s\n" "$1" "$2" >> "$temp_file"
 }
 
@@ -79,9 +118,6 @@ parse_options()
 	# Result to default sleep_time if --sleep-time SLEEP_TIME isn't passed
 	sleep_time="$DEFAULT_SLEEP_TIME"
 	# Set default allignment bools
-	#left_aligned_bool="false"
-	#center_aligned_bool="true"
-	#right_aligned_bool="false"
 	# default alignment direction is c (center)
 	alignment_direction="c"
 
@@ -117,19 +153,12 @@ lemonbar_loop()
 			lemonbar_string="${lemonbar_string} %{${alignment_direction_in}} $("$executable_function_in")"	
 		done < "$temp_file"
 
-		#lstring="%{l} $(get_nmcli_info)"
-		#cstring="%{c} PA volume: $(pamixer --get-volume) | $(get_mpc_info)"
-		#rstring="%{r} $(get_acpi_info) | $(get_date_info)"
-		
 		echo -e "$lemonbar_string"
 	done
 }
 
 # Parse pos-param options
 parse_options "$@"
-
-#cat "$temp_file"
-#rm "$temp_file"
 
 # If temp_file is non-existent after pos-params are parsed, none were passed
 [ ! -f "$temp_file" ] && exit 0
