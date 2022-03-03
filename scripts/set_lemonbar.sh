@@ -3,13 +3,24 @@
 # Script constants
 DEFAULT_SLEEP_TIME="1"
 
+get_cpu_info()
+{
+	cpu_data="$(mpstat | awk 'NR==4')"
+	usr_data="$(echo $cpu_data | cut -d ' ' -f 4)"
+	sys_data="$(echo $cpu_data | cut -d ' ' -f 6)"
+
+	echo "usr: ${usr_data} sys: ${sys_data}"
+}
+
 get_hlwm_info()
 {
 	# Local constants
 	SPACE_COUNT=10
-	REGULAR_TAG_COLOR="#FFFFFF"
-	CURRENT_TAG_COLOR="#000000"
 	TOTAL_MONITOR_COUNT=9
+	REGULAR_TAG_COLOR="#000000"
+	CURRENT_TAG_COLOR="#FFFFFF"
+	REGULAR_TAG_BG_COLOR="#EEFF7C"
+	CURRENT_TAG_BG_COLOR="#DE6FFF"
 
 	current_tag="$(herbstclient list_monitors | cut -d '"' -f 2)"
 	
@@ -17,9 +28,9 @@ get_hlwm_info()
 	for tag in $(seq 1 $TOTAL_MONITOR_COUNT); do
 		# Print color formatting
 		if [ "$current_tag" = "$tag" ]; then
-			printf -- "%s" "%{F${CURRENT_TAG_COLOR}} "
+			printf -- "%s" "%{B${CURRENT_TAG_BG_COLOR}} %{F${CURRENT_TAG_COLOR}} "
 		else
-			printf -- "%s" "%{F${REGULAR_TAG_COLOR}} "
+			printf -- "%s" "%{B${REGULAR_TAG_BG_COLOR}} %{F${REGULAR_TAG_COLOR}} "
 		fi
 		
 		# Print regular tag number
@@ -30,7 +41,7 @@ get_hlwm_info()
 			printf "%s" " "
 		done
 	done
-	printf "\n"
+	printf -- "%s\n" "%{B${REGULAR_TAG_BG_COLOR}}"
 }
 
 get_acpi_info()
@@ -43,8 +54,7 @@ get_acpi_info()
 get_nmcli_info()
 {
 	con_line="$(nmcli device | awk 'NR==2')"
-	read output_string <<< "$con_line"
-	echo $output_string
+	echo $con_line
 }
 
 get_mpc_info()
@@ -124,13 +134,7 @@ parse_options()
 	while [ "$#" -gt 0 ]; do
 		case "$1" in
 			'--ttf-font-awesome') ttf_fa_bool="true";;	
-			'--sleep-time') 
-				if [ -z "$2" ]; then
-					printf -- "%s\n" "Non-fatal: sleep time not given." 2>&1
-				else
-					sleep_time="$2";
-					shift
-				fi;;
+			'--sleep-time') [ -n "$2" ] && sleep_time="$2";;
 			'-l') alignment_direction="l";;
 			'-r') alignment_direction="r";;
 			'-c') alignment_direction="c";;

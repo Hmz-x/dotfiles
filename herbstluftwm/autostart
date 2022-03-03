@@ -2,9 +2,9 @@
 
 # kill the following programs before relaunching them when hlwm is reloaded
 pkill picom &
-pkill nitrogen &
 pkill set_lemonbar.sh &
 pkill lemonbar &
+pkill feh &
 
 hc(){
     herbstclient "$@"
@@ -15,7 +15,7 @@ hc emit_hook reload
 # Launch neccessary programs
 xsetroot -solid '#8086e8'
 picom -b -c
-nitrogen --restore &
+feh --bg-tile --no-fehbg "$HOME"/Documents/pics/Mr_Giggles.jpeg
 
 # remove all existing keybindings
 hc keyunbind --all
@@ -66,8 +66,8 @@ hc keybind "$SPAWN_MOD"-q spawn	qjackctl
 
 # Dmenu stuff
 hc keybind "$SPAWN_MOD"-d spawn	dmenu_run 
-hc keybind "$SPAWN_MOD"-m spawn	mpc_select_dir.sh
-hc keybind "$SPAWN_MOD"-"$ALT_MOD"-m spawn mpc_select_track.sh
+hc keybind "$SPAWN_MOD"-m spawn	mpc_select.sh --select-dir
+hc keybind "$SPAWN_MOD"-"$ALT_MOD"-m spawn mpc_select.sh --select-track
 
 # mpc controls
 hc keybind F1 spawn mpc toggle
@@ -228,17 +228,18 @@ ttf_fa_version="$(pacman -Qe | grep ttf-font-awesome | cut -d ' ' -f 2 | cut -d 
 
 # Set lemonbar: Magenta background, very light purple foreground 
 # specified + font awesome fonts
-set_lemonbar.sh --sleep-time 0.2 --ttf-font-awesome -l get_pulseaudio_info -c get_mpc_info \
+set_lemonbar.sh --sleep-time 0.2 --ttf-font-awesome \
+	-l get_pulseaudio_info -c get_mpc_info -r get_cpu_info \
 	| lemonbar -p -g x30+0+0 -B "#696ebf" -F "#FEBAFF" \
 	-f "xft:Source Code Pro" \
 	-f "Font Awesome ${ttf_fa_version} Free" -f "Font Awesome ${ttf_fa_version} Brands" \
 	-f "Font Awesome ${ttf_fa_version} Free Solid" &
 
 set_lemonbar.sh --sleep-time 0.1 -c get_hlwm_info | lemonbar -p -g x30+0+30 \
-	-B "#696ebf" -F "#FEBAFF" -f "xft:Source Code Pro"
+	-B "#696ebf" -F "#FEBAFF" -f "xft:Source Code Pro" &
 
 # Set lemonbar: Purple background, dark grey foreground
 # specified font + docked (-b)
 set_lemonbar.sh --sleep-time 1 -l get_nmcli_info -r get_date_info -c get_acpi_info \
 	| lemonbar -p -b -g x30+0+0 -B "#DE6FFF" -F "#333333" \
-	-f "xft:Source Code Pro" 
+	-f "xft:Source Code Pro" &
