@@ -37,11 +37,15 @@ write_to_rc(){
 }
 
 xrandr_brightness(){
+	# Get output from envvar or set it to given output
+	output="$X_MONITOR_OUTPUT_ENVVAR"
+	[ -z "$output" ] && output="LVDS-1"
+
 	((brightness_envvar==max_brightness_val)) && 
-	xrandr --output LVDS-1 --brightness 1
+	xrandr --output "$output" --brightness 1
 
 	((brightness_envvar<max_brightness_val)) && 
-	xrandr --output LVDS-1 --brightness 0.$brightness_envvar
+	xrandr --output "$output" --brightness 0.$brightness_envvar
 }
 
 # Check if xrandr is executable, if not exit

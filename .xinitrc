@@ -20,6 +20,7 @@ printf 'export redshift_envvar=%s' $def_redshift_val > "$adj_redshiftrc_file"
 
 # export misc. env vars
 export MUSIC_DIR_ENVVAR="${HOME}/Music"
+export X_MONITOR_OUTPUT_ENVVAR="$(xrandr --listactivemonitors | awk 'NR==2' | cut -d '*' -f 2 | cut -d ' ' -f 1)"
 
 # export WM env var and exec it
 export WM_ENVVAR="herbstluftwm" && exec "$WM_ENVVAR"
