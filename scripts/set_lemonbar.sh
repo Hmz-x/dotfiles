@@ -15,7 +15,7 @@ get_cpu_info()
 get_hlwm_info()
 {
 	# Local constants
-	SPACE_COUNT=30
+	SPACE_COUNT=20
 	TOTAL_MONITOR_COUNT=9
 	REGULAR_TAG_COLOR="#000000"
 	CURRENT_TAG_COLOR="#FFFFFF"
@@ -159,15 +159,17 @@ parse_options()
 lemonbar_loop()
 {
 	while true; do
-		#echo "sleep: $sleep_time"
-		sleep "$sleep_time"
-
+	
+		# Read string to output to lemonbar from temp_file
 		lemonbar_string=""
 		while read alignment_direction_in executable_function_in; do
 			lemonbar_string="${lemonbar_string} %{${alignment_direction_in}} $("$executable_function_in")"	
 		done < "$temp_file"
-
+		
+		# Output to lemonbar
 		echo -e "$lemonbar_string"
+
+		sleep "$sleep_time"
 	done
 }
 
