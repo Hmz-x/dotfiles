@@ -1,5 +1,5 @@
 #!/bin/sh
-
+ 
 # Script constants
 DEFAULT_SLEEP_TIME="1"
 
@@ -15,7 +15,7 @@ get_cpu_info()
 get_hlwm_info()
 {
 	# Local constants
-	SPACE_COUNT=10
+	SPACE_COUNT=30
 	TOTAL_MONITOR_COUNT=9
 	REGULAR_TAG_COLOR="#000000"
 	CURRENT_TAG_COLOR="#FFFFFF"
@@ -24,8 +24,13 @@ get_hlwm_info()
 
 	current_tag="$(herbstclient list_monitors | cut -d '"' -f 2)"
 	
-	# Print all tags one by one	
+	# Print all tag boxes each containing tag number and window titles
 	for tag in $(seq 1 $TOTAL_MONITOR_COUNT); do
+
+		# Get window titles for each tag
+		window_titles="$(herbstclient list_clients --tag="$tag" --title | \
+		cut -d ' ' -f 2 | tr '\n' ' ')"
+
 		# Print color formatting
 		if [ "$current_tag" = "$tag" ]; then
 			printf -- "%s" "%{B${CURRENT_TAG_BG_COLOR}} %{F${CURRENT_TAG_COLOR}} "
@@ -33,11 +38,16 @@ get_hlwm_info()
 			printf -- "%s" "%{B${REGULAR_TAG_BG_COLOR}} %{F${REGULAR_TAG_COLOR}} "
 		fi
 		
-		# Print regular tag number
+		# Get spaces left for each "tag box"
+		window_titles_strlen=$(printf "%s" "$window_titles" | wc -c)
+		spaces_left=$((SPACE_COUNT-window_titles_strlen-1))
+
+		# Print regular tag number and window titles if applicable
 		printf "%s" "$tag"
-	
+		((window_titles_strlen!=0)) && printf " %s" "$window_titles"
+
 		# Print space
-		for j in $(seq $SPACE_COUNT); do
+		for j in $(seq 1 $spaces_left); do
 			printf "%s" " "
 		done
 	done
