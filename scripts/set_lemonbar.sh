@@ -102,7 +102,7 @@ get_mpc_info()
 
 get_date_info()
 {
-	date '+%c'
+	date '+%H:%M   %d/%B/%Y   %:z'
 }
 
 get_pulseaudio_info()
