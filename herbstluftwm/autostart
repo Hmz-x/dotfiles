@@ -165,16 +165,16 @@ hc set frame_border_active_color '#222222cc'
 hc set frame_border_normal_color '#101010cc'
 hc set frame_bg_normal_color '#565656aa'
 hc set frame_bg_active_color '#345F0Caa'
-hc set frame_border_width 1
+hc set frame_border_width 0
 hc set always_show_frame on
 hc set frame_bg_transparent on
 hc set frame_transparent_width 0
 hc set frame_gap 4 # Frame gap
 
-hc attr theme.title_height 15
+hc attr theme.title_height 40
 hc attr theme.title_font 'Dejavu Sans:pixelsize=12'  # example using Xft
 # hc attr theme.title_font '-*-fixed-medium-r-*-*-13-*-*-*-*-*-*-*'
-hc attr theme.padding_top 16  # space below the title's baseline (i.e. text depth)
+hc attr theme.padding_top 4  # space below the title's baseline (i.e. text depth)
 hc attr theme.active.color '#b085ff' # Magenta/purple active window
 hc attr theme.title_color '#ffffff' # White window title
 hc attr theme.normal.color '#DADA64' # Yellow non-focused window
@@ -229,17 +229,17 @@ ttf_fa_version="$(pacman -Qe | grep ttf-font-awesome | cut -d ' ' -f 2 | cut -d 
 # Set lemonbar: Magenta background, very light purple foreground 
 # specified + font awesome fonts
 set_lemonbar.sh --sleep-time 0.2 --ttf-font-awesome \
-	-l get_pulseaudio_info -c get_mpc_info -r get_cpu_info \
+	-l get_pulseaudio_info -c get_mpc_info -r get_acpi_info \
 	| lemonbar -p -g x30+0+0 -B "#696ebf" -F "#FEBAFF" \
 	-f "xft:Source Code Pro" \
 	-f "Font Awesome ${ttf_fa_version} Free" -f "Font Awesome ${ttf_fa_version} Brands" \
 	-f "Font Awesome ${ttf_fa_version} Free Solid" &
 
 set_lemonbar.sh --sleep-time 0.1 -c get_hlwm_info | lemonbar -p -g x30+0+30 \
-	-B "#696ebf" -F "#FEBAFF" -f "xft:Source Code Pro" &
+	-B "#696ebf" -F "#FEBAFF" -f "fixed" &
 
 # Set lemonbar: Purple background, dark grey foreground
 # specified font + docked (-b)
-set_lemonbar.sh --sleep-time 1 -l get_nmcli_info -r get_date_info -c get_acpi_info \
+set_lemonbar.sh --sleep-time 30 -l get_nmcli_info -r get_date_info -c get_cpu_info \
 	| lemonbar -p -b -g x30+0+0 -B "#DE6FFF" -F "#333333" \
 	-f "xft:Source Code Pro" &
