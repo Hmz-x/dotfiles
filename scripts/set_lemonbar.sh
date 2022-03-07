@@ -12,11 +12,34 @@ get_cpu_info()
 	echo "usr: ${usr_data} sys: ${sys_data}"
 }
 
+get_window_titles()
+{
+	recieved_window_titles=""
+	temp_window_titles_file="$(mktemp)"
+	
+	# Output list_clients_output properly formatted to temp_window_titles_file
+	echo "$list_clients_output" | cut -d ' ' -f 2- > "$temp_window_titles_file"
+	
+	while read -r line; do
+		# Get only last string in the entire line
+		space_count="$(echo "$line" | grep -o '[[:space:]]' | wc -l)"
+		if ((space_count==0)); then
+			single_window_title="$line"
+		else
+			single_window_title="$(echo "$line" | cut -d ' ' -f $((space_count+1)))"
+		fi
+		recieved_window_titles="${recieved_window_titles}${single_window_title} "
+	done < "$temp_window_titles_file"
+
+	rm "$temp_window_titles_file"
+	echo "$recieved_window_titles"
+}
+
 get_hlwm_info()
 {
 	# Local constants
 	SPACE_COUNT=20
-	TOTAL_MONITOR_COUNT=9
+	TOTAL_MONITOR_COUNT=4
 	REGULAR_TAG_COLOR="#000000"
 	CURRENT_TAG_COLOR="#FFFFFF"
 	REGULAR_TAG_BG_COLOR="#EEFF7C"
@@ -27,24 +50,31 @@ get_hlwm_info()
 	# Print all tag boxes each containing tag number and window titles
 	for tag in $(seq 1 $TOTAL_MONITOR_COUNT); do
 
-		# Get window titles for each tag
-		window_titles="$(herbstclient list_clients --tag="$tag" --title | \
-		cut -d ' ' -f 2 | tr '\n' ' ')"
-
 		# Print color formatting
 		if [ "$current_tag" = "$tag" ]; then
 			printf -- "%s" "%{B${CURRENT_TAG_BG_COLOR}} %{F${CURRENT_TAG_COLOR}} "
 		else
 			printf -- "%s" "%{B${REGULAR_TAG_BG_COLOR}} %{F${REGULAR_TAG_COLOR}} "
 		fi
-		
-		# Get spaces left for each "tag box"
-		window_titles_strlen=$(printf "%s" "$window_titles" | wc -c)
-		spaces_left=$((SPACE_COUNT-window_titles_strlen-1))
 
-		# Print regular tag number and window titles if applicable
+		# Print regular tag number 
 		printf "%s" "$tag"
-		((window_titles_strlen!=0)) && printf " %s" "$window_titles"
+
+		# Get window titles for each tag, print if applicable
+		list_clients_output="$(herbstclient list_clients --tag="$tag" --title)"
+		if [ -n "$list_clients_output" ]; then
+			# Parse through the entire data and only get the program name
+			window_titles="$(get_window_titles)"
+
+			# Calculate number of spaces needed for the rest of the "tag box"
+			window_titles_strlen=$(printf "%s" "$window_titles" | wc -c)
+			spaces_left=$((SPACE_COUNT-window_titles_strlen-1))
+
+			# Print window titles of the programs only
+			printf " %s" "$window_titles"
+		else
+			spaces_left=$SPACE_COUNT
+		fi
 
 		# Print space
 		for j in $(seq 1 $spaces_left); do
@@ -102,7 +132,7 @@ get_mpc_info()
 
 get_date_info()
 {
-	date '+%H:%M   %d/%B/%Y   %:z'
+	date '+%T   %d/%B/%Y   %:z'
 }
 
 get_pulseaudio_info()
@@ -116,19 +146,19 @@ call_later()
 	passed_executable_function="$2"
 
 	# Create temp file if non-existent
-	if [ ! -f "$temp_file" ]; then
-		temp_file="$(mktemp)" || 
+	if [ ! -f "$temp_loop_file" ]; then
+		temp_loop_file="$(mktemp)" || 
 		{ printf -- "%s\n" "Fatal: Couldn't create temporary file. Exitting" 2>&1; exit 1; }
 	fi
 	
-	# Write alignment_direction and executable_function to temp_file
-	while read -r read_alignment_direction read_executable_function; do
+	# Write alignment_direction and executable_function to temp_loop_file
+	#while read -r read_alignment_direction read_executable_function; do
 		# If the passed alignment_direction is the same as the read one,
 	    # append the passed exec function to the line 	
 		#[ "$read_alignment_direction" = "$passed_alignment_direction" ] &&
-		:
-	done < "$temp_file"
-	printf -- "%s %s\n" "$1" "$2" >> "$temp_file"
+		#:
+	#done < "$temp_loop_file"
+	printf -- "%s %s\n" "$1" "$2" >> "$temp_loop_file"
 }
 
 parse_options()
@@ -137,7 +167,6 @@ parse_options()
 	ttf_fa_bool="false"
 	# Result to default sleep_time if --sleep-time SLEEP_TIME isn't passed
 	sleep_time="$DEFAULT_SLEEP_TIME"
-	# Set default allignment bools
 	# default alignment direction is c (center)
 	alignment_direction="c"
 
@@ -160,11 +189,11 @@ lemonbar_loop()
 {
 	while true; do
 	
-		# Read string to output to lemonbar from temp_file
+		# Read string to output to lemonbar from temp_loop_file
 		lemonbar_string=""
 		while read alignment_direction_in executable_function_in; do
 			lemonbar_string="${lemonbar_string} %{${alignment_direction_in}} $("$executable_function_in")"	
-		done < "$temp_file"
+		done < "$temp_loop_file"
 		
 		# Output to lemonbar
 		echo -e "$lemonbar_string"
@@ -176,8 +205,8 @@ lemonbar_loop()
 # Parse pos-param options
 parse_options "$@"
 
-# If temp_file is non-existent after pos-params are parsed, none were passed
-[ ! -f "$temp_file" ] && exit 0
+# If temp_loop_file is non-existent after pos-params are parsed, none were passed
+[ ! -f "$temp_loop_file" ] && exit 0
 
 # Loop over passed pos-param executable functions
 lemonbar_loop 

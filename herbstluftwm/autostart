@@ -235,11 +235,12 @@ set_lemonbar.sh --sleep-time 0.2 --ttf-font-awesome \
 	-f "Font Awesome ${ttf_fa_version} Free" -f "Font Awesome ${ttf_fa_version} Brands" \
 	-f "Font Awesome ${ttf_fa_version} Free Solid" &
 
+# Set lemonbar for hlwm monitor stuff
 set_lemonbar.sh --sleep-time 0.1 -c get_hlwm_info | lemonbar -p -g x30+0+30 \
 	-B "#696ebf" -F "#FEBAFF" -f "fixed" &
 
 # Set lemonbar: Purple background, dark grey foreground
 # specified font + docked (-b)
-set_lemonbar.sh --sleep-time 30 -l get_nmcli_info -r get_date_info -c get_cpu_info \
+set_lemonbar.sh --sleep-time 1 -l get_nmcli_info -r get_date_info -c get_cpu_info \
 	| lemonbar -p -b -g x30+0+0 -B "#DE6FFF" -F "#333333" \
 	-f "xft:Source Code Pro" &
