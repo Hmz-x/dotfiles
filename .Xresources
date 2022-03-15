@@ -2,9 +2,9 @@
 
 ! URxvt
 URxvt.geometry: 92x24
-URxvt*.letterSpace: -1
+URxvt*.letterSpace: -2
 
-*.font: xft:mono:pixelsize=22:antialias=true:autohint=true
+*.font: xft:mono:pixelsize=24:antialias=true:autohint=true
 
 ! special
 *.foreground: #ebdbb2
