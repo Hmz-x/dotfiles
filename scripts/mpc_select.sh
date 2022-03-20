@@ -21,7 +21,11 @@ select_dir(){
 select_track(){
 	# Get track name and number
 	selected_track="$(mpc playlist | dmenu -i -l 10 -p "Track: ")"
-	track_number="$(mpc playlist | grep "$selected_track" --line-number | cut -d ':' -f 1)"
+	#echo "Selected track: $selected_track"
+	# select the first instance only
+	track_number="$(mpc playlist | grep -F "$selected_track" --line-number | \
+		awk 'NR==1' | cut -d ':' -f 1)"
+	#echo "Track number: $track_number"
 
 	mpc play "$track_number"
 }
