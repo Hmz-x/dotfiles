@@ -30,25 +30,52 @@ select_track(){
 	mpc play "$track_number"
 }
 
-display_art(){
-	# If the selected_dir contains an 
-
-	temp_file="$(mktemp)"
-	mpc albumart "$selected_dir/" > "$temp_file" 2> /dev/null
-
-	# If no image data is written to temp file, just remove it and 
-	# search for jpg, png, etc. files instead
-	if [ "$(file "$temp_file" | cut -d ' ' -f 2)" = "empty" ]; then
-		rm "$temp_file"
-		for file in "${MUSIC_DIR}/${selected_dir}/"*; do
-			file "$file" | grep -iq "image" &&
-			feh "$FEH_OPTION" --no-fehbg "$file" &&
-			break
-		done
-	# Else display image file, temp_file, in the background
+isempty()
+{
+	if [ "$(file "$1" | cut -d ' ' -f 2)" = "empty" ]; then
+		echo "true"
 	else
-		feh --bg-tile --no-fehbg "$temp_file"
+		echo "false" 
 	fi
+}
+
+display_image()
+{
+	feh "$FEH_OPTION" --no-fehbg "$1"
+}
+
+display_art(){
+	albumart_temp_file="$(mktemp)"
+	mpc albumart "$selected_dir/" > "$albumart_temp_file" 2> /dev/null
+
+	# If no image data is written to temp albumart file, search for 
+	# images embedded in the files or a jpg, png, etc. file in the directory instead
+	if [ "$(isempty "$albumart_temp_file")" = "true" ]; then
+		readpicture_temp_file="$(mktemp)"
+		
+		for file in "${MUSIC_DIR}/${selected_dir}/"*; do
+			# Write embedded image to temp readpicture file
+			mpc readpicture "${selected_dir}/$(basename "$file")" > \
+				"$readpicture_temp_file" 2> /dev/null
+			
+			# If embedded image exists, display
+			if [ "$(isempty "$readpicture_temp_file")" = "false" ]; then
+				display_image "$readpicture_temp_file"
+				break
+			# If not, check if file is an image (jpg, png, etc.) file
+			elif file "$file" | grep -iq "image"; then
+				display_image "$file"
+				break
+			fi
+		done
+	# if albumart_temp_file is not empty display image file in the background
+	else
+		feh --bg-tile --no-fehbg "$albumart_temp_file"
+	fi
+	
+	# Cleanup
+	rm "$albumart_temp_file"
+	[ -f "$readpicture_temp_file" ] && rm "$readpicture_temp_file"
 }
 
 # Check that dmenu is in path
