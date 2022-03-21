@@ -1,21 +1,36 @@
-#!/bin/sh
+#!/bin/sh -x
 
 # Program constants
 DMENU_LINE_COUNT=10
 FEH_OPTION="--bg-tile"
+MUSIC_DIR="${MUSIC_DIR_ENVVAR-"${HOME}/Music"}"
 
 select_dir(){
-	MUSIC_DIR="$MUSIC_DIR_ENVVAR"
-	[ -z "$MUSIC_DIR" ] && MUSIC_DIR="${HOME}/Music"
-	mpc update &> /dev/null
-
-	selected_dir="$(ls "$MUSIC_DIR" | dmenu -i -l "$DMENU_LINE_COUNT" -p "Directory: ")"
+	selected_dir="$(ls "$var_music_dir" | dmenu -i -l "$DMENU_LINE_COUNT" -p "Directory: ")"
+	contains_dir_bool="false"
 
 	# Do nothing if input is empty
 	[ -z "$selected_dir" ] && exit 0
 
+	for file in "${var_music_dir}/${selected_dir}"/*; do
+		[ -d "$file" ] && contains_dir_bool="true" && break
+	done	
+	
+	if [ "$contains_dir_bool" = "true" ]; then
+		var_music_dir="${var_music_dir}/${selected_dir}"
+		select_dir
+	fi
+
 	# Execute mpc commands and play songs from selected_dir
 	mpc clear && mpc add "$selected_dir" && mpc play
+}
+
+select_dir_main(){
+	# Prepare for select_dir
+	mpc update &> /dev/null
+	# Variable music dir, might change
+	var_music_dir="$MUSIC_DIR"
+	select_dir
 }
 
 select_track(){
@@ -84,7 +99,7 @@ display_art(){
 
 if [ -z "$1" ] || [ "X$1" = "X--select-dir" ]; then
 	# Select directory using dmenu and start playing its songs
-	select_dir 
+	select_dir_main
 	# Display albumart of the selected directory
 	display_art
 elif [ "X$1" = "X--select-track" ]; then
