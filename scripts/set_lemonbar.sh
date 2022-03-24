@@ -3,6 +3,12 @@
 # Script constants
 DEFAULT_SLEEP_TIME="1"
 
+get_text()
+{
+	input="TESTING"
+	echo "$input" | cut -b -$get_text_char_count
+}
+
 get_cpu_info()
 {
 	cpu_data="$(mpstat | awk 'NR==4')"
@@ -142,8 +148,10 @@ get_pulseaudio_info()
 
 call_later()
 {
-	passed_alignment_direction="$1"
-	passed_executable_function="$2"
+	# Passed aligment direction
+	passed_dir="$1"
+	# Passed executable function
+	passed_func="$2"
 
 	# Create temp file if non-existent
 	if [ ! -f "$temp_loop_file" ]; then
@@ -158,13 +166,16 @@ call_later()
 		#[ "$read_alignment_direction" = "$passed_alignment_direction" ] &&
 		#:
 	#done < "$temp_loop_file"
-	printf -- "%s %s\n" "$1" "$2" >> "$temp_loop_file"
+	printf -- "%s %s\n" "$passed_dir" "$passed_func" >> \
+		"$temp_loop_file"
 }
 
 parse_options()
 {
 	# true if --ttf-font-awesome pos-param is passed
 	ttf_fa_bool="false"
+	# true if get_text is called
+	active_get_text_count="false"
 	# Result to default sleep_time if --sleep-time SLEEP_TIME isn't passed
 	sleep_time="$DEFAULT_SLEEP_TIME"
 	# default alignment direction is c (center)
@@ -177,6 +188,9 @@ parse_options()
 			'-l') alignment_direction="l";;
 			'-r') alignment_direction="r";;
 			'-c') alignment_direction="c";;
+			# Special function
+			'get_text') get_text_char_count=7 &&
+			call_later "$alignment_direction" "get_text";;
 			*) output="$("$1" 2> /dev/null || printf -- "%s\n" "INVALID_INPUT")"; 
 				[ "X$output" != "XINVALID_INPUT" ] && 
 				call_later "$alignment_direction" "$1";;
@@ -190,13 +204,17 @@ lemonbar_loop()
 	while true; do
 	
 		# Read string to output to lemonbar from temp_loop_file
-		lemonbar_string=""
-		while read alignment_direction_in executable_function_in; do
-			lemonbar_string="${lemonbar_string} %{${alignment_direction_in}} $("$executable_function_in")"	
+		lemonbar_str=""
+		while read dir_in func_in; do
+			lemonbar_str="${lemonbar_str} %{${dir_in}} $("$func_in")"	
+			if [ "$func_in" = "get_text" ]; then
+				((--get_text_char_count))
+				((get_text_char_count < 1)) && get_text_char_count=7
+			fi
 		done < "$temp_loop_file"
 		
 		# Output to lemonbar
-		echo -e "$lemonbar_string"
+		echo -e "$lemonbar_str"
 
 		sleep "$sleep_time"
 	done
