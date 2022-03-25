@@ -149,7 +149,7 @@ get_pulseaudio_info()
 call_later()
 {
 	# Passed aligment direction
-	passed_dir="$1"
+	passed_dir="%{$1}"
 	# Passed executable function
 	passed_func="$2"
 
@@ -159,15 +159,20 @@ call_later()
 		{ printf -- "%s\n" "Fatal: Couldn't create temporary file. Exitting" 2>&1; exit 1; }
 	fi
 	
-	# Write alignment_direction and executable_function to temp_loop_file
-	#while read -r read_alignment_direction read_executable_function; do
-		# If the passed alignment_direction is the same as the read one,
-	    # append the passed exec function to the line 	
-		#[ "$read_alignment_direction" = "$passed_alignment_direction" ] &&
-		#:
-	#done < "$temp_loop_file"
-	printf -- "%s %s\n" "$passed_dir" "$passed_func" >> \
-		"$temp_loop_file"
+	# Write passed_dir and passed_func to temp_loop_file
+
+	line_count=$(wc -l "$temp_loop_file" | cut -d ' ' -f 1)
+
+	# If alignment_direction is same as the previous passed_func's direction, 
+	# don't write passed_dir. Instead, write the passed_func to the same line
+	if ((line_count>0)) &&
+	awk "NR==$line_count" "$temp_loop_file" | grep "$passed_dir" -q; then
+		printf -- "%s\n" "$passed_func" >> "$temp_loop_file"
+		sed -i "${line_count}N;s/\n/ /" "$temp_loop_file" 
+	# If not, just write the new passed_dir and passed_func to file
+	else
+		printf -- "%s %s\n" "$passed_dir" "$passed_func" >> "$temp_loop_file"
+	fi
 }
 
 parse_options()
@@ -191,9 +196,8 @@ parse_options()
 			# Special function
 			'get_text') get_text_char_count=7 &&
 			call_later "$alignment_direction" "get_text";;
-			*) output="$("$1" 2> /dev/null || printf -- "%s\n" "INVALID_INPUT")"; 
-				[ "X$output" != "XINVALID_INPUT" ] && 
-				call_later "$alignment_direction" "$1";;
+			# If given function executes without any errors, call it later 
+			*) "$1" &> /dev/null && call_later "$alignment_direction" "$1";;
 		esac
 	shift	
 	done
@@ -202,14 +206,18 @@ parse_options()
 lemonbar_loop()
 {
 	while true; do
-	
 		# Read string to output to lemonbar from temp_loop_file
 		lemonbar_str=""
+
+		#while read line; do
+			#echo "$line"
+		#done < "$temp_loop_file"
+		
 		while read dir_in func_in; do
-			lemonbar_str="${lemonbar_str} %{${dir_in}} $("$func_in")"	
+			lemonbar_str="${lemonbar_str} ${dir_in} $("$func_in")"	
 			if [ "$func_in" = "get_text" ]; then
 				((--get_text_char_count))
-				((get_text_char_count < 1)) && get_text_char_count=7
+				((get_text_char_count<1)) && get_text_char_count=7
 			fi
 		done < "$temp_loop_file"
 		
