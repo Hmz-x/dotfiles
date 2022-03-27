@@ -2,6 +2,13 @@
  
 # Script constants
 DEFAULT_SLEEP_TIME="1"
+SEPERATOR_STRING="|"
+
+return_space_count()
+{
+	local_space_count="$(echo "$1" | grep -o '[[:space:]]' | wc -l)"
+	echo "$local_space_count"
+}
 
 get_text()
 {
@@ -28,7 +35,7 @@ get_window_titles()
 	
 	while read -r line; do
 		# Get only last string in the entire line
-		space_count="$(echo "$line" | grep -o '[[:space:]]' | wc -l)"
+		space_count="$(return_space_count "$line")"
 		if ((space_count==0)); then
 			single_window_title="$line"
 		else
@@ -45,7 +52,7 @@ get_hlwm_info()
 {
 	# Local constants
 	SPACE_COUNT=20
-	TOTAL_MONITOR_COUNT=4
+	TOTAL_TAG_COUNT=4
 	REGULAR_TAG_COLOR="#000000"
 	CURRENT_TAG_COLOR="#FFFFFF"
 	REGULAR_TAG_BG_COLOR="#EEFF7C"
@@ -54,7 +61,7 @@ get_hlwm_info()
 	current_tag="$(herbstclient list_monitors | cut -d '"' -f 2)"
 	
 	# Print all tag boxes each containing tag number and window titles
-	for tag in $(seq 1 $TOTAL_MONITOR_COUNT); do
+	for tag in $(seq 1 $TOTAL_TAG_COUNT); do
 
 		# Print color formatting
 		if [ "$current_tag" = "$tag" ]; then
@@ -205,21 +212,33 @@ parse_options()
 
 lemonbar_loop()
 {
+	# Read lines to output to lemonbar from temp_loop_file
 	while true; do
-		# Read string to output to lemonbar from temp_loop_file
 		lemonbar_str=""
 
-		#while read line; do
-			#echo "$line"
-		#done < "$temp_loop_file"
-		
-		while read dir_in func_in; do
-			lemonbar_str="${lemonbar_str} ${dir_in} $("$func_in")"	
-			if [ "$func_in" = "get_text" ]; then
-				((--get_text_char_count))
-				((get_text_char_count<1)) && get_text_char_count=7
-			fi
+		while read line; do
+			# Get direction first
+			lemonbar_str="$lemonbar_str $(echo "$line" | cut -d ' ' -f 1)"
+			
+			# Then, get the rest of the input functions given and add the input
+			# to lemonbar_str
+			space_count=$(return_space_count "$line")
+			for i in $(seq 2 $((space_count+1))); do
+				func_output="$("$(echo "$line" | cut -d ' ' -f $i)")"
+				lemonbar_str="$lemonbar_str $func_output"
+
+				# If not the last input function, add a seperator string to lemonbar_str
+				((i<space_count+1)) && lemonbar_str="$lemonbar_str $SEPERATOR_STRING"
+			done	
 		done < "$temp_loop_file"
+		
+		#while read dir_in func_in; do
+			#lemonbar_str="${lemonbar_str} ${dir_in} $("$func_in")"	
+			#if [ "$func_in" = "get_text" ]; then
+				#((--get_text_char_count))
+				#((get_text_char_count<1)) && get_text_char_count=7
+			#fi
+		#done < "$temp_loop_file"
 		
 		# Output to lemonbar
 		echo -e "$lemonbar_str"
