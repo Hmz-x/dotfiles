@@ -1,9 +1,15 @@
-#!/bin/sh -x
+#!/bin/sh
 
 # Program constants
 DMENU_LINE_COUNT=10
 FEH_OPTION="--bg-tile"
 MUSIC_DIR="${MUSIC_DIR_ENVVAR-"${HOME}/Music"}"
+
+return_strlen()
+{
+	local_strlen=$(printf "%s" "$1" | wc -m)
+	echo $local_strlen
+}
 
 select_dir(){
 	selected_dir="$(ls "$var_music_dir" | dmenu -i -l "$DMENU_LINE_COUNT" -p "Directory: ")"
@@ -16,13 +22,23 @@ select_dir(){
 		[ -d "$file" ] && contains_dir_bool="true" && break
 	done	
 	
-	if [ "$contains_dir_bool" = "true" ]; then
-		var_music_dir="${var_music_dir}/${selected_dir}"
-		select_dir
-	fi
+	# Add the selected directory on top of the current music directory
+	var_music_dir="${var_music_dir}/${selected_dir}"
+	[ "$contains_dir_bool" = "true" ] && select_dir
+	
+	# Remove the MUSIC_DIR from the mpc input directory
+	music_dir_strlen=$(return_strlen "$MUSIC_DIR")	
+	mpc_readable_dir="$(echo "$var_music_dir" | cut -b $((music_dir_strlen+2))-)"
 
-	# Execute mpc commands and play songs from selected_dir
-	mpc clear && mpc add "$selected_dir" && mpc play
+	printf "%s\n\n" "Adding directory: $mpc_readable_dir"
+	
+	# Add and play directory
+	mpc clear &> /dev/null && mpc add "$mpc_readable_dir" && mpc play
+
+	# Display albumart of the selected directory
+	display_art
+
+	exit 0
 }
 
 select_dir_main(){
@@ -36,11 +52,10 @@ select_dir_main(){
 select_track(){
 	# Get track name and number
 	selected_track="$(mpc playlist | dmenu -i -l 10 -p "Track: ")"
-	#echo "Selected track: $selected_track"
-	# select the first instance only
+
+	# Select the first instance only
 	track_number="$(mpc playlist | grep -F "$selected_track" --line-number | \
 		awk 'NR==1' | cut -d ':' -f 1)"
-	#echo "Track number: $track_number"
 
 	mpc play "$track_number"
 }
@@ -61,16 +76,16 @@ display_image()
 
 display_art(){
 	albumart_temp_file="$(mktemp)"
-	mpc albumart "$selected_dir/" > "$albumart_temp_file" 2> /dev/null
+	mpc albumart "$mpc_readable_dir/" > "$albumart_temp_file" 2> /dev/null
 
 	# If no image data is written to temp albumart file, search for 
 	# images embedded in the files or a jpg, png, etc. file in the directory instead
 	if [ "$(isempty "$albumart_temp_file")" = "true" ]; then
 		readpicture_temp_file="$(mktemp)"
 		
-		for file in "${MUSIC_DIR}/${selected_dir}/"*; do
+		for file in "${MUSIC_DIR}/${mpc_readable_dir}/"*; do
 			# Write embedded image to temp readpicture file
-			mpc readpicture "${selected_dir}/$(basename "$file")" > \
+			mpc readpicture "${mpc_readable_dir}/$(basename "$file")" > \
 				"$readpicture_temp_file" 2> /dev/null
 			
 			# If embedded image exists, display
@@ -100,8 +115,6 @@ display_art(){
 if [ -z "$1" ] || [ "X$1" = "X--select-dir" ]; then
 	# Select directory using dmenu and start playing its songs
 	select_dir_main
-	# Display albumart of the selected directory
-	display_art
 elif [ "X$1" = "X--select-track" ]; then
 	# Select a track in the selected directory
 	select_track
