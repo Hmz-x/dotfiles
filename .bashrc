@@ -35,48 +35,25 @@ cd()
 # Nmcli connection stuff
 wcon()
 {
-	nmcli dev wifi connect "$1" --ask
+	SSID="$1"
+	if nmcli con show | grep -q "$SSID"; then
+		nmcli dev wifi connect "$SSID"
+	else
+		nmcli dev wifi connect "$SSID" --ask
+	fi
 }
 
 alias wscan='nmcli dev wifi'
-
-wdel()
-{
-	nmcli con del "$1"
-}
-
+alias wdel='nmcli con del'
 alias wshow='nmcli connection show'
 
 # Git stuff
-ga()
-{
-	git add "$@"
-}
-
-gc()
-{
-	git commit -m "$@"
-}
-
-gp()
-{
-	git push -u origin master
-}
-
-gs()
-{
-	git status
-}
-
-gl()
-{
-	git log
-}
-
-gr()
-{
-	git rm "$@"
-}
+alias ga='git add'
+alias gc='git commit -m'
+alias gp='git push -u origin master'
+alias gs='git status'
+alias gl='git log'
+alias gr='git rm "$@"'
 
 # Mount stuff
 mnt()
