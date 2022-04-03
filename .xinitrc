@@ -19,11 +19,17 @@ def_redshift_val=0 # Aka min_redshift_val
 printf 'export redshift_envvar=%s' $def_redshift_val > "$adj_redshiftrc_file"
 
 # export misc. env vars
-export MUSIC_DIR_ENVVAR="${HOME}/Music"
 monitor_out_str="$(xrandr --listactivemonitors | awk 'NR==2')"
 monitor_out_str_space_count="$(echo "$monitor_out_str" | grep -o '[[:space:]]' | wc -l)"
 export X_MONITOR_OUTPUT_ENVVAR="$(echo "$monitor_out_str" | \
 	cut -d ' ' -f $((monitor_out_str_space_count+1)))"
+export MUSIC_DIR_ENVVAR="${HOME}/Music"
+export COMPUTER_TYPE_ENVVAR="DESKTOP"
+
+# Graphical Environment Variables
+export YT_CLIENT='freetube'
+export BROWSER='brave' 
+export TERMINAL="${HOME}/.local/kitty.app/bin/kitty" 
 
 # export WM env var and exec it
 export WM_ENVVAR="herbstluftwm" && exec "$WM_ENVVAR"
