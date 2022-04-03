@@ -17,7 +17,7 @@ export M2='/home/hkm/Misc/Audio_Media/downloads/Headspace - Meditation and Mindf
 # Program Environment Variables
 export PATH="$PATH:/$HOME/.local/bin"
 export EDITOR='vim' # Text Editor
-export BROWSER='brave-browser-nightly' # Web Browser
+export BROWSER='brave' # Web Browser
 export BROWSER_GEN='brave' # Browser General Name
 export YT_CLIENT='freetube' # YouTube Client
 export VID_PLAYER='mpv' # Video/Media Player
@@ -243,8 +243,9 @@ con2pdf()
 {
 	for file in *.jpg; do
 		echo "$file"
-		convert -auto-orient "$file" "${file}.pdf"
+		convert -scale 1920x1080 -auto-orient "$file" "${file}.pdf"
 	done
 
 	pdfunite *.pdf "${1}FINAL.pdf"
+	rm -v *.jpg.pdf
 }
