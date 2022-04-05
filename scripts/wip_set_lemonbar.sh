@@ -3,10 +3,14 @@
 # Script constants
 DEFAULT_SLEEP_TIME="1"
 SEPERATOR_STRING="|"
+FUNC_DELIM="-" # Function delimeter
 
-return_space_count()
+return_char_count()
 {
-	local_space_count=$(echo "$1" | grep -o '[[:space:]]' | wc -l)
+	passed_input="$1"
+	passed_delim="$2"
+
+	local_space_count=$(echo "$1" | grep -o "$passed_delim" | wc -l)
 	echo $local_space_count
 }
 
@@ -51,7 +55,7 @@ return_window_titles()
 	
 	while read -r line; do
 		# Get only last string in the entire line
-		space_count="$(return_space_count "$line")"
+		space_count="$(return_char_count "$line" " ")"
 		if ((space_count==0)); then
 			single_window_title="$line"
 		else
@@ -192,13 +196,14 @@ call_later()
 	# don't write passed_dir.
 	if ((line_count>0)) &&
 	awk "NR==$line_count" "$temp_loop_file" | grep "$passed_dir" -q; then
-		printf -- "%s %s\n" "$passed_func" "$passed_arg" >> "$temp_loop_file"
-		sed -i "${line_count}N;s/\n/ /" "$temp_loop_file" 
+		printf -- "%s${FUNC_DELIM}%s\n" "$passed_func" "$passed_arg" >> "$temp_loop_file"
+		sed -i "${line_count}N;s/\n/${FUNC_DELIM}/" "$temp_loop_file" 
 	# If not, just write the new passed_dir and passed_func to file
 	else
-		printf -- "In func: %s %s\n" "$passed_dir" "$passed_func"
-		printf -- "%s %s" "$passed_dir" "$passed_func" >> "$temp_loop_file"
-		[ -n "$passed_arg" ] && printf -- " %s" "$passed_arg" >> "$temp_loop_file"
+		printf -- "In func: %s${FUNC_DELIM}%s\n" "$passed_dir" "$passed_func"
+		printf -- "%s${FUNC_DELIM}%s" "$passed_dir" "$passed_func" >> "$temp_loop_file"
+		[ -n "$passed_arg" ] && \
+			printf -- "${FUNC_DELIM}%s" "$passed_arg" >> "$temp_loop_file"
 		printf "\n" >> "$temp_loop_file"
 	fi
 }
@@ -244,16 +249,17 @@ lemonbar_loop()
 
 		while read line; do
 			# Get direction first
-			lemonbar_str="$lemonbar_str $(echo "$line" | cut -d ' ' -f 1)"
+			lemonbar_str="$lemonbar_str $(echo "$line" | cut -d "$FUNC_DELIM" -f 1)"
+			echo "Direction:$lemonbar_str"
 			
 			# Then, get the rest of the input functions given and add the input
 			# to lemonbar_str
-			space_count=$(return_space_count "$line")
-			for i in $(seq 2 $((space_count+1))); do
+			dash_count=$(return_char_count "$line" "-")
+			for i in $(seq 2 $((dash_count+1))); do
 				[ "$skip_func_in_bool" = "true" ] && continue
 
 				skip_func_in_bool="false"
-				func_to_exec="$(echo "$line" | cut -d ' ' -f $i)"
+				func_to_exec="$(echo "$line" | cut -d "$FUNC_DELIM" -f $i)"
 
 				#func_to_exec="$(echo "$line" | cut -d ' ' -f $i)"
 				echo "func: $func_to_exec"
@@ -262,7 +268,7 @@ lemonbar_loop()
 
 				if [ "$func_to_exec" = "get_text" ]; then
 					skip_func_in_bool="true"
-					get_text_arg="$(echo "$line" | cut -d ' ' -f $((i+1)))"
+					get_text_arg="$(echo "$line" | cut -d "$FUNC_DELIM" -f $((i+1)))"
 					echo "arg: $get_text_arg"
 					func_output="$("$func_to_exec" "$get_text_arg")"
 
@@ -276,7 +282,7 @@ lemonbar_loop()
 				lemonbar_str="$lemonbar_str $func_output"
 
 				# If not the last input function, add a seperator string to lemonbar_str
-				((i<space_count+1)) && lemonbar_str="$lemonbar_str $SEPERATOR_STRING"
+				((i<dash_count+1)) && lemonbar_str="$lemonbar_str $SEPERATOR_STRING"
 			done	
 		done < "$temp_loop_file"
 		

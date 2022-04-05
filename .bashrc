@@ -23,6 +23,7 @@ alias vhc='vim /home/hkm/.config/herbstluftwm/autostart' # vim Hl config
 alias cdb='cd "${HOME}/.local/bin"'
 alias cdd='cd "${HOME}/.local/dotfiles"'
 alias pl='pkill set_lemonbar.sh; pkill lemonbar'
+alias ag='aspell -n -c' # aspell groff doc
 
 # CD into dirname of given file
 cd()
