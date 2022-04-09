@@ -5,6 +5,24 @@ DEFAULT_SLEEP_TIME="1"
 SEPERATOR_STRING="|"
 FUNC_DELIM="-" # Function delimeter
 
+PRG_NAME="$(basename "$0")"
+HELP_STRING=\
+"Usage: $PRG_NAME [OPTION] [FUNCTION] [ARGUMENT]
+
+Available Options
+-h, --help: Show help and exit
+--ttf-font-awesome: Activate ttf-font-awesome icons
+--sleep-time SLEEP_TIME: Set time in seconds to wait after each loop
+
+Available Functions
+input_steady [INPUT_STRING]
+get_cpu_info
+get_hlwm_info
+get_nmcli_info
+get_mpc_info
+get_date_info
+get_pulseaudio_info"
+
 return_char_count()
 {
 	passed_input="$1"
@@ -20,7 +38,7 @@ return_strlen()
 	echo $local_strlen
 }
 
-get_text()
+input_steady()
 {
 	input="$1"
 
@@ -33,7 +51,7 @@ get_text()
 	#for i in $(seq $var_ch_count $init_ch_count); do
 		#printf "$input" | cut -c $i
 	#done
-	echo "XXX $input XXX" # | cut -b -$var_ch_count
+	echo "$input" # | cut -b -$var_ch_count
 }
 
 get_cpu_info()
@@ -184,8 +202,7 @@ call_later()
 	# Passed argument for function
 	{ [ -n "$3" ] && passed_arg="${FUNC_DELIM}${3}"; } || passed_arg=""
 
-
-	echo "In call_later(). passed_dir: $passed_dir, passed_func: $passed_func passed_arg: $passed_arg"
+	#echo "In call_later(). passed_dir: $passed_dir, passed_func: $passed_func passed_arg: $passed_arg"
 
 	# Create temp file if non-existent
 	if [ ! -f "$temp_loop_file" ]; then
@@ -213,8 +230,8 @@ parse_options()
 {
 	# true if --ttf-font-awesome pos-param is passed
 	ttf_fa_bool="false"
-	# true if get_text is called
-	active_get_text_count="false"
+	# true if input_steady is called
+	active_input_steady_count="false"
 	# Result to default sleep_time if --sleep-time SLEEP_TIME isn't passed
 	sleep_time="$DEFAULT_SLEEP_TIME"
 	# default alignment direction is c (center)
@@ -222,6 +239,7 @@ parse_options()
 
 	while [ "$#" -gt 0 ]; do
 		case "$1" in
+			'-h'|'--help') echo "$HELP_STRING"; exit 0;;
 			'--ttf-font-awesome') ttf_fa_bool="true";;	
 			'--sleep-time') [ -n "$2" ] && sleep_time="$2" && shift;;
 
@@ -230,8 +248,8 @@ parse_options()
 			'-c') alignment_direction="c";;
 
 			# Special function
-			'get_text') [ -n "$2" ] && init_ch_count=$(return_strlen "$2") &&
-				var_ch_count=1 && call_later "$alignment_direction" "get_text" "$2" &&
+			'input_steady') [ -n "$2" ] && init_ch_count=$(return_strlen "$2") &&
+				var_ch_count=1 && call_later "$alignment_direction" "input_steady" "$2" &&
 				shift;;
 
 			# If given function executes without any errors, call it later 
@@ -243,7 +261,8 @@ parse_options()
 
 lemonbar_loop()
 {
-	echo "temp file: $temp_loop_file"
+	#echo "temp file: $temp_loop_file"
+
 	# Read lines to output to lemonbar from temp_loop_file
 	while true; do
 		lemonbar_str=""
@@ -251,31 +270,23 @@ lemonbar_loop()
 		while read line; do
 			# Get direction first
 			lemonbar_str="$lemonbar_str $(echo "$line" | cut -d "$FUNC_DELIM" -f 1)"
-			echo "Direction:$lemonbar_str"
 			
 			# Then, get the rest of the input functions given and add the input
 			# to lemonbar_str
 			dash_count=$(return_char_count "$line" "-")
 			for i in $(seq 2 $((dash_count+1))); do
-				[ "$skip_func_in_bool" = "true" ] && continue
+				[ "$skip_func_in_bool" = "true" ] && skip_func_in_bool="false" && continue
 
 				skip_func_in_bool="false"
 				func_to_exec="$(echo "$line" | cut -d "$FUNC_DELIM" -f $i)"
 
-				#func_to_exec="$(echo "$line" | cut -d ' ' -f $i)"
-				echo "func: $func_to_exec"
-				#((i!=2)) && prev_func="$(echo "$line" | cut -d ' ' -f $((i-1)))" &&
-				#	echo "prev func: $func_to_exec"
-
-				if [ "$func_to_exec" = "get_text" ]; then
+				if [ "$func_to_exec" = "input_steady" ]; then
 					skip_func_in_bool="true"
-					get_text_arg="$(echo "$line" | cut -d "$FUNC_DELIM" -f $((i+1)))"
-					echo "arg: $get_text_arg"
-					func_output="$("$func_to_exec" "$get_text_arg")"
+					input_steady_arg="$(echo "$line" | cut -d "$FUNC_DELIM" -f $((i+1)))"
+					func_output="$("$func_to_exec" "$input_steady_arg")"
 
-					((++var_ch_count))
-					((var_ch_count>init_ch_count)) &&
-						var_ch_count=1
+					((--dash_count)); ((++var_ch_count))
+					((var_ch_count>init_ch_count)) && var_ch_count=1
 				else
 					func_output="$("$func_to_exec")"
 				fi
@@ -286,14 +297,6 @@ lemonbar_loop()
 				((i<dash_count+1)) && lemonbar_str="$lemonbar_str $SEPERATOR_STRING"
 			done	
 		done < "$temp_loop_file"
-		
-		#while read dir_in func_in; do
-			#lemonbar_str="${lemonbar_str} ${dir_in} $("$func_in")"	
-			#if [ "$func_in" = "get_text" ]; then
-				#((--ch_count))
-				#((ch_count<1)) && ch_count=7
-			#fi
-		#done < "$temp_loop_file"
 		
 		# Output to lemonbar
 		echo -e "$lemonbar_str"
