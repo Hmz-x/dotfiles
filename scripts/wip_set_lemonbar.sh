@@ -182,7 +182,10 @@ call_later()
 	# Passed executable function
 	passed_func="$2"
 	# Passed argument for function
-	passed_arg="$3"
+	{ [ -n "$3" ] && passed_arg="${FUNC_DELIM}${3}"; } || passed_arg=""
+
+
+	echo "In call_later(). passed_dir: $passed_dir, passed_func: $passed_func passed_arg: $passed_arg"
 
 	# Create temp file if non-existent
 	if [ ! -f "$temp_loop_file" ]; then
@@ -196,15 +199,13 @@ call_later()
 	# don't write passed_dir.
 	if ((line_count>0)) &&
 	awk "NR==$line_count" "$temp_loop_file" | grep "$passed_dir" -q; then
-		printf -- "%s${FUNC_DELIM}%s\n" "$passed_func" "$passed_arg" >> "$temp_loop_file"
+		printf -- "%s%s\n" "$passed_func" "$passed_arg" >> "$temp_loop_file"
 		sed -i "${line_count}N;s/\n/${FUNC_DELIM}/" "$temp_loop_file" 
 	# If not, just write the new passed_dir and passed_func to file
 	else
-		printf -- "In func: %s${FUNC_DELIM}%s\n" "$passed_dir" "$passed_func"
-		printf -- "%s${FUNC_DELIM}%s" "$passed_dir" "$passed_func" >> "$temp_loop_file"
-		[ -n "$passed_arg" ] && \
-			printf -- "${FUNC_DELIM}%s" "$passed_arg" >> "$temp_loop_file"
-		printf "\n" >> "$temp_loop_file"
+		#printf -- "In func: %s${FUNC_DELIM}%s\n" "$passed_dir" "$passed_func"
+		printf -- "%s${FUNC_DELIM}%s%s\n" "$passed_dir" "$passed_func" "$passed_arg" >> \
+			"$temp_loop_file"
 	fi
 }
 
