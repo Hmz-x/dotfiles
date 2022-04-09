@@ -12,18 +12,25 @@ export PS1='\[\033[0;0m\][\u:\w]\$ '
 export PATH="${PATH}:${HOME}/.local/bin"
 
 # General Aliases
-alias po='loginctl poweroff'
-alias rb='loginctl reboot'
+alias po='sudo poweroff'
+alias rb='sudo reboot'
 alias v='vim'
 alias p='pacman'
 alias c='clear'
 alias e='exit'
+alias z='zathura'
 alias tb='nc termbin.com 9999'
 alias vhc='vim /home/hkm/.config/herbstluftwm/autostart' # vim Hl config
 alias cdb='cd "${HOME}/.local/bin"'
 alias cdd='cd "${HOME}/.local/dotfiles"'
 alias pl='pkill set_lemonbar.sh; pkill lemonbar'
 alias ag='aspell -n -c' # aspell groff doc
+
+# copy contents of file to clip
+xc()
+{
+	cat "$1" | xclip
+}
 
 # CD into dirname of given file
 cd()
@@ -49,12 +56,20 @@ alias wdel='nmcli con del'
 alias wshow='nmcli connection show'
 
 # Git stuff
+export GITHUB_UNAME="Hmz-x"
+gcr()
+{
+	# Git clone repo
+	[ -n "$2" ] && GITHUB_UNAME="$2"
+	git clone "http://github.com/${GITHUB_UNAME}/${1}"
+}
+
 alias ga='git add'
 alias gc='git commit -m'
 alias gp='git push -u origin master'
 alias gs='git status'
 alias gl='git log'
-alias gr='git rm "$@"'
+alias gr='git rm'
 
 # Mount stuff
 mnt()
