@@ -24,12 +24,12 @@ monitor_out_str_space_count="$(echo "$monitor_out_str" | grep -o '[[:space:]]' |
 export X_MONITOR_OUTPUT_ENVVAR="$(echo "$monitor_out_str" | \
 	cut -d ' ' -f $((monitor_out_str_space_count+1)))"
 export MUSIC_DIR_ENVVAR="${HOME}/Music"
-export COMPUTER_TYPE_ENVVAR="DESKTOP"
+export COMPUTER_TYPE_ENVVAR="LAPTOP"
 
 # Graphical Environment Variables
-export YT_CLIENT='freetube'
-export BROWSER='brave' 
-export TERMINAL="${HOME}/.local/kitty.app/bin/kitty" 
+export YT_CLIENT_ENVVAR="freetube" 
+export BROWSER_ENVVAR="brave" 
+export TERMINAL_ENVVAR="urxvt"
 
 # export WM env var and exec it
 export WM_ENVVAR="herbstluftwm" && exec "$WM_ENVVAR"
