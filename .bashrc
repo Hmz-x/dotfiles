@@ -10,9 +10,10 @@ set -o vi
 export USB='/mnt/usb'
 export PS1='\[\033[0;0m\][\u:\w]\$ '
 export PATH="${PATH}:${HOME}/.local/bin"
+export OPENER="${HOME}/.local/bin/opener.sh"
 
 # General Aliases
-alias po='sudo poweroff'
+alias po='sudo shutdown -h now'
 alias rb='sudo reboot'
 alias v='vim'
 alias p='pacman'
@@ -25,6 +26,7 @@ alias cdb='cd "${HOME}/.local/bin"'
 alias cdd='cd "${HOME}/.local/dotfiles"'
 alias pl='pkill set_lemonbar.sh; pkill lemonbar'
 alias ag='aspell -n -c' # aspell groff doc
+alias yd='yay --removemake --nocleanmenu --nodiffmenu -S'
 
 # copy contents of file to clip
 xc()

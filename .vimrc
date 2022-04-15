@@ -4,6 +4,14 @@ Plug 'morhetz/gruvbox'
 
 call plug#end()
 
+" Groff stuff
+map <C-p> o.PP<ESC>o
+map <C-s> o.SH<ESC>o
+map <C-t> o.TL<ESC>o
+map <C-a> o.AU<ESC>o
+map <C-a> o.AU<ESC>o
+map <C-b> di.B "<ESC>pi"
+
 map <C-j> jjj
 " Map <C-k> to k x 3
 map <C-k> kkk
@@ -21,7 +29,7 @@ map <C-x> ^x
 map <C-e> i.EQ<return><return>.EN<ESC>ki
 
 " Map Ctrl-b to :%s/“/"/g<return>
-map <C-b> :%s/“/"/g<return>:%s/”/"/g<return>:%s/’/'/g<return>
+map <C-z> :%s/“/"/g<return>:%s/”/"/g<return>:%s/’/'/g<return>
 
 " Map Ctrl-f to gqip (format paragraph)
 map <C-F> m9gqip`9
@@ -39,14 +47,8 @@ map ! g$bi<return><ESC>
 map <C-n> :bn<return>
 map <C-m> :bp<return>
 
-" Create { } for function and enter insert mode 
-"map <C-P> si<return><backspace>{<return><return>}<ESC>ki<tab>
-
 " Create function prototype
 "map <C-X> JA;<ESC>jv%d
-
-" Comment out line using '#'
-"map <C-H> I#<ESC>j 
 
 ab ## ######
 
