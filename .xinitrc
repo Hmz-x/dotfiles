@@ -5,7 +5,6 @@ xrdb .Xresources
 pulseaudio -D
 
 # Start mpd
-#sudo rc-service mpd start
 mpd --verbose &> /dev/null
 
 # Set default brightness 
@@ -18,18 +17,10 @@ adj_redshiftrc_file="${HOME}/.config/.adjust_redshiftrc"
 def_redshift_val=0 # Aka min_redshift_val
 printf 'export redshift_envvar=%s' $def_redshift_val > "$adj_redshiftrc_file"
 
-# export misc. env vars
+# Set X output monitor envvar
 monitor_out_str="$(xrandr --listactivemonitors | awk 'NR==2')"
 monitor_out_str_space_count="$(echo "$monitor_out_str" | grep -o '[[:space:]]' | wc -l)"
 export X_MONITOR_OUTPUT_ENVVAR="$(echo "$monitor_out_str" | \
 	cut -d ' ' -f $((monitor_out_str_space_count+1)))"
-export MUSIC_DIR_ENVVAR="${HOME}/Music"
-export COMPUTER_TYPE_ENVVAR="LAPTOP"
 
-# Graphical Environment Variables
-export YT_CLIENT_ENVVAR="freetube" 
-export BROWSER_ENVVAR="brave" 
-export TERMINAL_ENVVAR="urxvt"
-
-# export WM env var and exec it
-export WM_ENVVAR="herbstluftwm" && exec "$WM_ENVVAR"
+exec "$WM_ENVVAR"

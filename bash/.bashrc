@@ -7,11 +7,6 @@
 
 set -o vi
 
-export USB='/mnt/usb'
-export PS1='\[\033[0;0m\][\u:\w]\$ '
-export PATH="${PATH}:${HOME}/.local/bin"
-export OPENER="${HOME}/.local/bin/opener.sh"
-
 # General Aliases
 alias po='sudo shutdown -h now'
 alias rb='sudo reboot'
@@ -58,12 +53,11 @@ alias wdel='nmcli con del'
 alias wshow='nmcli connection show'
 
 # Git stuff
-export GITHUB_UNAME="Hmz-x"
 gcr()
 {
 	# Git clone repo
-	[ -n "$2" ] && GITHUB_UNAME="$2"
-	git clone "http://github.com/${GITHUB_UNAME}/${1}"
+	[ -n "$2" ] && GITHUB_UNAME_ENVVAR="$2"
+	git clone "http://github.com/${GITHUB_UNAME_ENVVAR}/${1}"
 }
 
 alias ga='git add'
