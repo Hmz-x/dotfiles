@@ -2,9 +2,9 @@
 
 ###### MY ENVVARS #######
 # Graphical Ennvars
+export COMPUTER_TYPE_ENVVAR="LAPTOP"
 export YT_CLIENT_ENVVAR="freetube" 
 export BROWSER_ENVVAR="brave" 
-export TERMINAL_ENVVAR="urxvt"
 export WM_ENVVAR="herbstluftwm" 
 
 # Place the following in .xinitrc
@@ -14,9 +14,15 @@ export WM_ENVVAR="herbstluftwm"
 	#cut -d ' ' -f $((monitor_out_str_space_count+1)))"
 
 export MUSIC_DIR_ENVVAR="${HOME}/Music"
-export COMPUTER_TYPE_ENVVAR="LAPTOP"
 export GITHUB_UNAME_ENVVAR="Hmz-x"
 export USB='/mnt/usb'
+
+# export envvars depending on device
+if [ "$COMPUTER_TYPE_ENVVAR" = "LAPTOP" ]; then
+	export TERMINAL_ENVVAR="urxvt"
+elif [ "$COMPUTER_TYPE_ENVVAR" = "DESKTOP" ]; then
+	export TERMINAL_ENVVAR="${HOME}/.local/kitty.app/bin/kitty"
+fi
 ##########################
 
 ###### SYS ENVVARS #######
