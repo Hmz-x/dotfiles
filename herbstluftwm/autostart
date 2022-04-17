@@ -15,7 +15,7 @@ hc emit_hook reload
 # Launch neccessary programs
 xsetroot -solid '#8086e8'
 picom -b -c
-feh --bg-tile --no-fehbg "$HOME"/Documents/pics/Mr_Giggles.jpeg
+feh --bg-tile --no-fehbg "${HOME}"/Documents/pics/lofty_gooned_out.png
 
 # remove all existing keybindings
 hc keyunbind --all
@@ -31,8 +31,8 @@ hc keybind "$WM_MOD"-"$KILL_MOD"-q quit
 hc keybind "$WM_MOD"-"$KILL_MOD"-r reload
 
 # Loginctl
-hc keybind "$WM_MOD"-"$KILL_MOD"-Delete spawn loginctl poweroff
-hc keybind "$WM_MOD"-"$KILL_MOD"-"$ALT_MOD"-Delete spawn loginctl reboot
+hc keybind "$WM_MOD"-"$KILL_MOD"-Delete spawn sudo shudtown -h now
+hc keybind "$WM_MOD"-"$KILL_MOD"-"$ALT_MOD"-Delete spawn sudo reboot
 
 # Close window
 hc keybind "$KILL_MOD"-F4 spawn close_window_and_frame.sh
@@ -48,16 +48,16 @@ hc keybind "$SPAWN_MOD"-F9 spawn adjust_redshift.sh 0
 hc keybind "$SPAWN_MOD"-F10 spawn adjust_redshift.sh 1
 
 # Spawn programs
-hc keybind "$SPAWN_MOD"-t spawn spawn_frame_and_program.sh "$TERMINAL" "horizontal"
-hc keybind "$SPAWN_MOD"-"$ALT_MOD"-t spawn "$TERMINAL" #spawn_frame_and_program.sh "$TERMINAL" "vertical"
+hc keybind "$SPAWN_MOD"-t spawn spawn_frame_and_program.sh "$TERMINAL_ENVVAR" "horizontal"
+hc keybind "$SPAWN_MOD"-"$ALT_MOD"-t spawn "$TERMINAL_ENVVAR" #spawn_frame_and_program.sh "$TERMINAL" "vertical"
 
 # Browser
-hc keybind "$SPAWN_MOD"-w spawn spawn_frame_and_program.sh "$BROWSER"
-hc keybind "$SPAWN_MOD"-"$ALT_MOD"-w spawn "$BROWSER"
+hc keybind "$SPAWN_MOD"-w spawn spawn_frame_and_program.sh "$BROWSER_ENVVAR"
+hc keybind "$SPAWN_MOD"-"$ALT_MOD"-w spawn "$BROWSER_ENVVAR"
 
 # YT Client
-hc keybind "$SPAWN_MOD"-f spawn spawn_frame_and_program.sh "$YT_CLIENT"
-hc keybind "$SPAWN_MOD"-"$ALT_MOD"-f spawn "$YT_CLIENT"
+hc keybind "$SPAWN_MOD"-f spawn spawn_frame_and_program.sh "$YT_CLIENT_ENVVAR"
+hc keybind "$SPAWN_MOD"-"$ALT_MOD"-f spawn "$YT_CLIENT_ENVVAR"
 
 # Misc programs
 hc keybind "$SPAWN_MOD"-s spawn sudo timeshift-gtk
@@ -85,6 +85,7 @@ hc keybind "$SPAWN_MOD"-XF86AudioMicMute spawn mpc repeat
 hc keybind XF86AudioLowerVolume spawn pamixer --decrease 10
 hc keybind XF86AudioRaiseVolume spawn pamixer_increase.sh
 hc keybind XF86AudioMute spawn pamixer --toggle-mute
+hc keybind XF86AudioMicMute spawn pactl set-source-mute '@DEFAULT_SOURCE@' toggle
 
 # basic movement in tiling and floating mode
 # focusing clients
@@ -115,11 +116,10 @@ hc keybind "$WM_MOD"-Control-l resize right +"$resizestep"
 
 # Rename the first tag to 1 and add 8 more tags
 hc rename default 1 2> /dev/null
-for i in $(seq 1 9); do
+for i in $(seq 1 4); do
 	hc add $i
 	# Keyname is the same as tagname
 	hc keybind "$WM_MOD"-$i use $i
-		#printf -- "%s\n"'export hlwm_tag_envvar="$i"' > ~/.config/lmao
 	hc keybind "$WM_MOD"-Shift-$i move_index $i
 done
 
@@ -229,7 +229,7 @@ ttf_fa_version="$(pacman -Qe | grep ttf-font-awesome | cut -d ' ' -f 2 | cut -d 
 # Set lemonbar: Magenta background, very light purple foreground 
 # specified + font awesome fonts
 set_lemonbar.sh --sleep-time 0.2 --ttf-font-awesome \
-	-l get_pulseaudio_info -c get_mpc_info -r get_acpi_info \
+	-l get_pulseaudio_info -c get_mpc_info \
 	| lemonbar -p -g x30+0+0 -B "#696ebf" -F "#FEBAFF" \
 	-f "xft:Source Code Pro" \
 	-f "Font Awesome ${ttf_fa_version} Free" -f "Font Awesome ${ttf_fa_version} Brands" \
@@ -238,9 +238,12 @@ set_lemonbar.sh --sleep-time 0.2 --ttf-font-awesome \
 # Set lemonbar for hlwm monitor stuff
 set_lemonbar.sh --sleep-time 0.1 -c get_hlwm_info | lemonbar -p -g x30+0+30 \
 	-B "#696ebf" -F "#FEBAFF" -f "fixed" &
+#set_lemonbar.sh --sleep-time 1 -c input_sliding "ME DONT GIVE A FUCK" | \
+	#lemonbar -p -g x30+0+60 -B "#FD994C" -F "#404040" -f "xft:Source Code Pro" &
 
 # Set lemonbar: Purple background, dark grey foreground
 # specified font + docked (-b)
-set_lemonbar.sh --sleep-time 1 -l get_nmcli_info -r get_date_info -c get_cpu_info \
+set_lemonbar.sh --sleep-time 1 -l get_nmcli_info -c get_acpi_info get_cpu_info \
+	-r get_date_info \
 	| lemonbar -p -b -g x30+0+0 -B "#DE6FFF" -F "#333333" \
 	-f "xft:Source Code Pro" &
