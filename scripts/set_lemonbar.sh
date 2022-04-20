@@ -66,13 +66,13 @@ input_sliding()
 {
 	input="$1"
 
-	# Print spaces
-	for i in $(seq 0 $((init_ch_count-var_ch_count))); do
-		printf " "
-	done
-	
 	# Print characters
 	for i in $(seq $var_ch_count $init_ch_count); do
+		#if [ "$in_sp_cnt_bool" = "true" ] &&
+			#(( $((i-1)) % $((in_space_count+1)) != 0 )); then
+			#i=$((i+space_count))
+		#fi
+
 		char="$(echo "$input" | cut -c $i)"
 		printf -- "%s" "$char"
 	done
@@ -228,7 +228,6 @@ call_later()
 
 	#echo "In call_later(). passed_dir: $passed_dir, passed_func: $passed_func passed_arg: $passed_arg"
 	
-	
 	# Create temp file if non-existent
 	if [ ! -f "$temp_loop_file" ]; then
 		temp_loop_file="$(mktemp)" || 
@@ -288,25 +287,42 @@ parse_options()
 
 check_for_transformation()
 {
+	# In every line of tmp file, check if input function exists,
+	# if so, if an input function, get the input argument and transform it.
+	# Once transformed, replace old input arg with the new one.
+	line_count=1
+
 	while read line; do
+
 		if echo "$line" | grep -Eq 'input_steady|input_sliding'; then
 			dash_count=$(return_char_count "$line" "-")
-			for i in $(seq 1 $((dash_count+1))); do
-				func_or_arg="$(echo "$line" | cut -d "$FUNC_DELIM" -f $i)"
 
-				if [ "$func_or_arg" = "input_sliding" ]; then
+			for i in $(seq 2 $((dash_count+1))); do
+				func_or_arg="$(echo "$line" | cut -d "$FUNC_DELIM" -f $i)"
+				
+				# Get input and transform if neccessary
+				if [ "$func_or_arg" = "input_sliding" ] || 
+					[ "$func_or_arg" = "input_steady" ]; then
 					input_arg="$(echo "$line" | cut -d "$FUNC_DELIM" -f $((i+1)))"
-					init_ch_count=$(return_strlen "$input_arg") && var_ch_count=1
+
+					# Transform passed argument
+					if [ "$in_sp_cnt_bool" = "true" ]; then
+						new_input_arg="$(transform_input "$input_arg")"	
+						sed -i \
+							"${line_count},${line_count}s/${input_arg}/${new_input_arg}/" \
+							"$temp_loop_file" 
+						input_arg="$new_input_arg"
+					fi
+
+					# Get character count if function is input_sliding
+					[ "$func_or_arg" = "input_sliding" ] &&
+						init_ch_count=$(return_strlen "$input_arg") && var_ch_count=1
 				fi
+
 			done
-		# Transform passed argument
-		#[ "$in_sp_cnt_bool" = "true" ] && 
-			#input_arg="$(transform_input "$input_arg")"	
-		## Get character count if function is input_sliding
-		#[ "$func_to_exec" = "input_sliding" ] &&
-			#init_ch_count=$(return_strlen "$input_arg") && var_ch_count=1
-		:
 		fi
+	
+		((++line_count))
 	done < "$temp_loop_file"
 }
 
@@ -363,11 +379,11 @@ lemonbar_loop()
 # Parse pos-param options
 parse_options "$@"
 
-# Check for transformations, apply if neccessary
-check_for_transformation
-
 # If temp_loop_file is non-existent after pos-params are parsed, none were passed
 [ ! -f "$temp_loop_file" ] && exit 0
+
+# Check for transformations, apply if neccessary
+check_for_transformation
 
 # Loop over passed pos-param executable functions
 lemonbar_loop 
