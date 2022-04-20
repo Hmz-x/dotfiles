@@ -46,8 +46,8 @@ return_char_count()
 	passed_input="$1"
 	passed_delim="$2"
 
-	local_space_count=$(echo "$1" | grep -o "$passed_delim" | wc -l)
-	echo $local_space_count
+	local_delim_count=$(echo "$1" | grep -o "$passed_delim" | wc -l)
+	echo $local_delim_count
 }
 
 return_strlen()
@@ -227,7 +227,8 @@ call_later()
 	{ [ -n "$3" ] && passed_arg="${FUNC_DELIM}${3}"; } || passed_arg=""
 
 	#echo "In call_later(). passed_dir: $passed_dir, passed_func: $passed_func passed_arg: $passed_arg"
-
+	
+	
 	# Create temp file if non-existent
 	if [ ! -f "$temp_loop_file" ]; then
 		temp_loop_file="$(mktemp)" || 
@@ -244,7 +245,6 @@ call_later()
 		sed -i "${line_count}N;s/\n/${FUNC_DELIM}/" "$temp_loop_file" 
 	# If not, just write the new passed_dir and passed_func to file
 	else
-		#printf -- "In func: %s${FUNC_DELIM}%s\n" "$passed_dir" "$passed_func"
 		printf -- "%s${FUNC_DELIM}%s%s\n" "$passed_dir" "$passed_func" "$passed_arg" >> \
 			"$temp_loop_file"
 	fi
@@ -260,35 +260,56 @@ parse_options()
 	sleep_time="$DEFAULT_SLEEP_TIME"
 	# default alignment direction is c (center)
 	alignment_direction="c"
+	# default input space count
+	in_space_count=0
 
 	while [ "$#" -gt 0 ]; do
 		case "$1" in
 			'-h'|'--help') echo "$HELP_STRING"; exit 0;;
 			'--ttf-font-awesome') ttf_fa_bool="true";;	
 			'--sleep-time') [ -n "$2" ] && sleep_time="$2" && shift;;
-			'--input-space-count') 
-				if [ -n "$2" ]; then
-					in_sp_cnt_bool="true" && in_space_count="$2" && shift
-				fi;;
+			'--input-space-count') [ -n "$2" ] && 
+				in_sp_cnt_bool="true" && in_space_count="$2" && shift;;
 
 			'-l') alignment_direction="l";;
 			'-r') alignment_direction="r";;
 			'-c') alignment_direction="c";;
 
 			# Special functions
-			'input_steady'|'input_sliding') 
-				if [ -n "$2" ]; then 
-					if [ "$1" = "input_sliding" ]; then
-						init_ch_count=$(return_strlen "$2") && var_ch_count=1
-					fi
-					call_later "$alignment_direction" "$1" "$2" && shift
-				fi;;
+			'input_steady'|'input_sliding') [ -n "$2" ] &&
+				call_later "$alignment_direction" "$1" "$2" && shift;;
+
 			# If given function executes without any errors, call it later 
 			*) "$1" &> /dev/null && call_later "$alignment_direction" "$1";;
 		esac
 	shift	
 	done
 }
+
+check_for_transformation()
+{
+	while read line; do
+		if echo "$line" | grep -Eq 'input_steady|input_sliding'; then
+			dash_count=$(return_char_count "$line" "-")
+			for i in $(seq 1 $((dash_count+1))); do
+				func_or_arg="$(echo "$line" | cut -d "$FUNC_DELIM" -f $i)"
+
+				if [ "$func_or_arg" = "input_sliding" ]; then
+					input_arg="$(echo "$line" | cut -d "$FUNC_DELIM" -f $((i+1)))"
+					init_ch_count=$(return_strlen "$input_arg") && var_ch_count=1
+				fi
+			done
+		# Transform passed argument
+		#[ "$in_sp_cnt_bool" = "true" ] && 
+			#input_arg="$(transform_input "$input_arg")"	
+		## Get character count if function is input_sliding
+		#[ "$func_to_exec" = "input_sliding" ] &&
+			#init_ch_count=$(return_strlen "$input_arg") && var_ch_count=1
+		:
+		fi
+	done < "$temp_loop_file"
+}
+
 
 lemonbar_loop()
 {
@@ -313,8 +334,8 @@ lemonbar_loop()
 				[ "$func_to_exec" = "input_sliding" ]; then
 					skip_func_in_bool="true"
 					input_arg="$(echo "$line" | cut -d "$FUNC_DELIM" -f $((i+1)))"
-					func_output="$("$func_to_exec" "$input_arg")"
 
+					func_output="$("$func_to_exec" "$input_arg")"
 					((--dash_count))
 
 					if [ "$func_to_exec" = "input_sliding" ]; then	
@@ -341,6 +362,9 @@ lemonbar_loop()
 
 # Parse pos-param options
 parse_options "$@"
+
+# Check for transformations, apply if neccessary
+check_for_transformation
 
 # If temp_loop_file is non-existent after pos-params are parsed, none were passed
 [ ! -f "$temp_loop_file" ] && exit 0
