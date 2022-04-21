@@ -1,19 +1,18 @@
 #!/bin/sh
 
-source_readable()
+src_or_err()
 {
 	file="$1"
-	[ -r "$file" ] && . "$file"
+	. "$file" || echo "Failed to source ${file}." 2>&1
 }
 
-
 # source envvars rc
-envvars_rc="${HOME}/.local/bin/envvars.sh"
-source_readable "$envvars_rc"
+envvars_rc="${HOME}/.local/bin/system/envvars.sh"
+src_or_err "$envvars_rc"
 
 # source shell rc
 shell_rc="${HOME}/.bashrc"
-source_readable "$shell_rc"
+src_or_err "$shell_rc"
 
 # start graphical server
 [ -z "$DISPLAY" ] && startx
