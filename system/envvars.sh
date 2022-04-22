@@ -3,6 +3,8 @@
 ###### MY ENVVARS #######
 # Graphical Ennvars
 export COMPUTER_TYPE_ENVVAR="LAPTOP"
+export DEF_WALLPAPER_ENVVAR="${HOME}/Documents/pics/lofty_gooned_out.png"
+export HLWM_TAG_NUM_ENVVAR=5
 export YT_CLIENT_ENVVAR="freetube" 
 export BROWSER_ENVVAR="brave" 
 export WM_ENVVAR="herbstluftwm" 
