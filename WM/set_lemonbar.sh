@@ -195,9 +195,24 @@ get_nmcli_info()
 
 get_mpc_info()
 {
+	MAX_CHAR_COUNT_SONG_NAME=55
+
 	# Basic stuff
-	vol="$(mpc status '%volume%')"
 	song="$(mpc current)"
+
+	# If song is not tagged properly (aka ends with .flac, .mp3, .m4a, .wav, etc.),
+	# only display the file name and not the dir(s) as well
+	if echo "$song" | grep -qEi '.*\.(mp3|wav|m4a|flac)'; then
+		slash_count=$(return_char_count "$song" '/')
+		song="$(echo "$song" | cut -d '/' -f $((slash_count+1)))"	
+	fi
+
+	# If song is longer than MAX_CHAR_COUNT_SONG_NAME characters, display only those chars
+	song_strlen=$(return_strlen "$song")
+	((song_strlen>MAX_CHAR_COUNT_SONG_NAME)) && 
+		song="$(echo "$song" | cut -c -$MAX_CHAR_COUNT_SONG_NAME)..."
+
+	vol="$(mpc status '%volume%')"
 	songpos="$(mpc status '%songpos%')"
 	pl_length="$(mpc status '%length%')"
 
