@@ -32,7 +32,11 @@ export EDITOR="vim"
 export VISUAL="vim"
 export PS1='\[\033[0;0m\][\u:\w]\$ '
 export PATH="${PATH}:${HOME}/.local/bin"
-export OPENER="${HOME}/.local/bin/opener.sh"
+export PATH="${PATH}:${HOME}/.local/bin/WM"
+export PATH="${PATH}:${HOME}/.local/bin/misc"
+export PATH="${PATH}:${HOME}/.local/bin/lf"
+export PATH="${PATH}:${HOME}/.local/bin/system"
+export OPENER="${HOME}/.local/bin/lf/opener.sh"
 ##########################
 
 ####### MISC ENVVARS ###### 
