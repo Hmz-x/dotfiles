@@ -1,2 +1,0 @@
-Default bkgd image
-vhc laptop/desktop

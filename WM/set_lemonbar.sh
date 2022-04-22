@@ -168,8 +168,29 @@ get_acpi_info()
 
 get_nmcli_info()
 {
+	# Get connection
 	con_line="$(nmcli device | awk 'NR==2')"
-	echo $con_line
+	# Remove extra spaces
+	con_line="$(echo $con_line)"
+
+	# Get first and last field in con_line
+	space_count=$(return_char_count "$con_line" " ")
+	first_field="$(echo "$con_line" | cut -d ' ' -f 1)"
+	last_field="$(echo "$con_line" | cut -d ' ' -f $((space_count+1)))"
+
+	# If last_field is a single digit, 
+	# the field before the last one should be considered the last field
+	echo "$last_field" | grep -qx '^[[:digit:]]$' && 
+		last_field="$(echo "$con_line" | cut -d ' ' -f $space_count)"
+
+	# If --ttf-font-awesome is passed, echo icon strings too
+	if  [ "$ttf_fa_bool" = "true" ]; then
+		third_field="$(echo "$con_line" | cut -d ' ' -f 3)"
+		[ "$third_field" = "connected" ] && state_icon=" \\uf0c1"
+		[ "$third_field" = "disconnected" ] && state_icon=" \\uf05e"
+	fi	
+
+	echo "${first_field} ${last_field}${state_icon}"
 }
 
 get_mpc_info()

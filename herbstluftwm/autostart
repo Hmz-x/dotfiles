@@ -223,16 +223,25 @@ hc unlock
 # Get ttf-font-awesome version
 ttf_fa_version="$(pacman -Qe | grep ttf-font-awesome | cut -d ' ' -f 2 | cut -d '.' -f 1)"
 
-# Set lemonbar: Magenta background, very light purple foreground 
-# specified + font awesome fonts
+audio_bar_length=$(( (X_MONITOR_X_RES_ENVVAR/2) + (X_MONITOR_X_RES_ENVVAR/5) ))
+sysinfo_bar_length=$((X_MONITOR_X_RES_ENVVAR-audio_bar_length))
+
+# Audio Bar
 set_lemonbar.sh --sleep-time 0.2 --ttf-font-awesome \
-	-l get_pulseaudio_info -c get_mpc_info \
-	| lemonbar -p -g x30+0+0 -B "#B085FF" -F "#F3F3F3" \
+	-c get_pulseaudio_info get_mpc_info | \
+	lemonbar -p -g ${audio_bar_length}x30+0+0 -B "#B085FF" -F "#F3F3F3" \
 	-f "xft:Source Code Pro" \
 	-f "Font Awesome ${ttf_fa_version} Free" -f "Font Awesome ${ttf_fa_version} Brands" \
 	-f "Font Awesome ${ttf_fa_version} Free Solid" &
 
-# Set lemonbar for hlwm monitor stuff
+# Sysinfo Bar
+set_lemonbar.sh --sleep-time 1 --ttf-font-awesome -c get_nmcli_info get_cpu_info | \
+	lemonbar -p -g ${sysinfo_bar_length}x30+${audio_bar_length}+0 \
+	-B "#B085FF" -F "#F3F3F3" -f "xft:Source Code Pro" \
+	-f "Font Awesome ${ttf_fa_version} Free" -f "Font Awesome ${ttf_fa_version} Brands" \
+	-f "Font Awesome ${ttf_fa_version} Free Solid" &
+
+# Hlwm Bar
 set_lemonbar.sh --sleep-time 0.1 -c get_hlwm_info | lemonbar -p -g x30+0+30 \
 	-B "#696ebf" -F "#FEBAFF" -f "fixed" &
 
@@ -241,18 +250,14 @@ set_lemonbar.sh --sleep-time 0.1 -c get_hlwm_info | lemonbar -p -g x30+0+30 \
 	#lemonbar -p -g x30+0+60 -B "#FD994C" -F "#404040" -f "xft:Source Code Pro" &
 	#-c input_sliding "ME DONT GIVE A FUCK" --input-space-count 3 | \
 
-# Set lemonbar: Purple background, dark grey foreground
-# specified font + docked (-b)
+# General Bar
 if [ "$COMPUTER_TYPE_ENVVAR" = "LAPTOP" ]; then
-	set_lemonbar.sh --sleep-time 1 -l get_nmcli_info \
-		-c get_acpi_info get_cpu_info \
-		-r get_date_info \
-		| lemonbar -p -b -g x30+0+0 -B "#DE6FFF" -F "#333333" \
+	set_lemonbar.sh --sleep-time 1 -l get_acpi_info -r get_date_info | \
+		lemonbar -p -b -g x30+0+0 -B "#DE6FFF" -F "#333333" \
 		-f "xft:Source Code Pro" &
 		#-c input_sliding "FUCK LMAO SHIT" --input-space-count 3 \
 elif [ "$COMPUTER_TYPE_ENVVAR" = "DESKTOP" ]; then
-	set_lemonbar.sh --sleep-time 1 -l get_nmcli_info \
-			-c get_acpi_info get_cpu_info \
-			| lemonbar -p -b -g x30+0+0 -B "#DE6FFF" -F "#333333" \
+	set_lemonbar.sh --sleep-time 1 -l get_acpi_info -r get_date_info | \
+			lemonbar -p -b -g x30+0+0 -B "#DE6FFF" -F "#333333" \
 			-f "xft:Source Code Pro" &
 fi
