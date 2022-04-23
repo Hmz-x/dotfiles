@@ -70,16 +70,6 @@ input_sliding()
 
 	# Print characters
 	for i in $(seq $var_ch_count $init_ch_count); do
-		#space_cnt_index=0
-		#[ "$in_sp_cnt_bool" = "true" ] &&
-		#(( $((i-1)) > 0 )) && 
-		#(( $((i-1)) % $((in_space_count+1)) != 0 )) && 
-		#(( $((i-1)) < 4)) &&	
-			#continue
-
-		#[ "$in_sp_cnt_bool" = "true" ] &&
-			#(( $((i-1)) % $((in_space_count+1)) != 0 )) && continue
-
 		char="$(echo "$input" | cut -c $i)"
 		printf -- "%s" "$char"
 	done
