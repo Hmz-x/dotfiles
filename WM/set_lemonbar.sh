@@ -12,12 +12,13 @@ HELP_STRING=\
 Available Options
 -h, --help: Show help and exit
 --ttf-font-awesome: Activate ttf-font-awesome icons
---sleep-time SLEEP_TIME: Set time in seconds to wait after each loop
+--sleep-time SLEEP_TIME: Set time in seconds to wait after each loop; default is 1
 --input-space-count SPACE_COUNT: Set the amount of spaces to display between each
 character of the input string; default is 0
 
 Available Functions
 input_steady [INPUT_STRING]
+input_sliding [INPUT_STRING]
 get_cpu_info
 get_hlwm_info
 get_nmcli_info
@@ -29,6 +30,7 @@ transform_input()
 {
 	input="$1"
 	output=""
+
 	for i in $(seq 1 $(return_strlen "$input")); do
 		char="$(echo "$input" | cut -c $i)"
 		output="${output}${char}"
@@ -68,10 +70,15 @@ input_sliding()
 
 	# Print characters
 	for i in $(seq $var_ch_count $init_ch_count); do
-		#if [ "$in_sp_cnt_bool" = "true" ] &&
-			#(( $((i-1)) % $((in_space_count+1)) != 0 )); then
-			#i=$((i+space_count))
-		#fi
+		#space_cnt_index=0
+		#[ "$in_sp_cnt_bool" = "true" ] &&
+		#(( $((i-1)) > 0 )) && 
+		#(( $((i-1)) % $((in_space_count+1)) != 0 )) && 
+		#(( $((i-1)) < 4)) &&	
+			#continue
+
+		#[ "$in_sp_cnt_bool" = "true" ] &&
+			#(( $((i-1)) % $((in_space_count+1)) != 0 )) && continue
 
 		char="$(echo "$input" | cut -c $i)"
 		printf -- "%s" "$char"
@@ -386,6 +393,14 @@ lemonbar_loop()
 				[ "$func_to_exec" = "input_sliding" ]; then
 					skip_func_in_bool="true"
 					input_arg="$(echo "$line" | cut -d "$FUNC_DELIM" -f $((i+1)))"
+
+					# Add in missing spaces if input argument is the last field 
+					# in temp loop file
+					if ((i==dash_count)); then
+						for i in $(seq 1 $in_space_count); do
+							input_arg="${input_arg} "
+						done
+					fi
 
 					func_output="$("$func_to_exec" "$input_arg")"
 					((--dash_count))

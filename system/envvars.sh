@@ -9,12 +9,6 @@ export YT_CLIENT_ENVVAR="freetube"
 export BROWSER_ENVVAR="brave" 
 export WM_ENVVAR="herbstluftwm" 
 
-# Place the following in .xinitrc
-#monitor_out_str="$(xrandr --listactivemonitors | awk 'NR==2')"
-#monitor_out_str_space_count="$(echo "$monitor_out_str" | grep -o '[[:space:]]' | wc -l)"
-#export X_MONITOR_OUTPUT_ENVVAR="$(echo "$monitor_out_str" | \
-	#cut -d ' ' -f $((monitor_out_str_space_count+1)))"
-
 export MUSIC_DIR_ENVVAR="${HOME}/Music"
 export GITHUB_UNAME_ENVVAR="Hmz-x"
 export USB='/mnt/usb'
