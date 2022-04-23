@@ -30,8 +30,9 @@ transform_input()
 {
 	input="$1"
 	output=""
-
-	for i in $(seq 1 $(return_strlen "$input")); do
+	
+	input_strlen=$(return_strlen "$input")
+	for i in $(seq 1 $input_strlen); do
 		char="$(echo "$input" | cut -c $i)"
 		output="${output}${char}"
 
