@@ -62,7 +62,7 @@ return_strlen()
 input_steady()
 {
 	input="$1"
-	echo "$input"
+	echo -e "$input"
 }
 
 input_sliding()
@@ -193,7 +193,7 @@ get_nmcli_info()
 
 get_mpc_info()
 {
-	MAX_CHAR_COUNT_SONG_NAME=55
+	MAX_CHAR_COUNT_SONG_NAME=45
 
 	# Basic stuff
 	song="$(mpc current)"
