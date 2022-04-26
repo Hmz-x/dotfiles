@@ -231,7 +231,7 @@ icon_pixel_size=26
 
 # Icon bar
 set_lemonbar.sh --sleep-time 1 \
-    -c input_steady '\\uf644 \\uf484 \\uf572 \\uf17c' | \
+    -c input_steady "$ICON_STR_ENVVAR" | \
 	lemonbar -p -g ${icon_bar_length}x30+0+0 -B "#DE6FFF" -F "#333333" \
 	-f "Font Awesome ${ttf_fa_version} Free:pixelsize=$icon_pixel_size" \
 	-f "Font Awesome ${ttf_fa_version} Brands:pixelsize=$icon_pixel_size" \
@@ -259,9 +259,9 @@ set_lemonbar.sh --sleep-time 0.1 -c get_hlwm_info | lemonbar -p -g x30+0+30 \
 
 # General Bar
 if [ "$COMPUTER_TYPE_ENVVAR" = "LAPTOP" ]; then
-	set_lemonbar.sh --sleep-time 1 -l get_acpi_info input_steady "FUCKBOSS" \
+	set_lemonbar.sh --sleep-time 1 -l get_acpi_info input_steady "$IN_STEADY_STR_ENVVAR" \
 		-r get_date_info \
-		-c input_sliding "DRUGS GIRLS LINUX" --input-space-count 3 | \
+		-c input_sliding "$IN_SLIDING_STR_ENVVAR" --input-space-count 3 | \
 		lemonbar -p -b -g x30+0+0 -B "#DE6FFF" -F "#333333" \
 		-f "xft:Source Code Pro" &
 elif [ "$COMPUTER_TYPE_ENVVAR" = "DESKTOP" ]; then
