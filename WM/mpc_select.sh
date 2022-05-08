@@ -17,8 +17,11 @@ select_dir(){
 
 	# Do nothing if input is empty
 	[ -z "$selected_dir" ] && exit 0
-
+	
+	# If an audio file exists in directory, listen from this directory.
+	# If not, allow for further selecting directories.
 	for file in "${var_music_dir}/${selected_dir}"/*; do
+		file "$file" | grep -qi "audio" && contains_dir_bool="false" && break
 		[ -d "$file" ] && contains_dir_bool="true" && break
 	done	
 	
