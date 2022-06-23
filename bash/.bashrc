@@ -14,6 +14,7 @@ alias v='vim'
 alias p='pacman'
 alias c='clear'
 alias e='exit'
+alias l='less'
 alias z='zathura'
 alias tb='nc termbin.com 9999'
 alias vhc='vim /home/hkm/.config/herbstluftwm/autostart' # vim Hl config
@@ -21,7 +22,8 @@ alias cdb='cd "${HOME}/.local/bin"'
 alias cdd='cd "${HOME}/.local/dotfiles"'
 alias pl='pkill set_lemonbar.sh; pkill lemonbar'
 alias ag='aspell -n -c' # aspell groff doc
-alias yd='yay --removemake --nocleanmenu --nodiffmenu -S'
+alias yd='yay --removemake --nocleanmenu --nodiffmenu -S' # yay default install
+alias c2s='ssh "${SSH_USER_ENVVAR}@{SSH_SERVER_ENVVAR"' # connect to server
 
 # copy contents of file to clip
 xc()
@@ -133,7 +135,7 @@ uzip()
 # Convert stuff
 con2pdf()
 {
-	for file in *.jpg; do
+	for file in *.jpg *.png; do
 		echo "$file"
 		convert -scale 1920x1080 -auto-orient "$file" "${file}.pdf"
 	done
