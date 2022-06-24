@@ -30,6 +30,9 @@ ALT_MOD="Shift" # Alternative mod
 hc keybind "$WM_MOD"-"$KILL_MOD"-q quit
 hc keybind "$WM_MOD"-"$KILL_MOD"-r reload
 
+# Kill Lemonbar
+hc keybind "$WM_MOD"-"$KILL_MOD"-p spawn kill_lemonbar.sh
+
 # Loginctl
 hc keybind "$WM_MOD"-"$KILL_MOD"-Delete spawn sudo shutdown -h now
 hc keybind "$WM_MOD"-"$KILL_MOD"-"$ALT_MOD"-Delete spawn sudo reboot

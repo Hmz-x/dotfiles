@@ -23,7 +23,7 @@ alias cdd='cd "${HOME}/.local/dotfiles"'
 alias pl='pkill set_lemonbar.sh; pkill lemonbar'
 alias ag='aspell -n -c' # aspell groff doc
 alias yd='yay --removemake --nocleanmenu --nodiffmenu -S' # yay default install
-alias c2s='ssh "${SSH_USER_ENVVAR}@{SSH_SERVER_ENVVAR"' # connect to server
+alias c2s='ssh "${SSH_USER_ENVVAR}@${SSH_SERVER_ENVVAR}"' # connect to server
 
 # copy contents of file to clip
 xc()
