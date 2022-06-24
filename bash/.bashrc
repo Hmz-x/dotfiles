@@ -20,10 +20,17 @@ alias tb='nc termbin.com 9999'
 alias vhc='vim /home/hkm/.config/herbstluftwm/autostart' # vim Hl config
 alias cdb='cd "${HOME}/.local/bin"'
 alias cdd='cd "${HOME}/.local/dotfiles"'
+alias cdw='cd "${HOME}/.local/src/webdev/${WEBDEV_PROJ_ENVVAR}"'
 alias pl='pkill set_lemonbar.sh; pkill lemonbar'
 alias ag='aspell -n -c' # aspell groff doc
 alias yd='yay --removemake --nocleanmenu --nodiffmenu -S' # yay default install
 alias c2s='ssh "${SSH_USER_ENVVAR}@${SSH_SERVER_ENVVAR}"' # connect to server
+
+# scp to server
+s2s()
+{
+	scp "$@" "${SSH_USER_ENVVAR}@${SSH_SERVER_ENVVAR}:${SSH_DIR_ENVVAR}"
+}
 
 # copy contents of file to clip
 xc()
@@ -31,7 +38,7 @@ xc()
 	cat "$1" | xclip
 }
 
-# CD into dirname of given file
+# cd into dirname of given file
 cd()
 {
 	{ [ -z "$1" ] && command cd ~; } ||

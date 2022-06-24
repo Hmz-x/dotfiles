@@ -33,6 +33,8 @@ export OPENER="${HOME}/.local/bin/lf/opener.sh"
 export MUSIC_DIR_ENVVAR="${HOME}/Music"
 export GITHUB_UNAME_ENVVAR="Hmz-x"
 export USB_ENVVAR='/mnt/usb'
-export SSH_SERVER='welcometoelectric.world'
-export SSH_USER='root'
+export SSH_SERVER_ENVVAR='welcometoelectric.world'
+export SSH_USER_ENVVAR='root'
+export SSH_DIR_ENVVAR='/var/www/welcometoelectric/'
+export WEBDEV_PROJ_ENVVAR='welcometoelectric'
 ##########################
