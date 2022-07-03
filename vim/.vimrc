@@ -4,12 +4,18 @@ Plug 'morhetz/gruvbox'
 
 call plug#end()
 
+" English stuff
+ab (l (line
+
 " Groff stuff
-map <C-p> o.PP<ESC>o
-map <C-s> o.SH<ESC>o
-map <C-t> o.TL<ESC>o
-map <C-a> o.AU<ESC>o
-map <C-a> o.AU<ESC>o
+map <C-p> i.PP<ESC>o
+map <C-o><C-p> o.PP<ESC>o
+map <C-i> i.IP<ESC>o
+map <C-o><C-i> o.IP<ESC>o
+map <C-s> i.SH<ESC>o
+map <C-o><C-s> o.SH<ESC>o
+map <C-t> i.TL<ESC>o
+map <C-a> i.AU<ESC>o
 map <C-b> di.B "<ESC>pi"
 
 map <C-j> jjj
@@ -23,13 +29,13 @@ map <C-l> wwwww
 " Comment line
 map <C-c> I#<ESC>j
 " Uncomment line
-map <C-x> ^x
+map <C-x> ^xj
 
 " Map Ctrl-e to new Equation in eqn syntax
 map <C-e> i.EQ<return><return>.EN<ESC>ki
 
 " Map Ctrl-b to :%s/“/"/g<return>
-map <C-z> :%s/“/"/g<return>:%s/”/"/g<return>:%s/’/'/g<return>
+map <C-z> :%s/“/"/g<return>:%s/”/"/g<return>:%s/’/'/g<return>:%s/—/-/g<return>
 
 " Map Ctrl-f to gqip (format paragraph)
 map <C-F> m9gqip`9

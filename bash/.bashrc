@@ -79,36 +79,36 @@ alias gr='git rm'
 # Mount stuff
 mnt()
 {
-	sudo mount /dev/"$1" "$USB"
+	sudo mount /dev/"$1" "$USB_ENVVAR"
 }
 
 umnt()
 {
-	sudo umount "$USB"
+	sudo umount "$USB_ENVVAR"
 }
 
 mnt-mv()
 {
-	df -h "$USB"
+	df -h "$USB_ENVVAR"
 
 	mkdir "$1" && 
-	sudo mv -v "$USB"/* "$1" &&
+	sudo mv -v "$USB_ENVVAR"/* "$1" &&
 
 	du -h "$1" && 
-	df -h "$USB" && 
+	df -h "$USB_ENVVAR" && 
 
 	umnt
 }
 
 mnt-cp()
 {
-	df -h "$USB"
+	df -h "$USB_ENVVAR"
 
 	mkdir "$1" && 
-	sudo cp -vr "$USB"/* "$1" &&
+	sudo cp -vr "$USB_ENVVAR"/* "$1" &&
 
 	du -h "$1" && 
-	df -h "$USB" &&
+	df -h "$USB_ENVVAR" &&
 	
 	umnt
 }
