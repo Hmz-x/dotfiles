@@ -10,6 +10,11 @@ hc(){
     herbstclient "$@"
 }
 
+mpc()
+{
+	local mpc --host="127.0.0.1" --port="6600" "$@"
+}
+
 hc emit_hook reload
 
 # Launch neccessary programs
@@ -245,14 +250,14 @@ set_lemonbar.sh --sleep-time 1 \
 set_lemonbar.sh --sleep-time 0.2 --ttf-font-awesome \
 	-c get_pulseaudio_info get_mpc_info | \
 	lemonbar -p -g ${audio_bar_length}x30+${icon_bar_length}+0 -B "#B085FF" -F "#F3F3F3" \
-	-f "xft:Source Code Pro" \
+	-f "fixed:pixelsize=16" \
 	-f "Font Awesome ${ttf_fa_version} Free" -f "Font Awesome ${ttf_fa_version} Brands" \
 	-f "Font Awesome ${ttf_fa_version} Free Solid" &
 
 # Sysinfo Bar
 set_lemonbar.sh --sleep-time 1 --ttf-font-awesome -c get_nmcli_info get_cpu_info | \
 	lemonbar -p -g ${sysinfo_bar_length}x30+$((audio_bar_length+icon_bar_length))+0 \
-	-B "#B085FF" -F "#F3F3F3" -f "xft:Source Code Pro" \
+	-B "#B085FF" -F "#F3F3F3" -f "fixed" \
 	-f "Font Awesome ${ttf_fa_version} Free" -f "Font Awesome ${ttf_fa_version} Brands" \
 	-f "Font Awesome ${ttf_fa_version} Free Solid" &
 
@@ -266,9 +271,9 @@ if [ "$COMPUTER_TYPE_ENVVAR" = "LAPTOP" ]; then
 		-r get_date_info \
 		-c input_sliding "$IN_SLIDING_STR_ENVVAR" --input-space-count 3 | \
 		lemonbar -p -b -g x30+0+0 -B "#DE6FFF" -F "#333333" \
-		-f "xft:Source Code Pro" &
+		-f "fixed:pixelsize=14" &
 elif [ "$COMPUTER_TYPE_ENVVAR" = "DESKTOP" ]; then
 	set_lemonbar.sh --sleep-time 1 -l get_acpi_info -r get_date_info | \
 			lemonbar -p -b -g x30+0+0 -B "#DE6FFF" -F "#333333" \
-			-f "xft:Source Code Pro" &
+			-f "fixed:pixelsize=14" &
 fi
