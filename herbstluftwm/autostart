@@ -10,11 +10,6 @@ hc(){
     herbstclient "$@"
 }
 
-mpc()
-{
-	local mpc --host="127.0.0.1" --port="6600" "$@"
-}
-
 hc emit_hook reload
 
 # Launch neccessary programs

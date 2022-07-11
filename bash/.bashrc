@@ -5,7 +5,9 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+# Default setup
 set -o vi
+export PS1='\[\033[0;0m\][\u:\w]\$ '
 
 # General Aliases
 alias po='sudo shutdown -h now'
