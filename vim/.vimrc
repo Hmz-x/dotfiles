@@ -1,8 +1,12 @@
 call plug#begin('~/.vim/plugged')
-
 Plug 'morhetz/gruvbox'
-
 call plug#end()
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin('~/.vim/bundle')
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'ycm-core/YouCompleteMe'
+call vundle#end()
 
 " English stuff
 ab (l (line
@@ -26,10 +30,12 @@ map <C-h> bbbbb
 " Map <C-l> to w x 5
 map <C-l> wwwww
 
-" Comment line
+" Script comment line
 map <C-c> I#<ESC>j
 " Uncomment line
 map <C-x> ^xj
+" HTML comment line
+map <C-v> I<!--   --><ESC>hhhhi
 
 " Map Ctrl-e to new Equation in eqn syntax
 map <C-e> i.EQ<return><return>.EN<ESC>ki
