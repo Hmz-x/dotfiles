@@ -19,7 +19,8 @@ alias e='exit'
 alias l='less'
 alias z='zathura'
 alias tb='nc termbin.com 9999'
-alias vhc='vim /home/hkm/.config/herbstluftwm/autostart' # vim Hl config
+alias vhc='vim "${HOME}/.config/herbstluftwm/autostart"' # vim Hl config
+alias vet='vim /etc/hosts'
 alias cdb='cd "${HOME}/.local/bin"'
 alias cdd='cd "${HOME}/.local/dotfiles"'
 alias cdw='cd "${HOME}/.local/src/webdev/${WEBDEV_PROJ_ENVVAR}"'
@@ -51,11 +52,12 @@ cd()
 # Nmcli connection stuff
 wcon()
 {
-	SSID="$1"
-	if nmcli con show | grep -q "$SSID"; then
-		nmcli dev wifi connect "$SSID"
+	ssid="$1"
+
+	if nmcli con show | grep -q "$ssid"; then
+		nmcli dev wifi connect "$ssid"
 	else
-		nmcli dev wifi connect "$SSID" --ask
+		nmcli dev wifi connect "$ssid" --ask
 	fi
 }
 

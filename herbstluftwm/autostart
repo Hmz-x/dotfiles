@@ -13,8 +13,8 @@ hc(){
 hc emit_hook reload
 
 # Launch neccessary programs
-xsetroot -solid '#8086e8'
-picom -b -c
+picom --daemon --shadow  --vsync --fade-delta=5 --active-opacity 1 --inactive-dim 0.15 \
+	 --inactive-opacity 1 --frame-opacity 1 # --backend xr_glx_hybrid --vsync-use-glfinish
 feh --bg-tile --no-fehbg "$DEF_WALLPAPER_ENVVAR"
 
 # remove all existing keybindings
@@ -24,7 +24,7 @@ hc keyunbind --all
 WM_MOD="Super"
 SPAWN_MOD="Alt"
 KILL_MOD="Alt"
-ALT_MOD="Shift" # Alternative mod
+ALT_MOD=""$ALT_MOD"" # Alternative modifier
 
 # Quit/Reload Herbstluftwm
 hc keybind "$WM_MOD"-"$KILL_MOD"-q quit
@@ -33,12 +33,13 @@ hc keybind "$WM_MOD"-"$KILL_MOD"-r reload
 # Kill Lemonbar
 hc keybind "$WM_MOD"-"$KILL_MOD"-p spawn kill_lemonbar.sh
 
-# Loginctl
+# Shutdown/reboot
 hc keybind "$WM_MOD"-"$KILL_MOD"-Delete spawn sudo shutdown -h now
 hc keybind "$WM_MOD"-"$KILL_MOD"-"$ALT_MOD"-Delete spawn sudo reboot
 
 # Close window
 hc keybind "$KILL_MOD"-F4 spawn close_window_and_frame.sh
+
 # Turn off display
 hc keybind "$SPAWN_MOD"-x spawn display_off.sh
 
@@ -90,18 +91,17 @@ hc keybind XF86AudioRaiseVolume spawn pamixer_increase.sh
 hc keybind XF86AudioMute spawn pamixer --toggle-mute
 hc keybind XF86AudioMicMute spawn pactl set-source-mute '@DEFAULT_SOURCE@' toggle
 
-# basic movement in tiling and floating mode
 # focusing clients
 hc keybind "$WM_MOD"-h focus left
 hc keybind "$WM_MOD"-j focus down
 hc keybind "$WM_MOD"-k focus up
 hc keybind "$WM_MOD"-l focus right
 
-# moving clients in tiling and floating mode
-hc keybind "$WM_MOD"-Shift-h shift left
-hc keybind "$WM_MOD"-Shift-j shift down
-hc keybind "$WM_MOD"-Shift-k shift up
-hc keybind "$WM_MOD"-Shift-l shift right
+# moving clients
+hc keybind "$WM_MOD"-"$ALT_MOD"-h shift left
+hc keybind "$WM_MOD"-"$ALT_MOD"-j shift down
+hc keybind "$WM_MOD"-"$ALT_MOD"-k shift up
+hc keybind "$WM_MOD"-"$ALT_MOD"-l shift right
 
 # splitting frames
 # create an empty frame at the specified direction
@@ -123,23 +123,24 @@ for i in $(seq 1 $HLWM_TAG_NUM_ENVVAR); do
 	hc add $i
 	# Keyname is the same as tagname
 	hc keybind "$WM_MOD"-$i use $i
-	hc keybind "$WM_MOD"-Shift-$i move_index $i
+	hc keybind "$WM_MOD"-"$ALT_MOD"-$i move_index $i
 done
-
-# If GUI app, sleep for 5 seconds, if CLI .5 seconds
 
 # cycle through tags
 hc keybind "$WM_MOD"-period use_index +1 --skip-visible
 hc keybind "$WM_MOD"-comma  use_index -1 --skip-visible
 
-# layouting
+# layout
 hc keybind "$WM_MOD"-r remove
 hc keybind "$WM_MOD"-s floating toggle
 hc keybind "$WM_MOD"-f fullscreen toggle
-hc keybind "$WM_MOD"-Shift-f set_attr clients.focus.floating toggle
-hc keybind "$WM_MOD"-Shift-m set_attr clients.focus.minimized true
-hc keybind "$WM_MOD"-Control-m jumpto last-minimized
+hc keybind "$WM_MOD"-"$ALT_MOD"-f set_attr clients.focus.floating toggle
 hc keybind "$WM_MOD"-p pseudotile toggle
+
+# Minimize/unminimize screen
+hc keybind "$WM_MOD"-m set_attr clients.focus.minimized true
+hc keybind "$WM_MOD"-"$ALT_MOD"-m jumpto last-minimized
+
 # The following cycles through the available layouts within a frame, but skips
 # layouts, if the layout change wouldn't affect the actual window positions.
 # I.e. if there are two windows within a frame, the grid layout is skipped.
@@ -157,7 +158,7 @@ hc mousebind "$WM_MOD"-Button3 resize
 # focus
 hc keybind "$WM_MOD"-BackSpace   cycle_monitor
 hc keybind "$WM_MOD"-Tab         cycle_all +1
-hc keybind "$WM_MOD"-Shift-Tab   cycle_all -1
+hc keybind "$WM_MOD"-"$ALT_MOD"-Tab   cycle_all -1
 hc keybind "$WM_MOD"-c cycle
 hc keybind "$WM_MOD"-i jumpto urgent
 
