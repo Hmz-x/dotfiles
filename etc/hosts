@@ -1,11 +1,15 @@
 # Unwanted websites
-0.0.0.0 www.reddit.com
-0.0.0.0 reddit.com
-0.0.0.0 www.youtube.com
-0.0.0.0 youtube.com
-0.0.0.0 youtu.be
-0.0.0.0 www.google.com
-0.0.0.0 google.com
+#0.0.0.0 www.reddit.com
+#0.0.0.0 reddit.com
+#0.0.0.0 www.youtube.com
+#0.0.0.0 youtube.com
+#0.0.0.0 youtu.be
+#0.0.0.0 www.google.com
+#0.0.0.0 google.com
+#0.0.0.0 www.instagram.com
+#0.0.0.0 instagram.com
+#0.0.0.0 www.discord.com
+#0.0.0.0 discord.com
 
 # Ads, tracking and general junk
 0.0.0.0 api.opencandy.com
@@ -49324,10 +49328,8 @@
 0.0.0.0 igcdn-photos-fa.akamaihd.net
 0.0.0.0 igcdn-photos-ga.akamaihd.net
 0.0.0.0 igcdn-photos-ha.akamaihd.net
-0.0.0.0 instagram.com
 0.0.0.0 scontent-iad3-1.cdninstagram.com
 0.0.0.0 scontent.cdninstagram.com
-0.0.0.0 www.instagram.com
 
 
 # LinkedIn

@@ -24,7 +24,7 @@ hc keyunbind --all
 WM_MOD="Super"
 SPAWN_MOD="Alt"
 KILL_MOD="Alt"
-ALT_MOD=""$ALT_MOD"" # Alternative modifier
+ALT_MOD="Shift" # Alternative modifier
 
 # Quit/Reload Herbstluftwm
 hc keybind "$WM_MOD"-"$KILL_MOD"-q quit
