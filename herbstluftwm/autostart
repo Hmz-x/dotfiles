@@ -14,7 +14,7 @@ hc emit_hook reload
 
 # Launch neccessary programs
 picom --daemon --shadow  --vsync --fade-delta=5 --active-opacity 1 --inactive-dim 0.15 \
-	 --inactive-opacity 1 --frame-opacity 1 # --backend xr_glx_hybrid --vsync-use-glfinish
+	 --inactive-opacity 1 --frame-opacity 1 #--backend xr_glx_hybrid --vsync-use-glfinish
 feh --bg-tile --no-fehbg "$DEF_WALLPAPER_ENVVAR"
 
 # remove all existing keybindings
@@ -265,7 +265,7 @@ set_lemonbar.sh --sleep-time 0.1 -c get_hlwm_info | lemonbar -p -g x30+0+30 \
 if [ "$COMPUTER_TYPE_ENVVAR" = "LAPTOP" ]; then
 	set_lemonbar.sh --sleep-time 1 -l get_acpi_info input_steady "$IN_STEADY_STR_ENVVAR" \
 		-r get_date_info \
-		-c input_sliding "$IN_SLIDING_STR_ENVVAR" --input-space-count 3 | \
+		-c input_sliding "$IN_SLIDING_STR_ENVVAR" --input-space-count 2 | \
 		lemonbar -p -b -g x30+0+0 -B "#DE6FFF" -F "#333333" \
 		-f "fixed:pixelsize=14" &
 elif [ "$COMPUTER_TYPE_ENVVAR" = "DESKTOP" ]; then

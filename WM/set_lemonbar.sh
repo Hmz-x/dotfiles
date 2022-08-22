@@ -24,7 +24,8 @@ get_hlwm_info
 get_nmcli_info
 get_mpc_info
 get_date_info
-get_pulseaudio_info"
+get_pulseaudio_info
+get_connman_info"
 
 transform_input()
 {
@@ -164,10 +165,26 @@ get_acpi_info()
 	echo "${charging_status} ${charging_percentage}"
 }
 
+get_connman_info()
+{
+	# Get first line 
+	con_line="$(connmanctl services | awk "NR==1")"
+
+	# Check connection status
+	if [ "$(echo "$con_line" | cut -d ' ' -f 1)" == "*AO" ]; then
+		{ [ "$ttf_fa_bool" = "true" ] && state_icon=" \\uf0c1"; } || state_icon="C"
+		con_name="$(echo "$con_line" | cut -d ' ' -f 2)"
+	else
+		{ [ "$ttf_fa_bool" = "true" ] && state_icon=" \\uf05e"; } || state_icon="D"
+	fi
+
+	echo "${state_icon} ${con_name}"
+}
+
 get_nmcli_info()
 {
 	# Get connection
-	con_line="$(nmcli device | awk 'NR==2')"
+	con_line="$(nmcli device | awk "NR==2")"
 	# Remove extra spaces
 	con_line="$(echo $con_line)"
 
