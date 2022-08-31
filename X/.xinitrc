@@ -9,6 +9,9 @@ pulseaudio -D
 # Start mpd
 mpd --verbose &> /dev/null
 
+# Mute pulseaudio when entering X
+pamixer --mute
+
 # Set default brightness 
 adj_brightnessrc_file="${HOME}/.config/.adjust_brightnessrc"
 def_brightness_val=10 # Aka max_brightness_val
