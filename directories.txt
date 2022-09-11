@@ -5,5 +5,6 @@
 .local/src
 .local/lib
 .local/share
+.local/builds
 .config/herbstluftwm
 .config/mpd
