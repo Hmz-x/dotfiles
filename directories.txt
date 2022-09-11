@@ -1,3 +1,5 @@
+.local/
+.local/bin
 .local/bin/WM
 .local/bin/X
 .local/bin/misc
@@ -6,5 +8,6 @@
 .local/lib
 .local/share
 .local/builds
+.config/
 .config/herbstluftwm
 .config/mpd
