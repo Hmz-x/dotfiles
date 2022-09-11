@@ -234,7 +234,7 @@ sysinfo_bar_length=$((X_MONITOR_X_RES_ENVVAR-audio_bar_length-icon_bar_length))
 icon_pixel_size=26
 
 # Icon bar
-set_lemonbar.sh --sleep-time 1 \
+set_lemonbar.sh --sleep-time $((60*60*2)) \
     -c input_steady "$ICON_STR_ENVVAR" | \
 	lemonbar -p -g ${icon_bar_length}x30+0+0 -B "#DE6FFF" -F "#333333" \
 	-f "Font Awesome ${ttf_fa_version} Free:pixelsize=$icon_pixel_size" \
