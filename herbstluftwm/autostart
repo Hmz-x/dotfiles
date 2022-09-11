@@ -263,13 +263,11 @@ set_lemonbar.sh --sleep-time 0.1 -c get_hlwm_info | lemonbar -p -g x30+0+30 \
 
 # General Bar
 if [ "$COMPUTER_TYPE_ENVVAR" = "LAPTOP" ]; then
-	set_lemonbar.sh --sleep-time 1 -l get_acpi_info input_steady "$IN_STEADY_STR_ENVVAR" \
-		-r get_date_info \
-		-c input_sliding "$IN_SLIDING_STR_ENVVAR" --input-space-count 2 | \
+	set_lemonbar.sh --sleep-time 1 -l get_acpi_info -r get_date_info | \
 		lemonbar -p -b -g x30+0+0 -B "#DE6FFF" -F "#333333" \
 		-f "fixed:pixelsize=14" &
 elif [ "$COMPUTER_TYPE_ENVVAR" = "DESKTOP" ]; then
 	set_lemonbar.sh --sleep-time 1 -l get_acpi_info -r get_date_info | \
-			lemonbar -p -b -g x30+0+0 -B "#DE6FFF" -F "#333333" \
-			-f "fixed:pixelsize=14" &
+		lemonbar -p -b -g x30+0+0 -B "#DE6FFF" -F "#333333" \
+		-f "fixed:pixelsize=14" &
 fi
