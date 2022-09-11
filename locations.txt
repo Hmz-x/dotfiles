@@ -1,2 +1,0 @@
-"herbstluftwm/autostart" "$HOME/.config/herbstluftwm/autostart"
-"bash/.bashrc" "$HOME"

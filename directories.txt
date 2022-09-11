@@ -1,0 +1,9 @@
+.local/bin/WM
+.local/bin/X
+.local/bin/misc
+.local/bin/system
+.local/src
+.local/lib
+.local/share
+.config/herbstluftwm
+.config/mpd
