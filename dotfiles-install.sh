@@ -20,9 +20,13 @@ done < ./directories.txt
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
 	./bash/.bashrc "/home/${user}/"
 install --compare -D --owner=root --group=root --mode=700 \
-	./bash/.bashrc /root
+	./bash/.bashrc /root/
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
 	./bash/.bash_profile "/home/${user}/"
+
+# Vim stuff
+install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
+	./vim/.vimrc "/home/${user}/"
 
 # X stuff
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
@@ -32,8 +36,20 @@ install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
 
 # WM, System, & Misc stuff
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
-	./WM/* "/home/${user}/.local/bin/WM"
+	./WM/* "/home/${user}/.local/bin/WM/"
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
-	./misc/* "/home/${user}/.local/bin/misc"
+	./misc/* "/home/${user}/.local/bin/misc/"
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
-	./system/* "/home/${user}/.local/bin/system"
+	./system/* "/home/${user}/.local/bin/system/"
+
+# Etc stuff
+install --compare -D --owner=root --group=root --mode=644 \
+	./etc/* /etc/
+
+# Herbstluftwm stuff
+install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
+	./herbstluftwm/autostart "/home/${user}/.config/herbstluftwm/"
+
+# mpd stuff
+install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
+	./mpd/mpd.conf "/home/${user}/.config/mpd/"
