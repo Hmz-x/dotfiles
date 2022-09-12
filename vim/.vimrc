@@ -1,7 +1,7 @@
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin('~/.vim/bundle')
-Plugin 'morhetz/gruvbox'
 Plugin 'VundleVim/Vundle.vim'
+Plugin 'morhetz/gruvbox'
 Plugin 'ycm-core/YouCompleteMe'
 call vundle#end()
 
