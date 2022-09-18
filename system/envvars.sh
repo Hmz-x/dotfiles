@@ -11,6 +11,7 @@ export WM_ENVVAR="herbstluftwm"
 export IN_STEADY_STR_ENVVAR="INPUT STEADY"
 export IN_SLIDING_STR_ENVVAR="INPUT SLIDING"
 export ICON_STR_ENVVAR="\\\uf644"
+export QT_QPA_PLATFORMTHEME="qt5ct"
 
 # export envvars depending on device
 if [ "$COMPUTER_TYPE_ENVVAR" = "LAPTOP" ]; then
