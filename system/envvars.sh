@@ -3,10 +3,11 @@
 ###### MY ENVVARS #######
 # Graphical Ennvars
 export COMPUTER_TYPE_ENVVAR="LAPTOP"
-export DEF_WALLPAPER_ENVVAR="${HOME}/Documents/pics/propr.jpg"
+export DEF_WALLPAPER_ENVVAR="${HOME}/Documents/pics/Metro Zu/loftys_gurl.png"
 export HLWM_TAG_NUM_ENVVAR=4
-export YT_CLIENT_ENVVAR="freetube" 
-export BROWSER_ENVVAR="brave" 
+#export YT_CLIENT_ENVVAR="freetube" 
+export FILE_MANAGER_ENVVAR="dolphin"
+export BROWSER_ENVVAR="librewolf" 
 export WM_ENVVAR="herbstluftwm" 
 export IN_STEADY_STR_ENVVAR="INPUT STEADY"
 export IN_SLIDING_STR_ENVVAR="INPUT SLIDING"

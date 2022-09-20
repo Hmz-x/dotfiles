@@ -60,8 +60,8 @@ hc keybind "$SPAWN_MOD"-w spawn spawn_frame_and_program.sh "$BROWSER_ENVVAR"
 hc keybind "$SPAWN_MOD"-"$ALT_MOD"-w spawn "$BROWSER_ENVVAR"
 
 # YT Client
-hc keybind "$SPAWN_MOD"-f spawn spawn_frame_and_program.sh "$YT_CLIENT_ENVVAR"
-hc keybind "$SPAWN_MOD"-"$ALT_MOD"-f spawn "$YT_CLIENT_ENVVAR"
+hc keybind "$SPAWN_MOD"-f spawn spawn_frame_and_program.sh "$FILE_MANAGER_ENVVAR"
+hc keybind "$SPAWN_MOD"-"$ALT_MOD"-f spawn "$FILE_MANAGER_ENVVAR"
 
 # Misc programs
 hc keybind "$SPAWN_MOD"-s spawn sudo timeshift-gtk
