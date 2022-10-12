@@ -80,8 +80,8 @@ input_sliding()
 get_cpu_info()
 {
 	cpu_data="$(mpstat | awk 'NR==4')"
-	usr_data="$(echo $cpu_data | cut -d ' ' -f 3)"
-	sys_data="$(echo $cpu_data | cut -d ' ' -f 5)"
+	usr_data="$(echo $cpu_data | cut -d ' ' -f 4)"
+	sys_data="$(echo $cpu_data | cut -d ' ' -f 6)"
 
 	echo "usr: ${usr_data} sys: ${sys_data}"
 }
