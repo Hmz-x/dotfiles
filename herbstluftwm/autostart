@@ -43,6 +43,11 @@ hc keybind "$KILL_MOD"-F4 spawn close_window_and_frame.sh
 # Turn off display
 hc keybind "$SPAWN_MOD"-x spawn display_off.sh
 
+# Take a screen shot
+#hc keybind "$SPAWN_MOD"-g spawn DISPLAY=:0 gnome-screenshot --area gnome-screenshot --area --display=":0"
+#hc keybind "$SPAWN_MOD"-g spawn gnome-screenshot -w
+hc keybind "$SPAWN_MOD"-g spawn scrot -s
+
 # Raise/Lower brightness
 hc keybind F9 spawn adjust_brightness.sh 0
 hc keybind F10 spawn adjust_brightness.sh 1
@@ -227,11 +232,15 @@ hc unlock
 # Get ttf-font-awesome version
 ttf_fa_version="$(pacman -Qe | grep ttf-font-awesome | cut -d ' ' -f 2 | cut -d '.' -f 1)"
 
+acpi_bar_length=120
+icon_pixel_size=26
+input_str_space_cnt=1
 icon_bar_length=$((X_MONITOR_X_RES_ENVVAR/12))
 audio_bar_length=$(((X_MONITOR_X_RES_ENVVAR/2)+(X_MONITOR_X_RES_ENVVAR/5)-icon_bar_length))
 sysinfo_bar_length=$((X_MONITOR_X_RES_ENVVAR-audio_bar_length-icon_bar_length))
-
-icon_pixel_size=26
+input_steady_bar_length=$((icon_bar_length * (input_str_space_cnt+1)))
+#input_steady_bar_length=$(($(printf "%s" "$IN_STEADY_STR_ENVVAR" | wc -c) * (input_str_space_cnt+1)))
+#input_sliding_bar_length=$(($(printf "%s" "$IN_SLIDING_STR_ENVVAR" | wc -c) * (input_str_space_cnt+1)))
 
 # Icon bar
 set_lemonbar.sh --sleep-time $((60*60*2)) \
@@ -260,13 +269,16 @@ set_lemonbar.sh --sleep-time 3 --ttf-font-awesome -c get_nmcli_info get_cpu_info
 set_lemonbar.sh --sleep-time 0.3 -c get_hlwm_info | lemonbar -p -g x30+0+30 \
 	-B "#696ebf" -F "#FEBAFF" -f "fixed" &
 
-# General Bar
-if [ "$COMPUTER_TYPE_ENVVAR" = "LAPTOP" ]; then
-	set_lemonbar.sh --sleep-time 1 -l get_acpi_info -r get_date_info | \
-		lemonbar -p -b -g x30+0+0 -B "#DE6FFF" -F "#333333" \
-		-f "fixed:pixelsize=14" &
-elif [ "$COMPUTER_TYPE_ENVVAR" = "DESKTOP" ]; then
-	set_lemonbar.sh --sleep-time 1 -l get_acpi_info -r get_date_info | \
-		lemonbar -p -b -g x30+0+0 -B "#DE6FFF" -F "#333333" \
-		-f "fixed:pixelsize=14" &
-fi
+# Acpi battery bar
+set_lemonbar.sh --sleep-time 1 -l get_acpi_info | \
+	lemonbar -p -b -g ${acpi_bar_length}x30+0+0 -B "#DE6FFF" -F "#333333" \
+	-f "fixed:pixelsize=14" &
+
+## Input steady Bar
+set_lemonbar.sh --sleep-time $((60*60*2)) \
+	--input-space-count $input_str_space_cnt -l input_steady "$IN_STEADY_STR_ENVVAR" | \
+	lemonbar -p -b -g ${input_steady_bar_length}x30+${acpi_bar_length}+0 -B "#B085FF" -F "#333333" -f "fixed:pixelsize=14" &
+
+### General Bar
+set_lemonbar.sh --sleep-time 1 -r get_date_info | \
+	lemonbar -p -b -g x30+300+0 -B "#DE6FFF" -F "#333333" -f "fixed:pixelsize=14" &
