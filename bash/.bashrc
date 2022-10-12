@@ -130,8 +130,11 @@ fcon() # ffmpeg convert
 	in="wav"
 	out="mp3"
 
+	[ -n "$1" ] && in="$1"
+	[ -n "$2" ] && out="$2"
+
 	for file in *."$in"; do
-		new_file="$(echo "$file" | cut -d '_' -f 1).${out}"
+		new_file="$(chext.sh "$file" "$out")"
 		ffmpeg -i "$file" "$new_file" && rm "$file"
 	done
 }

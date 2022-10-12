@@ -5,20 +5,20 @@
 export COMPUTER_TYPE_ENVVAR="LAPTOP"
 export DEF_WALLPAPER_ENVVAR="${HOME}/Documents/pics/Metro Zu/loftys_gurl.png"
 export HLWM_TAG_NUM_ENVVAR=4
-#export YT_CLIENT_ENVVAR="freetube" 
 export FILE_MANAGER_ENVVAR="dolphin"
 export BROWSER_ENVVAR="librewolf" 
 export WM_ENVVAR="herbstluftwm" 
-export IN_STEADY_STR_ENVVAR="INPUT STEADY"
-export IN_SLIDING_STR_ENVVAR="INPUT SLIDING"
-export ICON_STR_ENVVAR="\\\uf644"
+export IN_STEADY_STR_ENVVAR="MXLLY SHXRDZ"
+export IN_SLIDING_STR_ENVVAR="PSYCHEDELIC LEANING"
+export ICON_STR_ENVVAR="\\\uf654 \\\uf644 \\\uf654"
 export QT_QPA_PLATFORMTHEME="qt5ct"
+export TERMINAL_ENVVAR="alacritty"
 
 # export envvars depending on device
 if [ "$COMPUTER_TYPE_ENVVAR" = "LAPTOP" ]; then
-	export TERMINAL_ENVVAR="urxvt"
+	:
 elif [ "$COMPUTER_TYPE_ENVVAR" = "DESKTOP" ]; then
-	export TERMINAL_ENVVAR="${HOME}/.local/kitty.app/bin/kitty"
+	:
 fi
 ##########################
 
