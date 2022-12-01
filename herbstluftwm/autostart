@@ -282,3 +282,6 @@ set_lemonbar.sh --sleep-time $((60*60*2)) \
 ### General Bar
 set_lemonbar.sh --sleep-time 1 -r get_date_info | \
 	lemonbar -p -b -g x30+300+0 -B "#DE6FFF" -F "#333333" -f "fixed:pixelsize=14" &
+
+# Spawn calendar in last monitor
+spawn_calcurse.sh &

@@ -3,14 +3,14 @@
 ###### MY ENVVARS #######
 # Graphical Ennvars
 export COMPUTER_TYPE_ENVVAR="LAPTOP"
-export DEF_WALLPAPER_ENVVAR="${HOME}/Documents/pics/Metro Zu/loftys_gurl.png"
-export HLWM_TAG_NUM_ENVVAR=4
+export DEF_WALLPAPER_ENVVAR="${HOME}/Documents/pics/wallpaper.jpg"
+export HLWM_TAG_NUM_ENVVAR=5
 export FILE_MANAGER_ENVVAR="dolphin"
 export BROWSER_ENVVAR="librewolf" 
 export WM_ENVVAR="herbstluftwm" 
-export IN_STEADY_STR_ENVVAR="MXLLY SHXRDZ"
+export IN_STEADY_STR_ENVVAR="POSITIVEONLY!!!"
 export IN_SLIDING_STR_ENVVAR="PSYCHEDELIC LEANING"
-export ICON_STR_ENVVAR="\\\uf654 \\\uf644 \\\uf654"
+export ICON_STR_ENVVAR="\\\uf217 \\\uf1de \\\u2b"
 export QT_QPA_PLATFORMTHEME="qt5ct"
 export TERMINAL_ENVVAR="alacritty"
 
