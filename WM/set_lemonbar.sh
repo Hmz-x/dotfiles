@@ -251,9 +251,16 @@ get_mpc_info()
 		[ "$state_status" = "paused" ] && state_icon="\\uf05e"
 	fi	
 
-	echo "mpc volume:${vol} | ${song} (${songpos}/${pl_length}) " \
+	if  [ "$ttf_fa_bool" = "true" ]; then
+		mute_status="$(pamixer --get-mute)"
+		[ "$mute_status" = "true" ] && mute_icon="\\uf6a9"
+		[ "$mute_status" = "false" ] && mute_icon="\\uf028"
+	fi
+
+
+	echo "mpc volume: ${vol} | ${song} (${songpos}/${pl_length}) " \
 		"(${random_status_letter}${single_status_letter}${repeat_status_letter}) " \
-		"${state_icon}"
+		"${state_icon} ${mute_icon}"
 }
 
 get_date_info()
