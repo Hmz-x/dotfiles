@@ -25,7 +25,8 @@ get_nmcli_info
 get_mpc_info
 get_date_info
 get_pulseaudio_info
-get_connman_info"
+get_connman_info
+get_vpn_info"
 
 transform_input()
 {
@@ -156,6 +157,17 @@ get_hlwm_info()
 		done
 	done
 	printf -- "%s\n" "%{B${REGULAR_TAG_BG_COLOR}}"
+}
+
+get_vpn_info()
+{
+	con_status="$(nordvpn status | grep Status | cut -c 15-)"
+	if [ "$con_status" = "Connected" ]; then
+		con_country="- $(nordvpn status | grep Country | cut -d ' ' -f 2)"
+		con_city="$(nordvpn status | grep City | cut -d ' ' -f 2)"
+		#con_ip="- $(nordvpn status | grep IP | cut -d ' ' -f 2)"
+	fi
+	echo "Nvpn: $con_status $con_country $con_city"
 }
 
 get_acpi_info()
