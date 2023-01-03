@@ -4,6 +4,7 @@
 pkill picom &
 pkill set_lemonbar.sh &
 pkill lemonbar &
+pkill polybar &
 pkill feh &
 
 hc(){
@@ -242,10 +243,13 @@ input_steady_bar_length=$((icon_bar_length * (input_str_space_cnt+1)))
 #input_steady_bar_length=$(($(printf "%s" "$IN_STEADY_STR_ENVVAR" | wc -c) * (input_str_space_cnt+1)))
 #input_sliding_bar_length=$(($(printf "%s" "$IN_SLIDING_STR_ENVVAR" | wc -c) * (input_str_space_cnt+1)))
 
+# Launch Polybar
+~/.config/polybar/launch.sh &
+
 # Icon bar
 set_lemonbar.sh --sleep-time $((60*60*2)) \
     -c input_steady "$ICON_STR_ENVVAR" | \
-	lemonbar -p -g ${icon_bar_length}x30+0+0 -B "#DE6FFF" -F "#333333" \
+	lemonbar -p -g ${icon_bar_length}x30+0+30 -B "#DE6FFF" -F "#333333" \
 	-f "Font Awesome ${ttf_fa_version} Free:pixelsize=$icon_pixel_size" \
 	-f "Font Awesome ${ttf_fa_version} Brands:pixelsize=$icon_pixel_size" \
 	-f "Font Awesome ${ttf_fa_version} Free Solid:pixelsize=$icon_pixel_size" &
@@ -253,21 +257,21 @@ set_lemonbar.sh --sleep-time $((60*60*2)) \
 # Audio Bar
 set_lemonbar.sh --sleep-time 0.5 --ttf-font-awesome \
 	-c get_pulseaudio_info get_mpc_info | \
-	lemonbar -p -g ${audio_bar_length}x30+${icon_bar_length}+0 -B "#B085FF" -F "#F3F3F3" \
+	lemonbar -p -g ${audio_bar_length}x30+${icon_bar_length}+30 -B "#B085FF" -F "#F3F3F3" \
 	-f "fixed:pixelsize=16" \
 	-f "Font Awesome ${ttf_fa_version} Free" -f "Font Awesome ${ttf_fa_version} Brands" \
 	-f "Font Awesome ${ttf_fa_version} Free Solid" &
 
 # Sysinfo Bar
 set_lemonbar.sh --sleep-time 3 --ttf-font-awesome -c get_nmcli_info get_cpu_info get_vpn_info | \
-	lemonbar -p -g ${sysinfo_bar_length}x30+$((audio_bar_length+icon_bar_length))+0 \
+	lemonbar -p -g ${sysinfo_bar_length}x30+$((audio_bar_length+icon_bar_length))+30 \
 	-B "#B085FF" -F "#F3F3F3" -f "fixed" \
 	-f "Font Awesome ${ttf_fa_version} Free" -f "Font Awesome ${ttf_fa_version} Brands" \
 	-f "Font Awesome ${ttf_fa_version} Free Solid" &
 
-# Hlwm Bar
-set_lemonbar.sh --sleep-time 0.3 -c get_hlwm_info | lemonbar -p -g x30+0+30 \
-	-B "#696ebf" -F "#FEBAFF" -f "fixed" &
+## Hlwm Bar
+#set_lemonbar.sh --sleep-time 0.3 -c get_hlwm_info | lemonbar -p -g x30+0+30 \
+	#-B "#696ebf" -F "#FEBAFF" -f "fixed" &
 
 # Acpi battery bar
 set_lemonbar.sh --sleep-time 1 -l get_acpi_info | \

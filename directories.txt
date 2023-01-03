@@ -11,3 +11,4 @@
 .config/
 .config/herbstluftwm
 .config/mpd
+.config/polybar
