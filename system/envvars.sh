@@ -3,7 +3,7 @@
 ###### MY ENVVARS #######
 # Graphical Ennvars
 export COMPUTER_TYPE_ENVVAR="LAPTOP"
-export DEF_WALLPAPER_ENVVAR="${HOME}/Documents/pics/wallpaper.jpg"
+export DEF_WALLPAPER_ENVVAR="${HOME}/Documents/pics/wallpaper"
 export HLWM_TAG_NUM_ENVVAR=5
 export FILE_MANAGER_ENVVAR="dolphin"
 export BROWSER_ENVVAR="librewolf" 
