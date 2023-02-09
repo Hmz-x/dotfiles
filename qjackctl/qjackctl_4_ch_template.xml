@@ -1,0 +1,131 @@
+<!DOCTYPE patchbay>
+<patchbay name="qjackctl_4_ch_template" version="0.9.1">
+ <output-sockets>
+  <socket name="Mixxx CH 1" type="jack-audio" exclusive="off" client="Mixxx">
+   <plug>out_0\/audio_out\ 1</plug>
+   <plug>out_0\/audio_out\ 2</plug>
+  </socket>
+  <socket name="Mixxx CH 2" type="jack-audio" exclusive="off" client="Mixxx">
+   <plug>out_1\/audio_out\ 1</plug>
+   <plug>out_1\/audio_out\ 2</plug>
+  </socket>
+  <socket name="CH1" type="jack-audio" exclusive="off" client="ardour">
+   <plug>CH1\/audio_out\ 1</plug>
+   <plug>CH1\/audio_out\ 2</plug>
+  </socket>
+  <socket name="CH2" type="jack-audio" exclusive="off" client="ardour">
+   <plug>CH2\/audio_out\ 1</plug>
+   <plug>CH2\/audio_out\ 2</plug>
+  </socket>
+  <socket name="CH3" type="jack-audio" exclusive="off" client="ardour">
+   <plug>CH3\/audio_out\ 1</plug>
+   <plug>CH3\/audio_out\ 2</plug>
+  </socket>
+  <socket name="CH4" type="jack-audio" exclusive="off" client="ardour">
+   <plug>CH4\/audio_out\ 1</plug>
+   <plug>CH4\/audio_out\ 2</plug>
+  </socket>
+  <socket name="BUS1" type="jack-audio" exclusive="off" client="ardour">
+   <plug>Bus\/audio_out\ 1</plug>
+  </socket>
+  <socket name="BUS2" type="jack-audio" exclusive="off" client="ardour">
+   <plug>Bus\/audio_out\ 2</plug>
+  </socket>
+  <socket name="BUS3" type="jack-audio" exclusive="off" client="ardour">
+   <plug>Bus\/audio_out\ 3</plug>
+  </socket>
+  <socket name="BUS4" type="jack-audio" exclusive="off" client="ardour">
+   <plug>Bus\/audio_out\ 4</plug>
+  </socket>
+  <socket name="BUS5" type="jack-audio" exclusive="off" client="ardour">
+   <plug>Bus\/audio_out\ 5</plug>
+  </socket>
+  <socket name="BUS6" type="jack-audio" exclusive="off" client="ardour">
+   <plug>Bus\/audio_out\ 6</plug>
+  </socket>
+  <socket name="BUS7" type="jack-audio" exclusive="off" client="ardour">
+   <plug>Bus\/audio_out\ 7</plug>
+  </socket>
+  <socket name="BUS8" type="jack-audio" exclusive="off" client="ardour">
+   <plug>Bus\/audio_out\ 8</plug>
+  </socket>
+ </output-sockets>
+ <input-sockets>
+  <socket name="CH1" type="jack-audio" exclusive="off" client="ardour">
+   <plug>CH1\/audio_in\ 1</plug>
+   <plug>CH1\/audio_in\ 2</plug>
+  </socket>
+  <socket name="CH2" type="jack-audio" exclusive="off" client="ardour">
+   <plug>CH2\/audio_in\ 1</plug>
+   <plug>CH2\/audio_in\ 2</plug>
+  </socket>
+  <socket name="CH3" type="jack-audio" exclusive="off" client="ardour">
+   <plug>CH3\/audio_in\ 1</plug>
+   <plug>CH3\/audio_in\ 2</plug>
+  </socket>
+  <socket name="CH4" type="jack-audio" exclusive="off" client="ardour">
+   <plug>CH4\/audio_in\ 1</plug>
+   <plug>CH4\/audio_in\ 2</plug>
+  </socket>
+  <socket name="BUS1" type="jack-audio" exclusive="off" client="ardour">
+   <plug>Bus\/audio_in\ 1</plug>
+   <plug>Bus\/audio_in\ 2</plug>
+  </socket>
+  <socket name="BUS2" type="jack-audio" exclusive="off" client="ardour">
+   <plug>Bus\/audio_in\ 3</plug>
+   <plug>Bus\/audio_in\ 4</plug>
+  </socket>
+  <socket name="BUS3" type="jack-audio" exclusive="off" client="ardour">
+   <plug>Bus\/audio_in\ 5</plug>
+   <plug>Bus\/audio_in\ 6</plug>
+  </socket>
+  <socket name="BUS 4" type="jack-audio" exclusive="off" client="ardour">
+   <plug>Bus\/audio_in\ 7</plug>
+   <plug>Bus\/audio_in\ 8</plug>
+  </socket>
+  <socket name="system 1" type="jack-audio" exclusive="off" client="system">
+   <plug>playback_1</plug>
+  </socket>
+  <socket name="system 2" type="jack-audio" exclusive="off" client="system">
+   <plug>playback_2</plug>
+  </socket>
+  <socket name="system 3" type="jack-audio" exclusive="off" client="system">
+   <plug>playback_3</plug>
+  </socket>
+  <socket name="system 4" type="jack-audio" exclusive="off" client="system">
+   <plug>playback_4</plug>
+  </socket>
+ </input-sockets>
+ <slots/>
+ <cables>
+  <cable input="BUS1" type="jack-audio" output="CH1"/>
+  <cable input="system 1" type="jack-audio" output="BUS1"/>
+  <cable input="system 2" type="jack-audio" output="BUS1"/>
+  <cable input="CH1" type="jack-audio" output="Mixxx CH 1"/>
+  <cable input="CH3" type="jack-audio" output="Mixxx CH 1"/>
+  <cable input="CH2" type="jack-audio" output="Mixxx CH 2"/>
+  <cable input="CH4" type="jack-audio" output="Mixxx CH 2"/>
+  <cable input="BUS2" type="jack-audio" output="CH2"/>
+  <cable input="system 2" type="jack-audio" output="BUS4"/>
+  <cable input="system 1" type="jack-audio" output="BUS4"/>
+  <cable input="system 1" type="jack-audio" output="BUS2"/>
+  <cable input="system 2" type="jack-audio" output="BUS2"/>
+  <cable input="system 2" type="jack-audio" output="BUS3"/>
+  <cable input="system 1" type="jack-audio" output="BUS3"/>
+  <cable input="system 3" type="jack-audio" output="BUS5"/>
+  <cable input="system 4" type="jack-audio" output="BUS5"/>
+  <cable input="system 1" type="jack-audio" output="BUS5"/>
+  <cable input="system 3" type="jack-audio" output="BUS6"/>
+  <cable input="system 4" type="jack-audio" output="BUS6"/>
+  <cable input="system 1" type="jack-audio" output="BUS6"/>
+  <cable input="system 3" type="jack-audio" output="BUS7"/>
+  <cable input="system 4" type="jack-audio" output="BUS7"/>
+  <cable input="system 2" type="jack-audio" output="BUS7"/>
+  <cable input="system 3" type="jack-audio" output="BUS8"/>
+  <cable input="system 4" type="jack-audio" output="BUS8"/>
+  <cable input="system 2" type="jack-audio" output="BUS8"/>
+  <cable input="BUS3" type="jack-audio" output="CH3"/>
+  <cable input="BUS 4" type="jack-audio" output="CH4"/>
+ </cables>
+</patchbay>
+
