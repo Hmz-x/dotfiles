@@ -8,16 +8,19 @@ sound_beep()
 {
 	mpc pause
 	pamixer --unmute
+	sleep 0.5
 	abeep -f 460 -l 300 -r 3 -d $1
 }
 
 check_battery()
 {
 	notify-send.sh "Battery: ${battery_per}%"
+	sleep_secs=30
 
 	if ((battery_per<MED_LOW_BATTERY_PER)); then
 		notify-send.sh "Battery At Low Level"
 		sound_beep 800
+		sleep_secs=120
 	fi
 
 	if ((battery_per<LOW_BATTERY_PER)); then
@@ -30,9 +33,11 @@ check_battery()
 		sound_beep 200
 	fi
 
-	sleep 20
+	((battery_per>MED_LOW_BATTERY_PER)) && exit
+
+	sleep $sleep_secs
 	battery_per=$(acpi -b | grep -Ewo '([[:digit:]]){1,3}%' | grep -Ewo '([[:digit:]]){1,3}')
-	((battery_per<MED_LOW_BATTERY_PER)) && echo check && check_battery
+	((battery_per<MED_LOW_BATTERY_PER)) && check_battery
 }
 
 battery_per=$(acpi -b | grep -Ewo '([[:digit:]]){1,3}%' | grep -Ewo '([[:digit:]]){1,3}')
