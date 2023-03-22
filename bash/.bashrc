@@ -158,3 +158,8 @@ con2pdf()
 	pdfunite *.pdf "${1}FINAL.pdf"
 	rm -v *.jpg.pdf
 }
+
+ocon()
+{
+	sudo openconnect --protocol=anyconnect --user=hmumcu --server=webvpn2.purdue.edu
+}
