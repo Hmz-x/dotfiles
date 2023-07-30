@@ -10,8 +10,7 @@ set -o vi
 export PS1='\[\033[0;0m\][\u:\w]\$ '
 
 # General Aliases
-alias po='sudo shutdown -h now'
-alias rb='sudo reboot'
+alias sd='spotdl'
 alias v='vim'
 alias p='pacman'
 alias c='clear'
