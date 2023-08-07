@@ -162,3 +162,11 @@ ocon()
 {
 	sudo openconnect --protocol=anyconnect --user=hmumcu --server=webvpn2.purdue.edu
 }
+
+# Push ~/Music to mobile music dir via adb
+sync_mus()
+{
+	adbsync_exec="$HOME/.local/bin/better-adb-sync/src/adbsync.py"
+	mob_music_dir="storage/self/primary/Music"
+	$adbsync_exec push "$HOME/Music/." "$mob_music_dir"
+}
