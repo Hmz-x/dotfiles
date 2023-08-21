@@ -170,3 +170,18 @@ sync_mus()
 	mob_music_dir="storage/self/primary/Music"
 	$adbsync_exec push "$HOME/Music/." "$mob_music_dir"
 }
+
+# using timeshift backup root partition and save to home partition
+tshift()
+{
+	comments="Clean"
+	[ -n "$1" ] && comments="$1"
+	root_part=/dev/nvme0n1p2
+	home_part=/dev/nvme0n1p4
+	
+	if [ -b "$root_part" ] && [ -b "$home_part" ]; then 
+		sudo timeshift --create --comments "$comments" --target $root_part --backup-device $home_part	
+	else
+		echo "Error: the correct root or home partitions are not configured."
+	fi			
+}
