@@ -185,3 +185,10 @@ tshift()
 		echo "Error: the correct root or home partitions are not configured."
 	fi			
 }
+
+# connect to openvpn using the given config file
+ovpn()
+{
+	config_file="/${HOME}/.config/openvpn/CIT-Knoy-TCP4-443-config.ovpn"
+	sudo /sbin/openvpn "$config_file"
+}
