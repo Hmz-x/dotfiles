@@ -55,6 +55,10 @@ install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
 	"$dotfiles_dir/mpd/mpd.conf" "/home/${user}/.config/mpd/"
 
+# openvpn stuff
+install --compare -D --owner=root --group=root --mode=644 \
+	"$dotfiles_dir/openvpn/"* "/home/${user}/.config/openvpn/"
+
 # Dbus stuff
 install --compare -D --owner=root --group=root --mode=644 \
 	"$dotfiles_dir/dbus/"* /usr/share/dbus-1/services/
