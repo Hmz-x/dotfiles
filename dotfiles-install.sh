@@ -68,3 +68,7 @@ install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
 	"$dotfiles_dir/polybar/config.ini" "/home/${user}/.config/polybar"
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
 	"$dotfiles_dir/polybar/launch.sh" "/home/${user}/.config/polybar"
+
+# Qtile
+install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
+	"$dotfiles_dir/qtile/config.py" "/home/${user}/.config/qtile/"
