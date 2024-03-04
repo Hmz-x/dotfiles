@@ -35,7 +35,11 @@ mod = "mod4"
 terminal = "alacritty"
 browser = "librewolf"
 filemanager = "dolphin"
-prg_launcher = "dmenu_run"
+prg_launcher = "rofi -show run"
+
+# COLORS
+purple = "#d11aff"
+yellow = "#ffff66"
 
 keys = [
     # A list of available commands that can be bound to keys can be found
@@ -67,7 +71,7 @@ keys = [
     # Unsplit = 1 window displayed, like Max layout, but still with
     # multiple stack panes
     Key(
-        [mod, "shift"],
+        [mod, "control"],
         "Return",
         lazy.layout.toggle_split(),
         desc="Toggle between split and unsplit sides of stack",
@@ -80,6 +84,8 @@ keys = [
     Key([mod, "shift"], "f", lazy.spawn(filemanager), desc="Launch file manager"),
 	# LAUNCH BROWSER
     Key([mod, "shift"], "w", lazy.spawn(browser), desc="Launch Browser"),
+	# LAUNCH Firefox
+    Key([mod, "shift"], "e", lazy.spawn("firefox"), desc="Launch Firefox"),
 	# LAUNCH PROGRAM LAUNCHER
     Key([mod, "shift"], "Space", lazy.spawn(prg_launcher), desc="Launch program launcher"),
 
@@ -165,16 +171,16 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    font="sans",
-    fontsize=12,
-    padding=3,
+    font="Drafting* Mono",
+    fontsize=18,
+    padding=6,
 )
 extension_defaults = widget_defaults.copy()
 
 screens = [
     Screen(
-		wallpaper=os.path.join(os.path.expanduser("~"), "Documents/pics/wallpaper"),
-        wallpaper_mode="fill",
+		wallpaper=os.path.join(os.path.expanduser("~"), "Documents/pics/Metro Zu Art/loftys_gurl.png"),
+        wallpaper_mode="stretch",
         bottom=bar.Bar(
             [
                 widget.CurrentLayout(),
@@ -187,16 +193,17 @@ screens = [
                     },
                     name_transform=lambda name: name.upper(),
                 ),
-                widget.TextBox("default config", name="default"),
+                widget.TextBox("WHATSUP BIATCH", name="default", foreground=purple, font="mono"),
                 widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
                 # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
                 # widget.StatusNotifier(),
                 widget.Systray(),
                 widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
+				widget.Battery(),
                 widget.QuickExit(),
             ],
             24,
-            # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
+            #border_width=[0, 0, 0, 0],  # Draw top and bottom borders
             # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
         ),
         # You can uncomment this variable if you see that on X11 floating resize/moving is laggy
