@@ -111,6 +111,8 @@ keys = [
     Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
+	# Shutdown system
+    Key([mod, "control"], "F4", lazy.spawn("shutdown now"), desc="Shutdown system"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
 ]
 
@@ -172,6 +174,7 @@ layouts = [
 
 widget_defaults = dict(
     font="Drafting* Mono",
+    #font="H.IPKI nightlife",
     fontsize=18,
     padding=6,
 )
