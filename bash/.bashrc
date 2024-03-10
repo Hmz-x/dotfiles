@@ -28,6 +28,9 @@ alias ag='aspell -n -c' # aspell groff doc
 alias yd='yay --removemake --nocleanmenu --nodiffmenu -S' # yay default install
 alias c2s='ssh "${SSH_USER_ENVVAR}@${SSH_SERVER_ENVVAR}"' # connect to server
 alias doc2pdf='soffice --headless --convert-to pdf'
+alias vqc='vim "${HOME}/.config/qtile/config.py"' # vim qtile config
+alias cql='cat "${HOME}/.local/share/qtile/qtile.log"' # cat qtile log
+alias rqc='qtile cmd-obj -o cmd -f reload_config' # reload qtile config
 
 # scp to server
 s2s()
@@ -192,3 +195,9 @@ ovpn()
 	config_file="/${HOME}/.config/openvpn/CIT-Knoy-TCP4-443-config.ovpn"
 	sudo /sbin/openvpn "$config_file"
 }
+
+PATH="/home/hkm/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/home/hkm/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/home/hkm/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/home/hkm/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/hkm/perl5"; export PERL_MM_OPT;
