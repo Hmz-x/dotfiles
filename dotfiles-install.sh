@@ -6,42 +6,43 @@ if [ -z "$1" ]; then
 fi
 
 user="$1"
+HOME="/home/${user}"
 
 # Program constant
 chmod_val=755
-dotfiles_dir="/home/${user}/.local/dotfiles"
+dotfiles_dir="${HOME}/.local/dotfiles"
 
 # Create directories
 while read -r line; do
-	dir="/home/${user}/${line}"
+	eval dir="$line" 
 	[ ! -d "$dir" ] && install -d --owner="$user" --group="$user" --mode=$chmod_val "$dir"
 done < "$dotfiles_dir/directories.txt"
 
 # Bash stuff 
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
-	"$dotfiles_dir/bash/.bashrc" "/home/${user}/"
+	"$dotfiles_dir/bash/.bashrc" "$HOME"
 install --compare -D --owner=root --group=root --mode=700 \
 	"$dotfiles_dir/bash/.bashrc" /root/
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
-	"$dotfiles_dir/bash/.bash_profile" "/home/${user}/"
+	"$dotfiles_dir/bash/.bash_profile" "$HOME"
 
 # Vim stuff
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
-	"$dotfiles_dir/vim/.vimrc" "/home/${user}/"
+	"$dotfiles_dir/vim/.vimrc" "$HOME"
 
 # X stuff
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
-	"$dotfiles_dir/X/.xinitrc" "/home/${user}/"
+	"$dotfiles_dir/X/.xinitrc" "$HOME"
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
-	"$dotfiles_dir/X/.Xresources" "/home/${user}/"
+	"$dotfiles_dir/X/.Xresources" "$HOME"
 
 # WM, System, & Misc stuff
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
-	"$dotfiles_dir/WM/"* "/home/${user}/.local/bin/WM/"
+	"$dotfiles_dir/WM/"* "${HOME}/.local/bin/WM/"
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
-	"$dotfiles_dir/misc/"* "/home/${user}/.local/bin/misc/"
+	"$dotfiles_dir/misc/"* "${HOME}/.local/bin/misc/"
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
-	"$dotfiles_dir/system/"* "/home/${user}/.local/bin/system/"
+	"$dotfiles_dir/system/"* "${HOME}/.local/bin/system/"
 
 # Etc stuff
 install --compare -D --owner=root --group=root --mode=644 \
@@ -49,15 +50,15 @@ install --compare -D --owner=root --group=root --mode=644 \
 
 # Herbstluftwm stuff
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
-	"$dotfiles_dir/herbstluftwm/autostart" "/home/${user}/.config/herbstluftwm/"
+	"$dotfiles_dir/herbstluftwm/autostart" "${HOME}/.config/herbstluftwm/"
 
 # mpd stuff
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
-	"$dotfiles_dir/mpd/mpd.conf" "/home/${user}/.config/mpd/"
+	"$dotfiles_dir/mpd/mpd.conf" "${HOME}/.config/mpd/"
 
 # openvpn stuff
 install --compare -D --owner=root --group=root --mode=644 \
-	"$dotfiles_dir/openvpn/"* "/home/${user}/.config/openvpn/"
+	"$dotfiles_dir/openvpn/"* "${HOME}/.config/openvpn/"
 
 # Dbus stuff
 install --compare -D --owner=root --group=root --mode=644 \
@@ -65,10 +66,14 @@ install --compare -D --owner=root --group=root --mode=644 \
 
 # Polybar
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
-	"$dotfiles_dir/polybar/config.ini" "/home/${user}/.config/polybar"
+	"$dotfiles_dir/polybar/config.ini" "${HOME}/.config/polybar"
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
-	"$dotfiles_dir/polybar/launch.sh" "/home/${user}/.config/polybar"
+	"$dotfiles_dir/polybar/launch.sh" "${HOME}/.config/polybar"
 
 # Qtile
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
-	"$dotfiles_dir/qtile/config.py" "/home/${user}/.config/qtile/"
+	"$dotfiles_dir/qtile/config.py" "${HOME}/.config/qtile/"
+
+# Ly
+install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
+	"$dotfiles_dir/ly/config.ini" /etc/ly/

@@ -38,8 +38,9 @@ filemanager = "dolphin"
 prg_launcher = "rofi -show run"
 
 # COLORS
+pink = "#fdcaff"
 purple = "#d11aff"
-yellow = "#ffff66"
+yellow = "#ffef8a"
 
 keys = [
     # A list of available commands that can be bound to keys can be found
@@ -65,7 +66,7 @@ keys = [
     Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
     Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
     Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
-    Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+    Key([mod, "control"], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
@@ -93,6 +94,7 @@ keys = [
     Key([], "XF86AudioLowerVolume", lazy.spawn("pamixer --decrease 10"), desc="Lower volume"),
     Key([], "XF86AudioRaiseVolume", lazy.spawn("pamixer_increase.sh"), desc="Increase volume"),
     Key([], "XF86AudioMute", lazy.spawn("pamixer --toggle-mute"), desc="Toggle mute"),
+	
 
 	# Brightness controls
 	Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 5%-"), desc="Decrease brightness",),
@@ -114,6 +116,9 @@ keys = [
 	# Shutdown system
     Key([mod, "control"], "F4", lazy.spawn("shutdown now"), desc="Shutdown system"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+
+	Key([mod], "m", lazy.screen.next_group(), desc="move to next group"), 
+	Key([mod], "n", lazy.screen.prev_group(), desc="move to previous group"), 
 ]
 
 # Add key bindings to switch VTs in Wayland.
@@ -157,19 +162,19 @@ for i in groups:
     )
 
 layouts = [
-    layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
-    layout.Max(),
+    layout.Columns(border_focus=pink, border_normal=yellow, border_width=8, margin=4, single_border_width=8, margin_on_single=0, border_on_single=True),
+    layout.Max(border_focus=pink, border_normal=yellow, border_width=8),
+    layout.TreeTab(active_fg=purple, border_width=8, font="Drafting* Mono", fontsize=12),
     # Try more layouts by unleashing below layouts.
-    # layout.Stack(num_stacks=2),
-    # layout.Bsp(),
-    # layout.Matrix(),
+    #layout.Stack(num_stacks=2),
+    #layout.Bsp(),
+    #layout.Matrix(),
     # layout.MonadTall(),
     # layout.MonadWide(),
-    # layout.RatioTile(),
-    # layout.Tile(),
-    # layout.TreeTab(),
-    # layout.VerticalTile(),
-    # layout.Zoomy(),
+    #layout.RatioTile(),
+    #layout.Tile(),
+    #layout.VerticalTile(),
+    #layout.Zoomy(),
 ]
 
 widget_defaults = dict(
