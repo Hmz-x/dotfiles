@@ -42,6 +42,12 @@ pink = "#fdcaff"
 purple = "#d11aff"
 yellow = "#ffef8a"
 
+# Get if Laptop or not
+if os.path.exists("/proc/acpi/button/lid"):
+    IsLaptopBool = True
+else:
+    IsLaptopBool = False
+
 keys = [
     # A list of available commands that can be bound to keys can be found
     # at https://docs.qtile.org/en/latest/manual/config/lazy.html
@@ -202,12 +208,9 @@ screens = [
                     name_transform=lambda name: name.upper(),
                 ),
                 widget.TextBox("WHATSUP BIATCH", name="default", foreground=purple, font="mono"),
-                widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
-                # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
                 # widget.StatusNotifier(),
-                widget.Systray(),
                 widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
-				widget.Battery(),
+				widget.Battery() if IsLaptopBool else widget.TextBox("", name="empty"),
                 widget.QuickExit(),
             ],
             24,
