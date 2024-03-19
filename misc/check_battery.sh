@@ -4,6 +4,10 @@ MED_LOW_BATTERY_PER=20
 LOW_BATTERY_PER=11
 VERY_LOW_BATTERY_PER=8
 
+NOTI_CLIENT="notify-send"
+ICON="/home/${USER}/Documents/pics/Metro Zu Art/lofty_gooned_out.png"
+
+
 sound_beep()
 {
 	mpc pause
@@ -14,22 +18,22 @@ sound_beep()
 
 check_battery()
 {
-	notify-send.sh "Battery: ${battery_per}%"
+	"$NOTI_CLIENT" -i "$ICON" -u low -t 4500 "Battery: ${battery_per}%"
 	sleep_secs=30
 
 	if ((battery_per<MED_LOW_BATTERY_PER)); then
-		notify-send.sh "Battery At Low Level"
+		"$NOTI_CLIENT" -i "$ICON" -u low -t 4500 "Battery At Low Level"
 		sound_beep 800
 		sleep_secs=120
 	fi
 
 	if ((battery_per<LOW_BATTERY_PER)); then
-		notify-send.sh "Battery At Critical Level"
+		"$NOTI_CLIENT" -i "$ICON" -u low -t "Battery At Critical Level"
 		sound_beep 400
 	fi
 
 	if ((battery_per<VERY_LOW_BATTERY_PER)); then 
-		notify-send.sh "Battery At Extremely Critical Level" 
+		"$NOTI_CLIENT" -i "$ICON" -u low -t "Battery At Extremely Critical Level" 
 		sound_beep 200
 	fi
 
