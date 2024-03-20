@@ -100,12 +100,15 @@ keys = [
     Key([mod, "shift"], "e", lazy.spawn("firefox"), desc="Launch Firefox"),
 	# LAUNCH PROGRAM LAUNCHER
     Key([mod, "shift"], "Space", lazy.spawn(prg_launcher), desc="Launch program launcher"),
+	# LAUNCH Bluetooth manager
+    Key([mod, "shift"], "b", lazy.spawn("blueman-manager"), desc="blueman-manager"),
+	# LAUNCH pavucontrol
+    Key([mod, "shift"], "p", lazy.spawn("pavucontrol"), desc="pavucontrol"),
 
 	# Audio controls
     Key([], "XF86AudioLowerVolume", lazy.spawn("pamixer --decrease 10"), desc="Lower volume"),
     Key([], "XF86AudioRaiseVolume", lazy.spawn("pamixer_increase.sh"), desc="Increase volume"),
     Key([], "XF86AudioMute", lazy.spawn("pamixer --toggle-mute"), desc="Toggle mute"),
-	
 
 	# Brightness controls
 	Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 5%-"), desc="Decrease brightness",),
@@ -213,7 +216,7 @@ screens = [
                     name_transform=lambda name: name.upper(),
                 ),
                 widget.TextBox("WHATSUP BIATCH", name="default", foreground=purple, font="mono"),
-                # widget.StatusNotifier(),
+                widget.StatusNotifier(),
                 widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
 				widget.Battery() if IsLaptopBool else widget.TextBox("", name="empty"),
                 widget.QuickExit(),
