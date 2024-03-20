@@ -179,8 +179,10 @@ tshift()
 {
 	comments="Clean"
 	[ -n "$1" ] && comments="$1"
-	root_part=/dev/nvme0n1p2
-	home_part=/dev/nvme0n1p4
+	#root_part=/dev/nvme0n1p2
+	#home_part=/dev/nvme0n1p4
+	root_part=/dev/sda2
+	home_part=/dev/sda3
 	
 	if [ -b "$root_part" ] && [ -b "$home_part" ]; then 
 		sudo timeshift --create --comments "$comments" --target $root_part --backup-device $home_part	
@@ -194,6 +196,25 @@ ovpn()
 {
 	config_file="/${HOME}/.config/openvpn/CIT-Knoy-TCP4-443-config.ovpn"
 	sudo /sbin/openvpn "$config_file"
+}
+
+sendsrv()
+{
+	# Send to server
+	user="hamza"
+	srv="128.210.6.108"
+	dir="/var/www/html/cutemafia.org/public_html/img"
+	
+	scp "$1" "$user@$srv:$dir"
+}
+
+showimg()
+{
+	input="$1"
+	img="$(./convert-img.sh -i "$input" -r)" && echo "$img"
+	sxiv "$img"
+
+	[ -n "$2" ] && mv "$img" "$2"
 }
 
 PATH="/home/hkm/perl5/bin${PATH:+:${PATH}}"; export PATH;

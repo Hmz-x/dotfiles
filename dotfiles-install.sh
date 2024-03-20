@@ -72,7 +72,7 @@ install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
 
 # Qtile
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
-	"$dotfiles_dir/qtile/config.py" "${HOME}/.config/qtile/"
+	"$dotfiles_dir/qtile/"* "${HOME}/.config/qtile/"
 
 # Alacritty
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
