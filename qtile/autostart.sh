@@ -19,3 +19,6 @@ else
 fi
 
 [ "$XDG_SESSION_TYPE" = "wayland" ] && wlsunset -l $lat -L $long &
+
+# Run polkit agent in background
+/usr/lib/polkit-kde-authentication-agent-1 &
