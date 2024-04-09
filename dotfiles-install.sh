@@ -81,3 +81,7 @@ install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
 # Ly
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
 	"$dotfiles_dir/ly/config.ini" /etc/ly/
+
+# starship
+install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
+	"$dotfiles_dir/starship/starship.toml" "$HOME/.config/"
