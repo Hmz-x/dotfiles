@@ -90,5 +90,5 @@ install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
 # pacman
 [ "$cpu_arch" = "x86_64" ] && pacman_file="$dotfiles_dir/pacman_file/arch-x64_pacman.conf"
 [ "$cpu_arch" = "aarch64" ] && pacman_file="$dotfiles_dir/pacman_file/arch-arm_pacman.conf"
-install --compare -D --owner=owner --group=root --mode=644 \
+install --compare -D --owner=root --group=root --mode=644 \
 	"$pacman_file" "/etc/pacman.conf"
