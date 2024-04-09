@@ -13,6 +13,3 @@ src_or_err "$envvars_rc"
 # source shell rc
 shell_rc="${HOME}/.bashrc"
 src_or_err "$shell_rc"
-
-# start graphical server
-[ -z "$DISPLAY" ] && startx

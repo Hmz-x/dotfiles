@@ -20,9 +20,8 @@ alias z='zathura'
 alias tb='nc termbin.com 9999'
 alias vhc='vim "${HOME}/.config/herbstluftwm/autostart"' # vim Hl config
 alias vet='vim /etc/hosts'
-alias cdb='cd "${HOME}/.local/bin"'
-alias cdd='cd "${HOME}/.local/dotfiles"'
-alias cdw='cd "${HOME}/.local/src/webdev/${WEBDEV_PROJ_ENVVAR}"'
+alias cdb='builtin cd "${HOME}/.local/bin"'
+alias cdd='builtin cd "${HOME}/.local/dotfiles"'
 alias pl='pkill set_lemonbar.sh; pkill lemonbar'
 alias ag='aspell -n -c' # aspell groff doc
 alias yd='yay --removemake --nocleanmenu --nodiffmenu -S' # yay default install
@@ -48,9 +47,9 @@ xc()
 # cd into dirname of given file
 cd()
 {
-	{ [ -z "$1" ] && command cd ~; } ||
-	{ [ -f "$1" ] && command cd "$(dirname "$1")"; } || 
-	command cd "$1"
+	{ [ -z "$1" ] && builtin cd ~; } ||
+	{ [ -f "$1" ] && builtin cd "$(dirname "$1")"; } || 
+	builtin cd "$1"
 }
 
 # Nmcli connection stuff
@@ -180,10 +179,8 @@ tshift()
 {
 	comments="Clean"
 	[ -n "$1" ] && comments="$1"
-	#root_part=/dev/nvme0n1p2
-	#home_part=/dev/nvme0n1p4
-	root_part=/dev/sda2
-	home_part=/dev/sda3
+	home_part="$(mount | grep /home | sed 's/ .*//')"
+	root_part="$(mount | grep '/ ' | sed 's/ .*//')"
 	
 	if [ -b "$root_part" ] && [ -b "$home_part" ]; then 
 		sudo timeshift --create --comments "$comments" --target $root_part --backup-device $home_part	
@@ -217,11 +214,5 @@ showimg()
 
 	[ -n "$2" ] && mv "$img" "$2"
 }
-
-PATH="/home/hkm/perl5/bin${PATH:+:${PATH}}"; export PATH;
-PERL5LIB="/home/hkm/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/home/hkm/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/home/hkm/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/home/hkm/perl5"; export PERL_MM_OPT;
 
 [ -n "$(command -v starship)" ] && eval "$(starship init bash)"
