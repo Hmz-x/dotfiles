@@ -199,11 +199,18 @@ ovpn()
 sendsrv()
 {
 	# Send to server
+	input="$1" # input file	
+	member="$2"
+	
+	[ $# -lt 2 ] && echo "usage: sendsrv \$input \$member" && return 1
+
 	user="hamza"
 	srv="128.210.6.108"
-	dir="/var/www/html/cutemafia.org/public_html/img"
+	img_dir="/var/www/cutemafia/public_html/img/$member"
+	html_file="/var/www/cutemafia/public_html/${member}.html"
 	
-	scp "$1" "$user@$srv:$dir"
+	scp "$input" "$user@$srv:$img_dir"
+	ssh "$user@$srv" "sed -i -e '/<\/h1>/a \        <img src=\"img/$member/$input\">' $html_file"
 }
 
 showimg()
