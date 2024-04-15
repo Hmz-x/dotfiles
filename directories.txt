@@ -11,6 +11,7 @@
 ~/.config/
 ~/.config/herbstluftwm
 ~/.config/mpd
+~/.config/mpv
 ~/.config/polybar
 ~/.config/openvpn
 ~/.config/qtile

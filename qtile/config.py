@@ -176,7 +176,7 @@ for i in groups:
     )
 
 layouts = [
-    layout.Columns(border_focus=pink, border_normal=yellow, border_width=8, margin=4, single_border_width=8, margin_on_single=0, border_on_single=True),
+    layout.Columns(border_focus=pink, border_normal=yellow, border_width=16, margin=4, single_border_width=8, margin_on_single=0, border_on_single=True),
     layout.Max(border_focus=pink, border_normal=yellow, border_width=8),
     layout.TreeTab(active_fg=purple, border_width=8, font="Drafting* Mono", fontsize=12),
     # Try more layouts by unleashing below layouts.
@@ -215,6 +215,7 @@ screens = [
                     },
                     name_transform=lambda name: name.upper(),
                 ),
+				widget.CPU(),
                 widget.TextBox("WHATSUP BIATCH", name="default", foreground=purple, font="mono"),
                 widget.StatusNotifier(),
                 widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
