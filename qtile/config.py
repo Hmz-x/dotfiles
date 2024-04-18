@@ -25,7 +25,8 @@
 # SOFTWARE.
 
 from libqtile import bar, layout, qtile, widget, hook
-import os.path
+import os.path, os
+import random
 import subprocess
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
@@ -199,9 +200,14 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
+wallpaper_dir=os.path.join(os.path.expanduser("~"), "Documents/pics/wallpaper")	
+wallpaper_files = os.listdir(wallpaper_dir)
+random_file = random.choice(wallpaper_files)
+
 screens = [
     Screen(
-		wallpaper=os.path.join(os.path.expanduser("~"), "Documents/pics/Metro Zu Art/loftys_gurl.png"),
+		#wallpaper=os.path.join(os.path.expanduser("~"), "Documents/pics/Metro Zu Art/loftys_gurl.png"),
+		wallpaper = os.path.join(wallpaper_dir, random_file),
         wallpaper_mode="stretch",
         bottom=bar.Bar(
             [
