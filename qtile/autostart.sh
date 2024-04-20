@@ -25,3 +25,6 @@ fi
 
 # Run polkit agent in background
 pgrep -f wlsunset || /usr/lib/polkit-kde-authentication-agent-1 &
+
+# Get all wallpaper images from server
+rsync -a --ignore-existing --update hamza@128.210.6.108:/var/www/cutemafia/public_html/img/*/* "$HOME/Documents/pics/wallpaper/"
