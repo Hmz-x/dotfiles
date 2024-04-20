@@ -8,7 +8,7 @@ bindings = [
 ]
 
 [font]
-size = 24.0
+size = 18.0
 
 [font.bold]
 family = "monospace"

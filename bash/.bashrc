@@ -12,21 +12,24 @@ export PS1='\[\033[0;0m\][\u:\w]\$ '
 # General Aliases
 alias sd='spotdl'
 alias v='vim'
+alias p='pacman'
 alias c='clear'
 alias e='exit'
 alias l='less'
 alias z='zathura'
 alias tb='nc termbin.com 9999'
+alias vhc='vim "${HOME}/.config/herbstluftwm/autostart"' # vim Hl config
 alias vet='vim /etc/hosts'
 alias cdb='builtin cd "${HOME}/.local/bin"'
 alias cdd='builtin cd "${HOME}/.local/dotfiles"'
+alias pl='pkill set_lemonbar.sh; pkill lemonbar'
 alias ag='aspell -n -c' # aspell groff doc
-alias yni='yay --removemake --cleanmenu=false --noconfirm -S' # yay non-interactive install
+alias yd='yay --removemake --nocleanmenu --nodiffmenu -S' # yay default install
+alias c2s='ssh "${SSH_USER_ENVVAR}@${SSH_SERVER_ENVVAR}"' # connect to server
 alias doc2pdf='soffice --headless --convert-to pdf'
 alias vqc='vim "${HOME}/.config/qtile/config.py"' # vim qtile config
 alias cql='cat "${HOME}/.local/share/qtile/qtile.log"' # cat qtile log
 alias rqc='qtile cmd-obj -o cmd -f reload_config' # reload qtile config
-alias c2s='ssh "${SSH_USER_ENVVAR}@${SSH_SERVER_ENVVAR}"' # connect to server
 alias ls="ls --color=auto"
 
 # scp to server
@@ -79,6 +82,43 @@ alias gp='git push -u origin master'
 alias gs='git status'
 alias gl='git log'
 alias gr='git rm'
+
+# Mount stuff
+mnt()
+{
+	sudo mount /dev/"$1" "$USB_ENVVAR"
+}
+
+umnt()
+{
+	sudo umount "$USB_ENVVAR"
+}
+
+mnt-mv()
+{
+	df -h "$USB_ENVVAR"
+
+	mkdir "$1" && 
+	sudo mv -v "$USB_ENVVAR"/* "$1" &&
+
+	du -h "$1" && 
+	df -h "$USB_ENVVAR" && 
+
+	umnt
+}
+
+mnt-cp()
+{
+	df -h "$USB_ENVVAR"
+
+	mkdir "$1" && 
+	sudo cp -vr "$USB_ENVVAR"/* "$1" &&
+
+	du -h "$1" && 
+	df -h "$USB_ENVVAR" &&
+	
+	umnt
+}
 
 # Diff stuff
 t-diff()
@@ -173,20 +213,6 @@ sendsrv()
 	ssh "$user@$srv" "sed -i -e '/<\/h1>/a \        <img src=\"img/$member/$input\">' $html_file"
 }
 
-random-edit()
-{
-	for file in "$@"; do
-		input="$file"
-		ext="$(echo "$input" | rev | cut -d '.' -f 1 | rev)"
-		without_ext="$(chext.sh $input)"
-		for i in $(seq 1 150); do 
-			#echo "in $input out ${without_ext}-${i}"
-			~/.local/bin/convert-img/convert-img.sh -i "$input" \
-				-r -o "${without_ext}-${i}.${ext}"
-		done
-	done
-}
-
 showimg()
 {
 	input="$1"
@@ -196,11 +222,4 @@ showimg()
 	[ -n "$2" ] && mv "$img" "$2"
 }
 
-if [ -n "$SSH_CONNECTION" ] && [ -z "$TMUX" ]; then
-        tmux attach || tmux
-fi
-
-# Move tar extracted jdk package to /usr/lib/jvm and add to PATH
-#export JAVA_HOME="/usr/lib/jvm/jdk-21.0.2"
-#export PATH="$JAVA_HOME/bin:$PATH"
 [ -n "$(command -v starship)" ] && eval "$(starship init bash)"
