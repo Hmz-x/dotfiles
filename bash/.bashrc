@@ -196,6 +196,13 @@ showimg()
 	[ -n "$2" ] && mv "$img" "$2"
 }
 
+gettar()
+{
+	for file in "$1"/*; do 
+		echo tar -czvf "$(basename "$file").tar.gz" -C "$file" . 
+	done
+}
+
 if [ -n "$SSH_CONNECTION" ] && [ -z "$TMUX" ]; then
         tmux attach || tmux
 fi
