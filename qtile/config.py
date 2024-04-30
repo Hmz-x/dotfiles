@@ -213,7 +213,6 @@ screens = [
             [
                 widget.CurrentLayout(),
                 widget.GroupBox(),
-                widget.Prompt(),
                 widget.WindowName(),
                 widget.Chord(
                     chords_colors={
@@ -222,11 +221,12 @@ screens = [
                     name_transform=lambda name: name.upper(),
                 ),
 				widget.CPU(),
-                widget.TextBox("WHATSUP BIATCH", name="default", foreground=purple, font="mono"),
+                widget.TextBox("REAL LINUX FUCKIN SOLDIER", name="default", foreground=purple, font="mono"),
+				#widget.CryptoTicker(crypto="ETH"),
+				#widget.GenPollCommand(cmd="mullvad status | head -n 1 | cut -d ' ' -f 1", shell=True),
                 widget.StatusNotifier(),
-                widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
-				widget.Battery() if IsLaptopBool else widget.TextBox("", name="empty"),
-                widget.QuickExit(),
+                widget.Clock(format="%d/%m/%y %a %I:%M %p"),
+				widget.Battery(charge_char="+", discharge_char="-", format="{char}{percent: 2.0%}") if IsLaptopBool else widget.TextBox("", name="empty"),
             ],
             24,
             #border_width=[0, 0, 0, 0],  # Draw top and bottom borders
