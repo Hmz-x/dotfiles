@@ -4,7 +4,8 @@
 pgrep fnott || fnott &
 
 # location to determine blue / red light
-LOCATION="west-lafayette"
+#LOCATION="west-lafayette"
+LOCATION="istanbul"
 
 if [ "$LOCATION" = "west-lafayette" ]; then
 	lat=40.4
@@ -24,7 +25,8 @@ if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
 fi
 
 # Run polkit agent in background
-pgrep -f wlsunset || /usr/lib/polkit-kde-authentication-agent-1 &
+pgrep -f /usr/lib/polkit-kde-authentication-agent-1 || 
+	/usr/lib/polkit-kde-authentication-agent-1 &
 
 # Get all wallpaper images from server
-rsync -a --ignore-existing --update hamza@128.210.6.108:/var/www/cutemafia/public_html/img/*/* "$HOME/Documents/pics/wallpaper/"
+rsync -a --ignore-existing --update hamza@128.210.6.108:/var/www/cutemafia/public_html/img/*/* "$HOME/Documents/pics/wallpaper/" &
