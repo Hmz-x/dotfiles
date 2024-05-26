@@ -169,6 +169,9 @@ sendsrv()
 	img_dir="/var/www/cutemafia/public_html/img/$member"
 	html_file="/var/www/cutemafia/public_html/${member}.html"
 	
+	# Get file perms, if not 644, chmod to 644
+	file_perms="$(stat -c "%a %n" "$input" | cut -d ' ' -f 1)"	
+	[ $file_perms -eq 644 ] || chmod 644 "$input"
 	scp "$input" "$user@$srv:$img_dir"
 	ssh "$user@$srv" "sed -i -e '/<\/h1>/a \        <img src=\"img/$member/$input\">' $html_file"
 }
@@ -179,7 +182,7 @@ random-edit()
 		input="$file"
 		ext="$(echo "$input" | rev | cut -d '.' -f 1 | rev)"
 		without_ext="$(chext.sh $input)"
-		for i in $(seq 1 150); do 
+		for i in $(seq 1 25); do 
 			#echo "in $input out ${without_ext}-${i}"
 			~/.local/bin/convert-img/convert-img.sh -i "$input" \
 				-r -o "${without_ext}-${i}.${ext}"
