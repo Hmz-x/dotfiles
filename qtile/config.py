@@ -128,8 +128,11 @@ keys = [
     Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
+    Key([mod, "control"], "s", lazy.spawn("swaylock --daemonize -s tile -i ~/Documents/pics/wallpaper/lofty_gooned_out.png --clock --indicator --inside-color '#CD14EC'"), desc="screenlock via swaylock"),
+
 	# Shutdown system
     Key([mod, "control"], "F4", lazy.spawn("shutdown now"), desc="Shutdown system"),
+    Key([mod, "control", "shift"], "F4", lazy.spawn("sudo reboot now"), desc="Reboot system"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
 
 	Key([mod], "m", lazy.screen.next_group(), desc="move to next group"), 
