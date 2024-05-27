@@ -29,4 +29,4 @@ pgrep -f /usr/lib/polkit-kde-authentication-agent-1 ||
 	/usr/lib/polkit-kde-authentication-agent-1 &
 
 # Get all wallpaper images from server
-rsync -a --ignore-existing --update hamza@128.210.6.108:/var/www/cutemafia/public_html/img/*/* "$HOME/Documents/pics/wallpaper/" &
+#rsync -a --ignore-existing --update hamza@128.210.6.108:/var/www/cutemafia/public_html/img/*/* "$HOME/Documents/pics/wallpaper/" &
