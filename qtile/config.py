@@ -105,6 +105,8 @@ keys = [
     Key([mod, "shift"], "b", lazy.spawn("blueman-manager"), desc="blueman-manager"),
 	# LAUNCH pavucontrol
     Key([mod, "shift"], "p", lazy.spawn("pavucontrol"), desc="pavucontrol"),
+	# LAUNCH rofimoji
+    Key([mod, "shift"], "m", lazy.spawn("rofimoji"), desc="rofimoji"),
 
 	# Audio controls
     Key([], "XF86AudioLowerVolume", lazy.spawn("pamixer --decrease 10"), desc="Lower volume"),
@@ -226,6 +228,7 @@ screens = [
 				widget.CPU(),
                 widget.TextBox("REAL LINUX FUCKIN SOLDIER", name="default", foreground=purple, font="mono"),
 				widget.CryptoTicker(crypto="XMR"),
+				widget.CryptoTicker(crypto="SOL"),
 				widget.GenPollCommand(cmd="mullvad status | head -n 1 | cut -d ' ' -f 1", shell=True),
                 widget.StatusNotifier(),
                 widget.Clock(format="%d/%m/%y %a %I:%M %p"),
