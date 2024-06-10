@@ -66,7 +66,7 @@ filetype off
 
 set nocp
 syntax on
-set tabstop=4 softtabstop=4 shiftwidth=4
+set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
 "set textwidth=90
 set nu
 set noswapfile

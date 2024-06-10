@@ -213,4 +213,7 @@ fi
 # Move tar extracted jdk package to /usr/lib/jvm and add to PATH
 #export JAVA_HOME="/usr/lib/jvm/jdk-21.0.2"
 #export PATH="$JAVA_HOME/bin:$PATH"
+# Append to history after each command and reload
+export PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND"
+
 [ -n "$(command -v starship)" ] && eval "$(starship init bash)"
