@@ -10,8 +10,8 @@ set -o vi
 export PS1='\[\033[0;0m\][\u:\w]\$ '
 
 # General Aliases
+alias md='xrandr --output HDMI-1 --same-as eDP-1' # mirror display on X
 alias sd='spotdl'
-alias v='vim'
 alias c='clear'
 alias e='exit'
 alias l='less'
@@ -28,6 +28,11 @@ alias cql='cat "${HOME}/.local/share/qtile/qtile.log"' # cat qtile log
 alias rqc='qtile cmd-obj -o cmd -f reload_config' # reload qtile config
 alias c2s='ssh "${SSH_USER_ENVVAR}@${SSH_SERVER_ENVVAR}"' # connect to server
 alias ls="ls --color=auto"
+if [ "$(command -v lvim)" ]; then
+  alias v='lvim'
+else
+  alias v='vim'
+fi
 
 # scp to server
 s2s()
@@ -69,7 +74,7 @@ alias wshow='nmcli connection show'
 gcr()
 {
 	# Git clone repo
-	[ -n "$2" ] && GITHUB_UNAME_ENVVAR="$2"
+	GITHUB_UNAME_ENVVAR="Hmz-x"
 	git clone "http://github.com/${GITHUB_UNAME_ENVVAR}/${1}"
 }
 
