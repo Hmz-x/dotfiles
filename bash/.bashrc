@@ -17,13 +17,13 @@ alias e='exit'
 alias l='less'
 alias z='zathura'
 alias tb='nc termbin.com 9999'
-alias vet='vim /etc/hosts'
+alias vet='lvim /etc/hosts'
 alias cdb='builtin cd "${HOME}/.local/bin"'
 alias cdd='builtin cd "${HOME}/.local/dotfiles"'
 alias ag='aspell -n -c' # aspell groff doc
 alias yni='yay --removemake --cleanmenu=false --noconfirm -S' # yay non-interactive install
 alias doc2pdf='soffice --headless --convert-to pdf'
-alias vqc='vim "${HOME}/.config/qtile/config.py"' # vim qtile config
+alias vqc='lvim "${HOME}/.config/qtile/config.py"' # vim qtile config
 alias cql='cat "${HOME}/.local/share/qtile/qtile.log"' # cat qtile log
 alias rqc='qtile cmd-obj -o cmd -f reload_config' # reload qtile config
 alias c2s='ssh "${SSH_USER_ENVVAR}@${SSH_SERVER_ENVVAR}"' # connect to server
