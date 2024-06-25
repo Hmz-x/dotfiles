@@ -91,6 +91,10 @@ install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
 	"$dotfiles_dir/mpv/mpv.conf" "$HOME/.config/mpv"
 
+# lvim
+install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
+	"$dotfiles_dir/lvim/"* "$HOME/.config/lvim"
+
 # pacman
 [ "$cpu_arch" = "x86_64" ] && pacman_file="$dotfiles_dir/pacman/arch-x64_pacman.conf"
 [ "$cpu_arch" = "aarch64" ] && pacman_file="$dotfiles_dir/pacman/arch-arm_pacman.conf"

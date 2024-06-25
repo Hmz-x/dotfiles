@@ -16,4 +16,5 @@
 ~/.config/openvpn
 ~/.config/qtile
 ~/.config/alacritty
+~/.config/lvim
 /etc/ly
