@@ -17,4 +17,5 @@
 ~/.config/qtile
 ~/.config/alacritty
 ~/.config/lvim
+~/.config/tmux
 /etc/ly
