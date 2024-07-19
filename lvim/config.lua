@@ -40,3 +40,16 @@ vim.api.nvim_set_keymap('v', 'D', '"_D', { noremap = true })
 vim.api.nvim_set_keymap('v', 'c', '"_c', { noremap = true })
 vim.api.nvim_set_keymap('v', 'C', '"_C', { noremap = true })
 vim.api.nvim_set_keymap('v', 'x', '"_x', { noremap = true })
+
+-- Enable line wrapping
+vim.opt.wrap = true
+
+-- Prevent wrapping in the middle of a word
+vim.opt.linebreak = true
+
+-- Add a character to indicate a wrapped line (optional)
+vim.opt.showbreak = "↪ "
+
+-- Optionally, you can also adjust the 'textwidth' to set a maximum width for text
+-- Uncomment the next line if you want to set a specific text width
+vim.opt.textwidth = 80
