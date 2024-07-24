@@ -19,7 +19,7 @@ alias e='exit'
 alias l='less'
 alias z='zathura'
 alias tb='nc termbin.com 9999'
-alias vet='vim /etc/hosts'
+alias vet='sudo vim /etc/hosts'
 alias cdb='builtin cd "${HOME}/.local/bin"'
 alias cdd='builtin cd "${HOME}/.local/dotfiles"'
 alias ag='aspell -n -c' # aspell groff doc
@@ -171,7 +171,7 @@ sendsrv()
 	
 	[ $# -lt 2 ] && echo "usage: sendsrv \$input \$member" && return 1
 
-	user="hamza"
+	user="hkm"
 	srv="128.210.6.108"
 	img_dir="/var/www/cutemafia/public_html/img/$member"
 	html_file="/var/www/cutemafia/public_html/${member}.html"
@@ -208,8 +208,17 @@ showimg()
 
 gettar()
 {
-	for file in "$1"/*; do 
-		echo tar -czvf "$(basename "$file").tar.gz" -C "$file" . 
+  [ ! -d "$1" ] && echo "usage: gettar DIR" && return 1
+
+  dir="${1%/}"
+  echo "$dir"
+
+	for file in "${dir}/"*; do 
+    # Only get tar of directories
+    [ ! -d "$file" ] && continue
+
+    file="$(basename "$file")"
+    tar -czvf "${dir}/${file}.tar.gz" -C "$dir" "${dir}/${file}"
 	done
 }
 
