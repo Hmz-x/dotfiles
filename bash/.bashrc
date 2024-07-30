@@ -222,6 +222,23 @@ gettar()
 	done
 }
 
+sep_creds()
+{
+  # Function to seperate column delimeted credentials
+  # i.e: root:rootpasswd
+
+  if [ "$#" -lt 2 ]; then
+    echo "usage: sep_creds FILE SERVICE" 
+    echo "example: sep_creds mysql_credentials.txt mysql"
+    return 1
+  fi 
+
+  local file="$1"
+  local service="$2"
+  cat "$file" | cut -d ':' -f 1 | sort | uniq > "${service}_logins.txt"
+  cat "$file" | cut -d ':' -f 2 | sort | uniq > "${service}_pass.txt"
+}
+
 if [ -n "$SSH_CONNECTION" ] && [ -z "$TMUX" ]; then
         tmux attach || tmux
 fi
