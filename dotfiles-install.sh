@@ -30,6 +30,8 @@ install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
 # Vim stuff
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
 	"$dotfiles_dir/vim/.vimrc" "$HOME"
+install --compare -D --owner="root" --group="root" --mode=$chmod_val \
+	"$dotfiles_dir/vim/.vimrc" /root/
 
 # X stuff
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
@@ -98,6 +100,8 @@ install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
 # tmux
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
 	"$dotfiles_dir/tmux/"* "$HOME/.config/tmux"
+install --compare -D --owner="root" --group="root" --mode=$chmod_val \
+	"$dotfiles_dir/tmux/"* /etc/
 
 # pacman
 [ "$cpu_arch" = "x86_64" ] && pacman_file="$dotfiles_dir/pacman/arch-x64_pacman.conf"
