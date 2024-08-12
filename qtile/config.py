@@ -107,6 +107,9 @@ keys = [
     Key([mod, "shift"], "p", lazy.spawn("pavucontrol"), desc="pavucontrol"),
 	# LAUNCH rofimoji
     Key([mod, "shift"], "m", lazy.spawn("rofimoji"), desc="rofimoji"),
+	# LAUNCH pick_pass.sh
+    Key([mod, "shift"], "l", lazy.spawn("pick_pass.sh"), desc="pick_pass.sh"),
+    Key([mod, "shift"], "g", lazy.spawn("grim"), desc="grim"),
 
 	# Audio controls
     Key([], "XF86AudioLowerVolume", lazy.spawn("pamixer --decrease 10"), desc="Lower volume"),

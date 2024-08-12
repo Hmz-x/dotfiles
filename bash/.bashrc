@@ -188,7 +188,7 @@ random-edit()
 	for file in "$@"; do
 		input="$file"
 		ext="$(echo "$input" | rev | cut -d '.' -f 1 | rev)"
-		without_ext="$(chext.sh $input)"
+		without_ext="$(chext.sh "$input")"
 		for i in $(seq 1 25); do 
 			#echo "in $input out ${without_ext}-${i}"
 			~/.local/bin/convert-img/convert-img.sh -i "$input" \
@@ -200,7 +200,7 @@ random-edit()
 showimg()
 {
 	input="$1"
-	img="$(./convert-img.sh -i "$input" -r)" && echo "$img"
+	img="$(convert-img.sh -i "$input" -r)" && echo "$img"
 	sxiv "$img"
 
 	[ -n "$2" ] && mv "$img" "$2"
@@ -222,24 +222,20 @@ gettar()
 	done
 }
 
-sep_creds()
+f3d()
 {
-  # Function to seperate column delimeted credentials
-  # i.e: root:rootpasswd
-
-  if [ "$#" -lt 2 ]; then
-    echo "usage: sep_creds FILE SERVICE" 
-    echo "example: sep_creds mysql_credentials.txt mysql"
-    return 1
-  fi 
-
-  local file="$1"
-  local service="$2"
-  cat "$file" | cut -d ':' -f 1 | sort | uniq > "${service}_logins.txt"
-  cat "$file" | cut -d ':' -f 2 | sort | uniq > "${service}_pass.txt"
+  figlet -f /usr/share/figlet/fonts/larry3d.flf "$@" | \
+    lolcat -a -d 10 -s 100
 }
 
-if [ -n "$SSH_CONNECTION" ] && [ -z "$TMUX" ]; then
+fgoth()
+{
+  figlet -f /usr/share/figlet/fonts/gothic__.flf "$@" | \
+    lolcat -a -d 10 -s 100
+}
+
+# Launch tmux when in a ssh sesh if not root user
+if [ "$UID" -ne 0 ] && [ -n "$SSH_CONNECTION" ] && [ -z "$TMUX" ]; then
         tmux attach || tmux
 fi
 
