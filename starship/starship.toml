@@ -1,13 +1,41 @@
 # Get editor completions based on the config schema
+# The $schema line is correct and doesn't need any changes
 "$schema" = 'https://starship.rs/config-schema.json'
 
 # Inserts a blank line between shell prompts
 add_newline = false
 
-# Replace the '❯' symbol in the prompt with '➜'
-[character] # The name of the module we are configuring is 'character'
-success_symbol = '[`.✧.~`~.✧.`](bold purple )' # The 'success_symbol' segment is being set to '➜' with the color 'bold green'
+# Replace the '❯' symbol in the prompt with a custom symbol
+[character] 
+success_symbol = '[`.✧.~`~.✧.`](bold purple)'  # The 'success_symbol' segment is set with custom symbols in bold purple
 
 # Disable the package module, hiding it from the prompt completely
 [package]
 disabled = true
+
+# Customize the prompt format
+format = "$time$username@$hostname:$directory\n$character"
+
+# Time Module
+[time]
+disabled = false
+time_format = "[%T]"  # Displays time in HH:MM:SS format
+format = '[$time]($style) '
+
+# Username Module
+[username]
+format = '[$user]($style) '
+disabled = false
+show_always = true
+aliases = { "corpuser034g" = "matchai" }
+
+# Hostname Module
+[hostname]
+ssh_only = false
+format = '[$hostname]($style) '
+disabled = false
+
+# Directory (CWD) Module
+[directory]
+disabled = false
+format = "[$path]($style)"
