@@ -53,3 +53,7 @@ vim.opt.showbreak = "↪ "
 -- Optionally, you can also adjust the 'textwidth' to set a maximum width for text
 -- Uncomment the next line if you want to set a specific text width
 vim.opt.textwidth = 80
+vim.o.expandtab = true
+vim.o.tabstop = 2
+vim.o.shiftwidth = 2
+vim.o.softtabstop = 2
