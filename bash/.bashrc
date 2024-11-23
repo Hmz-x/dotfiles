@@ -10,6 +10,7 @@ set -o vi
 export PS1='\[\033[0;0m\][\u:\w]\$ '
 export EDITOR='lvim'
 export VISUAL='lvim'
+export BROWSER='firefox'
 
 # General Aliases
 alias md='xrandr --output HDMI-1 --same-as eDP-1' # mirror display on X
