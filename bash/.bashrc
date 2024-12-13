@@ -31,6 +31,8 @@ alias cql='cat "${HOME}/.local/share/qtile/qtile.log"' # cat qtile log
 alias rqc='qtile cmd-obj -o cmd -f reload_config' # reload qtile config
 alias c2s='ssh "${SSH_USER_ENVVAR}@${SSH_SERVER_ENVVAR}"' # connect to server
 alias ls="ls --color=auto"
+alias rnm='sudo systemctl restart NetworkManager'
+
 if [ "$(command -v lvim)" ]; then
   alias v='lvim'
 else
