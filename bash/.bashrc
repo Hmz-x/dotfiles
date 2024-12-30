@@ -237,6 +237,47 @@ fgoth()
     lolcat -a -d 10 -s 100
 }
 
+lt()
+{
+  if [ -z "$1" ]; then
+    echo "Usage: lt TAG" 2>&1
+    return
+  fi
+  git tag | grep "$1" | tail -n 1
+}
+
+nt() {
+  if [ -z "$1" ]; then
+    echo "Usage: nt <tag-name>"
+    return 1
+  fi
+
+  tag_name="$1"
+  
+  # Find the latest tag related to the given tag name
+  last_tag=$(git tag | grep -E "^v[0-9]+\.[0-9]+\.[0-9]+(-${tag_name})?$" | grep "${tag_name}" | sort -V | tail -n 1)
+  
+  if [ -z "$last_tag" ]; then
+    # If no related tag exists, start with v0.0.1
+    new_tag="v0.0.1-${tag_name}"
+  else
+    # Extract the version number (vn.n.n)
+    version=$(echo "$last_tag" | grep -oE "v[0-9]+\.[0-9]+\.[0-9]+")
+    
+    # Increment the patch version
+    major=$(echo "$version" | cut -d '.' -f 1 | cut -c 2-)
+    minor=$(echo "$version" | cut -d '.' -f 2)
+    patch=$(echo "$version" | cut -d '.' -f 3)
+    new_patch=$((patch + 1))
+    
+    # Construct the new tag
+    new_tag="v${major}.${minor}.${new_patch}-${tag_name}"
+  fi
+
+  git tag "$new_tag"
+  echo "New tag: $new_tag"
+}
+
 # Launch tmux when in a ssh sesh if not root user
 if [ "$UID" -ne 0 ] && [ -n "$SSH_CONNECTION" ] && [ -z "$TMUX" ]; then
         tmux attach || tmux
