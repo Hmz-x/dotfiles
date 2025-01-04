@@ -276,6 +276,7 @@ nt() {
 
   git tag "$new_tag"
   echo "New tag: $new_tag"
+  git push origin "$new_tag"
 }
 
 # Launch tmux when in a ssh sesh if not root user
