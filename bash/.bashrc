@@ -276,7 +276,22 @@ nt() {
 
   git tag "$new_tag"
   echo "New tag: $new_tag"
+
   git push origin "$new_tag"
+}
+
+mnt()
+{
+  if [ -f /mnt/usb/* ]; then
+    echo /mnt/usb is busy exiting.
+    return
+  fi
+  sudo mount /dev/"$1" /mnt/usb
+}
+
+umnt()
+{
+  sudo umount /mnt/usb
 }
 
 # Launch tmux when in a ssh sesh if not root user
