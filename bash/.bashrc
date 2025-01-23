@@ -239,6 +239,7 @@ fgoth()
 
 lt()
 {
+  # Get Last Tag
   if [ -z "$1" ]; then
     echo "Usage: lt TAG" 2>&1
     return
@@ -247,6 +248,7 @@ lt()
 }
 
 nt() {
+  # Get Next Tag & Push
   if [ -z "$1" ]; then
     echo "Usage: nt <tag-name>"
     return 1
@@ -292,6 +294,16 @@ mnt()
 umnt()
 {
   sudo umount /mnt/usb
+}
+
+shwgpu()
+{
+  sudo lspci -v -s $(lspci | grep -i vga | awk '{print $1}')
+}
+
+yu()
+{
+  yay --noconfirm -Syu
 }
 
 # Launch tmux when in a ssh sesh if not root user
