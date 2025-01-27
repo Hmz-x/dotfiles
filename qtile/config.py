@@ -33,7 +33,7 @@ from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
 mod = "mod4"
-terminal = "alacritty"
+terminal = "kitty"
 browser = "librewolf"
 filemanager = "dolphin"
 prg_launcher = "rofi -show run"
