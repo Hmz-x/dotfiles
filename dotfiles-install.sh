@@ -26,6 +26,8 @@ install --compare -D --owner=root --group=root --mode=700 \
 	"$dotfiles_dir/bash/.bashrc" /root/
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
 	"$dotfiles_dir/bash/.bash_profile" "$HOME"
+install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
+	"$dotfiles_dir/bash/.bash_aliases" "$HOME"
 
 # Vim stuff
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
