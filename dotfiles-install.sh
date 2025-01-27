@@ -83,6 +83,10 @@ install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
 	"$dotfiles_dir/alacritty/alacritty.toml" "${HOME}/.config/alacritty"
 
+# Kitty
+install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
+	"$dotfiles_dir/kitty/kitty.conf" "${HOME}/.config/kitty"
+
 # Ly
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
 	"$dotfiles_dir/ly/config.ini" /etc/ly/
