@@ -21,7 +21,9 @@ fi
 cd "$DL_DIR" || { echo "Failed to cd into $DL_DIR. Exitting."; exit 1; }
 
 if [[ "$1" == "-q" || "$1" == "--quiet" ]]; then
-  proxychains4 -q yt-dlp -f bestaudio "https://soundcloud.com/${USERNAME}/likes" &> /dev/null
+  proxychains4 -q yt-dlp -f bestaudio --embed-thumbnail --add-metadata --metadata-from-title "%(artist)s - %(title)s" \
+    -o "%(title)s.%(ext)s" "https://soundcloud.com/${USERNAME}/likes" &> /dev/null
 else
-  proxychains4 -q yt-dlp -f bestaudio "https://soundcloud.com/${USERNAME}/likes"
+  proxychains4 -q yt-dlp -f bestaudio --embed-thumbnail --add-metadata --metadata-from-title "%(artist)s - %(title)s" \
+    -o "%(title)s.%(ext)s" "https://soundcloud.com/${USERNAME}/likes"
 fi
