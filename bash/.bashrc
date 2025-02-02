@@ -15,13 +15,13 @@ else
 fi
 
 # X11: copy contents of file to clip
-xc()
+xcpy()
 {
 	"$@" | xclip -selection clipboard
 }
 
 # Wayland: copy contents of file to clip
-wc()
+wcpy()
 {
 	"$@" | wl-copy
 }
