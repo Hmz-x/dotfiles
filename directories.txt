@@ -18,4 +18,5 @@
 ~/.config/alacritty
 ~/.config/lvim
 ~/.config/tmux
+~/.config/kitty
 /etc/ly
