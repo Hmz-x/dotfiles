@@ -17,6 +17,7 @@
 ~/.config/qtile
 ~/.config/alacritty
 ~/.config/lvim
+~/.config/nvim
 ~/.config/tmux
 ~/.config/kitty
 /etc/ly

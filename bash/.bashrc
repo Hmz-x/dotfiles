@@ -8,8 +8,8 @@ if [ -f ~/.bash_aliases ]; then
   . ~/.bash_aliases
 fi
 
-if [ "$(command -v lvim)" ]; then
-  alias v='lvim'
+if [ "$(command -v nvim)" ]; then
+  alias v='nvim'
 else
   alias v='vim'
 fi
@@ -91,7 +91,7 @@ sendsrv()
 	[ $# -lt 2 ] && echo "usage: sendsrv \$input \$member" && return 1
 
 	user="hkm"
-	srv="128.210.6.108"
+	srv="10.243.16.25"
 	img_dir="/var/www/cutemafia/public_html/img/$member"
 	html_file="/var/www/cutemafia/public_html/${member}.html"
 	
@@ -214,6 +214,9 @@ mnt()
 if [ "$UID" -ne 0 ] && [ -n "$SSH_CONNECTION" ] && [ -z "$TMUX" ]; then
         tmux attach || tmux
 fi
+
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH
 
 export PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND"
 [ -n "$(command -v starship)" ] && eval "$(starship init bash)"
