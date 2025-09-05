@@ -220,3 +220,9 @@ export PATH=$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$
 
 export PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND"
 [ -n "$(command -v starship)" ] && eval "$(starship init bash)"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/hkm/google-cloud-sdk/path.bash.inc' ]; then . '/home/hkm/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/hkm/google-cloud-sdk/completion.bash.inc' ]; then . '/home/hkm/google-cloud-sdk/completion.bash.inc'; fi

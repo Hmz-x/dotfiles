@@ -20,4 +20,5 @@
 ~/.config/nvim
 ~/.config/tmux
 ~/.config/kitty
+~/.config/nvim
 /etc/ly
