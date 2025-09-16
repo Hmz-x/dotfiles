@@ -17,13 +17,13 @@ alias z='zathura'
 alias ls="ls --color=auto"
 
 # qtile
-alias vqc='lvim "${HOME}/.config/qtile/config.py"' # vim qtile config
+alias vqc='lvim "${HOME}/.config/qtile/config.py"'     # vim qtile config
 alias cql='cat "${HOME}/.local/share/qtile/qtile.log"' # cat qtile log
-alias rqc='qtile cmd-obj -o cmd -f reload_config' # reload qtile config
+alias rqc='qtile cmd-obj -o cmd -f reload_config'      # reload qtile config
 
 # NM/nmcli
 alias rnm='sudo systemctl restart NetworkManager'
-alias wscan='nmcli dev wifi'
+alias wscan='nmcli dev wifi rescan && nmcli dev wifi list'
 alias wshow='nmcli connection show'
 
 # git
