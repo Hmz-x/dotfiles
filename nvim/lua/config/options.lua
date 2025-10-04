@@ -5,3 +5,5 @@
 vim.cmd.colorscheme("wildcharm")
 vim.opt.relativenumber = false
 vim.opt.number = true
+-- Disable automatic comment continuation on new line
+vim.opt.formatoptions:remove({ "c", "r", "o" })
