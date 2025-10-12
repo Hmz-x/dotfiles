@@ -217,27 +217,52 @@ screens = [
 		#wallpaper=os.path.join(os.path.expanduser("~"), "Documents/pics/Metro Zu Art/loftys_gurl.png"),
 		wallpaper = os.path.join(wallpaper_dir, random_file),
         wallpaper_mode="stretch",
+        top=bar.Bar(
+        [
+            widget.GenPollCommand(
+                cmd='echo -n "XMR: $(curl -s "https://api.coingecko.com/api/v3/simple/price?ids=monero&vs_currencies=usd" | jq -r ".monero.usd" | xargs printf "%.2f")"',
+                update_interval=120,
+                shell=True,
+            ),
+            widget.TextBox(" | "),
+            widget.GenPollCommand(
+                cmd='echo -n "SOL: $(curl -s "https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd" | jq -r ".solana.usd" | xargs printf "%.2f")"',
+                update_interval=120,
+                shell=True,
+            ),
+            widget.TextBox(" | "),
+            widget.GenPollCommand(
+                cmd='echo -n "ADA: $(curl -s "https://api.coingecko.com/api/v3/simple/price?ids=cardano&vs_currencies=usd" | jq -r ".cardano.usd" | xargs printf "%.2f")"',
+                update_interval=120,
+                shell=True,
+            ),
+            widget.TextBox(" | "),
+            widget.GenPollCommand(
+                cmd='echo -n "XRP: $(curl -s "https://api.coingecko.com/api/v3/simple/price?ids=ripple&vs_currencies=usd" | jq -r ".ripple.usd" | xargs printf "%.2f")"',
+                update_interval=120,
+                shell=True,
+            ),
+        ],
+        24,
+        ),
         bottom=bar.Bar(
-            [
-                widget.CurrentLayout(),
-                widget.GroupBox(),
-                widget.WindowName(),
-                widget.Chord(
-                    chords_colors={
-                        "launch": ("#ff0000", "#ffffff"),
-                    },
-                    name_transform=lambda name: name.upper(),
-                ),
-				widget.CPU(),
-                widget.TextBox("REAL LINUX FUCKIN SOLDIER", name="default", foreground=purple, font="mono"),
-				widget.CryptoTicker(crypto="XMR"),
-				widget.CryptoTicker(crypto="SOL"),
-				widget.GenPollCommand(cmd="mullvad status | head -n 1 | cut -d ' ' -f 1", shell=True),
-                widget.StatusNotifier(),
-                widget.Clock(format="%d/%m/%y %a %I:%M %p"),
-				widget.Battery(charge_char="+", discharge_char="-", format="{char}{percent: 2.0%}") if IsLaptopBool else widget.TextBox("", name="empty"),
-            ],
-            24,
+        [
+            widget.CurrentLayout(),
+            widget.GroupBox(),
+            widget.WindowName(),
+            widget.Chord(
+                chords_colors={
+                    "launch": ("#ff0000", "#ffffff"),
+                },
+                name_transform=lambda name: name.upper(),
+            ),
+            widget.CPU(),
+            widget.TextBox("REAL LINUX FUCKIN SOLDIER", name="default", foreground=purple, font="mono"),
+            widget.GenPollCommand(cmd="mullvad status | head -n 1 | cut -d ' ' -f 1", shell=True),
+            widget.Clock(format="%d/%m/%y %a %I:%M %p"),
+            widget.Battery(charge_char="+", discharge_char="-", format="{char}{percent: 2.0%}") if IsLaptopBool else widget.TextBox("", name="empty"),
+        ],
+        24,
             #border_width=[0, 0, 0, 0],  # Draw top and bottom borders
             # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
         ),
