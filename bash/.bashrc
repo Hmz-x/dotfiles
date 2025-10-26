@@ -84,20 +84,28 @@ srv() {
 }
 
 sendsrv() {
-  # Send to server
-  input="$1" # input file
+  srv=10.243.16.25
+  input="$1"
   member="$2"
 
   [ $# -lt 2 ] && echo "usage: sendsrv \$input \$member" && return 1
 
+  user="hkm"
   img_dir="/var/www/cutemafia/public_html/img/$member"
   html_file="/var/www/cutemafia/public_html/${member}.html"
 
-  # Get file perms, if not 644, chmod to 644
-  file_perms="$(stat -c "%a %n" "$input" | cut -d ' ' -f 1)"
-  [ $file_perms -eq 644 ] || chmod 644 "$input"
-  scp "$input" "$user@$srv:$img_dir"
-  ssh "$user@$srv" "sed -i -e '/<\/h1>/a \        <img src=\"img/$member/$input\">' $html_file"
+  # ensure permissions
+  file_perms="$(stat -c "%a" "$input")"
+  [ "$file_perms" -eq 644 ] || chmod 644 "$input"
+
+  # only filename, not path
+  filename="$(basename "$input")"
+
+  # upload
+  scp "$input" "$user@$srv:$img_dir/"
+
+  # safely append <img> line after </h1>
+  ssh "$user@$srv" "sed -i '/<\/h1>/a <img src=\"img/$member/$filename\">' '$html_file'"
 }
 
 # randomly edit images using convert-img.sh
