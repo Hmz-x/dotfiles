@@ -104,7 +104,8 @@ install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
   "$dotfiles_dir/lvim/"* "$HOME/.config/lvim"
 
 # lazyvim nvim
-rsync -avh --chown="$USER:$USER" "$dotfiles_dir/nvim/" "$HOME/.config/nvim/"
+install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
+  "$dotfiles_dir/nvim/"* "$HOME/.config/nvim/"
 
 # tmux
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
