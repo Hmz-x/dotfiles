@@ -1,32 +1,61 @@
-#!/bin/bash
+#!/bin/bash -x
 
-# Start notification daemon fnott
-pgrep fnott || fnott &
+# ========================================================================
+# 1. CORE NOTIFICATION ARCHITECTURE
+# ========================================================================
+# Initialize fnott notification daemon if not already running
+pgrep -x fnott >/dev/null || fnott &
 
-# location to determine blue / red light
-#LOCATION="west-lafayette"
-LOCATION="istanbul"
+# ========================================================================
+# 2. LOCALIZATION MATRIX (Coordinates & Solar Adjustments)
+# ========================================================================
+# Targets: "fethiye", "istanbul", "west-lafayette"
+LOCATION="fethiye"
 
-if [ "$LOCATION" = "west-lafayette" ]; then
-	lat=40.4
-	long=-86.9
-elif [ "$LOCATION" = "istanbul" ]; then
-	lat=41
-	long=28.6
-else
-	# Set NYC as fallback 
-	lat=40.7
-	long=-73.9
-fi
+case "$LOCATION" in
+"fethiye")
+  lat="36.6225"
+  long="29.1115"
+  ;;
+"istanbul")
+  lat="41.0082"
+  long="28.9784"
+  ;;
+"west-lafayette")
+  lat="40.4259"
+  long="-86.9081"
+  ;;
+*)
+  # Hardened Fallback (NYC)
+  lat="40.7128"
+  long="-74.0060"
+  ;;
+esac
 
-# wayland stuff here
+# ========================================================================
+# 3. WAYLAND BLUE LIGHT DIFFERENTIAL DISPATCHER
+# ========================================================================
 if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
-	pgrep wlsunset || wlsunset -l $lat -L $long &
+  # -t 4500 (Night temperature in Kelvin) / -T 6500 (Day temperature in Kelvin)
+  pgrep -x wlsunset >/dev/null || wlsunset -l "$lat" -L "$long" -t 4500 -T 6500 &
 fi
 
-# Run polkit agent in background
-pgrep -f /usr/lib/polkit-kde-authentication-agent-1 || 
-	/usr/lib/polkit-kde-authentication-agent-1 &
+# ========================================================================
+# 4. POLKIT GRAPHICAL AUTHENTICATION DEPLOYMENT
+# ========================================================================
+# Check both modern Qt6/Plasma6 libexec paths and legacy layouts fallback
+POLKIT_AGENT=""
+for path in \
+  "/usr/lib/libexec/polkit-kde-authentication-agent-1" \
+  "/usr/lib/polkit-kde-authentication-agent-1"; do
+  if [ -f "$path" ]; then
+    POLKIT_AGENT="$path"
+    break
+  fi
+done
 
-# Get all wallpaper images from server
-#rsync -a --ignore-existing --update hamza@128.210.6.108:/var/www/cutemafia/public_html/img/*/* "$HOME/Documents/pics/wallpaper/" &
+if [ -n "$POLKIT_AGENT" ]; then
+  pgrep -f "$(basename "$POLKIT_AGENT")" >/dev/null || "$POLKIT_AGENT" &
+else
+  echo "Warning: No graphical polkit-kde agent found on local storage nodes." >&2
+fi
