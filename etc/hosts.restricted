@@ -1,15 +1,31 @@
 # Unwanted websites
-#0.0.0.0 www.reddit.com
-#0.0.0.0 reddit.com
-#0.0.0.0 www.youtube.com
-#0.0.0.0 youtube.com
-#0.0.0.0 youtu.be
-#0.0.0.0 www.google.com
-#0.0.0.0 google.com
-#0.0.0.0 www.instagram.com
-#0.0.0.0 instagram.com
-#0.0.0.0 www.discord.com
-#0.0.0.0 discord.com
+# google
+0.0.0.0 www.google.com
+0.0.0.0 google.com
+# social media
+0.0.0.0 www.reddit.com
+0.0.0.0 reddit.com
+0.0.0.0 www.youtube.com
+0.0.0.0 youtube.com
+0.0.0.0 youtu.be
+0.0.0.0 www.instagram.com
+0.0.0.0 instagram.com
+0.0.0.0 www.discord.com
+0.0.0.0 discord.com
+# misc junk
+0.0.0.0 www.imdb.com
+0.0.0.0 imdb.com
+0.0.0.0 www.spotify.com
+0.0.0.0 spotify.com
+0.0.0.0 open.spotify.com
+0.0.0.0 www.genius.com
+0.0.0.0 genius.com
+0.0.0.0 www.soundcloud.com
+0.0.0.0 soundcloud.com
+# ai / llms
+0.0.0.0 www.chatgpt.com
+0.0.0.0 chatgpt.com
+0.0.0.0 gemini.google.com
 
 # Ads, tracking and general junk
 0.0.0.0 api.opencandy.com
@@ -41297,10 +41313,10 @@
 0.0.0.0 www.zetpoker.eu
 
 
-# Porn Sites 
+# Pxrn Sites 
 
 
-# Porn Domains
+# Pxrn Domains
 
 0.0.0.0 0013langford.tumblr.com
 0.0.0.0 0xxx.ws
@@ -46572,7 +46588,7 @@
 0.0.0.0 zuzandra.com
 0.0.0.0 zzcartoon.com
 0.0.0.0 zzgays.com
-# Porn hosts
+# Pxrn hosts
 
 # Updated May 10, 2016
 
