@@ -1,0 +1,14 @@
+! Personal blocklist
+||google.com^
+||reddit.com^
+||youtube.com^
+||youtu.be^
+||instagram.com^
+||discord.com^
+||imdb.com^
+||spotify.com^
+||genius.com^
+||soundcloud.com^
+||southparkstudios.com^
+||fitgirl-repacks.site^
+||chatgpt.com^
