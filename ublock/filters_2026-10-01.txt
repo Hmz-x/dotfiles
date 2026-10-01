@@ -1,0 +1,36 @@
+! ===== Video =====
+||youtube.com^
+||youtu.be^
+||youtube-nocookie.com^
+||tiktok.com^
+||tiktokcdn.com^
+||southparkstudios.com^
+
+! ===== Social / Chat =====
+||reddit.com^
+||redd.it^
+||redditmedia.com^
+||instagram.com^
+||instagr.am^
+||cdninstagram.com^
+||discord.com^
+||discord.gg^
+||discordapp.com^
+
+! ===== Music =====
+||spotify.com^
+||spotify.link^
+||soundcloud.com^
+||snd.sc^
+||sndcdn.com^
+||genius.com^
+
+! ===== Movies / TV info =====
+||imdb.com^
+
+! ===== AI =====
+||chatgpt.com^
+||chat.openai.com^
+
+! ===== Games =====
+||fitgirl-repacks.site^
