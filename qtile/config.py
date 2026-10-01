@@ -217,34 +217,6 @@ screens = [
 		#wallpaper=os.path.join(os.path.expanduser("~"), "Documents/pics/Metro Zu Art/loftys_gurl.png"),
 		wallpaper = os.path.join(wallpaper_dir, random_file),
         wallpaper_mode="stretch",
-        top=bar.Bar(
-        [
-            widget.GenPollCommand(
-                cmd='echo -n "XMR: $(curl -s "https://api.coingecko.com/api/v3/simple/price?ids=monero&vs_currencies=usd" | jq -r ".monero.usd" | xargs printf "%.2f")"',
-                update_interval=120,
-                shell=True,
-            ),
-            widget.TextBox(" | "),
-            widget.GenPollCommand(
-                cmd='echo -n "SOL: $(curl -s "https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd" | jq -r ".solana.usd" | xargs printf "%.2f")"',
-                update_interval=120,
-                shell=True,
-            ),
-            widget.TextBox(" | "),
-            widget.GenPollCommand(
-                cmd='echo -n "ADA: $(curl -s "https://api.coingecko.com/api/v3/simple/price?ids=cardano&vs_currencies=usd" | jq -r ".cardano.usd" | xargs printf "%.2f")"',
-                update_interval=120,
-                shell=True,
-            ),
-            widget.TextBox(" | "),
-            widget.GenPollCommand(
-                cmd='echo -n "XRP: $(curl -s "https://api.coingecko.com/api/v3/simple/price?ids=ripple&vs_currencies=usd" | jq -r ".ripple.usd" | xargs printf "%.2f")"',
-                update_interval=120,
-                shell=True,
-            ),
-        ],
-        24,
-        ),
         bottom=bar.Bar(
         [
             widget.CurrentLayout(),
