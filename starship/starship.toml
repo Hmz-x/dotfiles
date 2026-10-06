@@ -1,41 +1,73 @@
-# Get editor completions based on the config schema
-# The $schema line is correct and doesn't need any changes
 "$schema" = 'https://starship.rs/config-schema.json'
 
-# Inserts a blank line between shell prompts
-add_newline = false
+add_newline = true
+palette = 'clarity'
+format = """
+[┍━](frame)$time$username$hostname$directory$git_branch$git_state$git_status$python$container$jobs$cmd_duration$status
+$character"""
 
-# Replace the '❯' symbol in the prompt with a custom symbol
-[character] 
-success_symbol = '[`.✧.~`~.✧.`](bold purple)'  # The 'success_symbol' segment is set with custom symbols in bold purple
+[character]
+success_symbol = '[┕━](frame) [≡](bold accent)[::{{](frame)[\$](bold usd)[}::{](frame)[€](bold eur)[}::{](frame)[¥](bold jpy)[}}::](frame)[≡](bold accent)'
+error_symbol   = '[┕━ ≡::{{\$}::{€}::{¥}}::⊥](bold warn)'
+vimcmd_symbol  = '[┕━ ≡::{{\$}::{€}::{¥}}::≡](bold mode)'
 
-# Disable the package module, hiding it from the prompt completely
-[package]
-disabled = true
-
-# Customize the prompt format
-format = "$time$username@$hostname:$directory\n$character"
-
-# Time Module
 [time]
 disabled = false
-time_format = "[%T]"  # Displays time in HH:MM:SS format
+time_format = '%T'
 format = '[$time]($style) '
+style = 'dim'
 
-# Username Module
 [username]
-format = '[$user]($style) '
-disabled = false
 show_always = true
-aliases = { "corpuser034g" = "matchai" }
+format = '[$user]($style)@'
+style_user = 'text'
+style_root = 'bold warn'
 
-# Hostname Module
 [hostname]
 ssh_only = false
-format = '[$hostname]($style) '
-disabled = false
+ssh_symbol = 'ssh:'
+format = '[$ssh_symbol$hostname]($style):'
+style = 'text'
 
-# Directory (CWD) Module
 [directory]
+truncation_length = 3
+read_only = ' ro'
+format = '[$path]($style)[$read_only]($read_only_style) '
+style = 'bold accent'
+read_only_style = 'warn'
+
+[git_branch]
+style = 'dim'
+
+[git_status]
+style = 'mode'
+
+[python]
+style = 'usd'
+
+[container]
+style = 'dim'
+
+[jobs]
+style = 'accent'
+
+[cmd_duration]
+min_time = 2000
+format = 'took [$duration]($style) '
+style = 'dim'
+
+[status]
 disabled = false
-format = "[$path]($style)"
+format = '[::{$status}::]($style) '
+style = 'bold warn'
+
+[palettes.clarity]
+frame  = '5'    # #696ebf  purple
+dim    = '8'    # #4a697d  slate
+text   = '7'    # #bfbaac  stone
+accent = '13'   # #8086e8  bright purple
+usd    = '11'   # #d9a400  gold
+eur    = '12'   # #AFDDFF  ice
+jpy    = '15'   # #fdf6e3  ivory
+warn   = '1'    # #EE615C  red
+mode   = '14'   # #33c5ba  cyan
