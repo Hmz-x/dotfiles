@@ -1,0 +1,51 @@
+# sex_money_magick
+# warm ember ground, esoteric accents, plus three magic colors:
+# rose (sex), gold (money), crystal violet (magick)
+
+[colors.primary]
+foreground = "#ccc2ad"
+background = "#15120d"
+
+[colors.cursor]
+text   = "#15120d"
+cursor = "#b58af1"
+
+[colors.vi_mode_cursor]
+text   = "#15120d"
+cursor = "#eb85b4"
+
+[colors.selection]
+text       = "CellForeground"
+background = "#3d3052"
+
+[colors.search]
+matches       = { foreground = "#ccc2ad", background = "#3d3052" }
+focused_match = { foreground = "#15120d", background = "#d8af4c" }
+
+[colors.hints]
+start = { foreground = "#15120d", background = "#d8af4c" }
+end   = { foreground = "#15120d", background = "#b58af1" }
+
+[colors.footer_bar]
+foreground = "#ccc2ad"
+background = "#1d1a14"
+
+[colors.normal]
+black   = "#242018"
+red     = "#e26b67"
+green   = "#8da46e"
+yellow  = "#d8af4c"
+blue    = "#7f9fc9"
+magenta = "#b58af1"
+cyan    = "#75a69c"
+white   = "#ccc2ad"
+
+[colors.bright]
+black   = "#7f796b"
+red     = "#e6817e"
+green   = "#9eb284"
+yellow  = "#debb67"
+blue    = "#92add1"
+magenta = "#eb85b4"
+cyan    = "#8ab3ab"
+white   = "#e3dbc9"

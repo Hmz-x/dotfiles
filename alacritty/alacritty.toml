@@ -1,27 +1,33 @@
-general.import = [
-    "~/.config/alacritty/themes/themes/dark_pastels.toml"
-]
+# theme
+[general]
+import = ["sex_money_magick.toml"]
 
+# keys
 [keyboard]
 bindings = [
-   { key = "Return", mods = "Control|Shift", action = "SpawnNewInstance" }
+  { key = "Return", mods = "Control|Shift", action = "SpawnNewInstance" },
 ]
 
+# font
 [font]
-size = 24.0
-
-[font.bold]
-family = "monospace"
-style = "Bold"
-
-[font.bold_italic]
-family = "monospace"
-style = "Bold Italic"
-
-[font.italic]
-family = "monospace"
-style = "Italic"
+size = 15.0
 
 [font.normal]
 family = "monospace"
-style = "Regular"
+style  = "Regular"
+
+[font.bold]
+family = "monospace"
+style  = "Bold"
+
+[font.italic]
+family = "monospace"
+style  = "Italic"
+
+[font.bold_italic]
+family = "monospace"
+style  = "Bold Italic"
+
+# window
+[window]
+dimensions = { columns = 92, lines = 24 }
