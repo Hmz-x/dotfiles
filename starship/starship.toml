@@ -1,16 +1,19 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
+# layout
 add_newline = true
-palette = 'clarity'
+palette = 'sex_money_magick'
 format = """
 [┍━](frame)$time$username$hostname$directory$git_branch$git_state$git_status$python$container$jobs$cmd_duration$status
 $character"""
 
+# prompt symbol
 [character]
 success_symbol = '[┕━](frame) [≡](bold accent)[::{{](frame)[\$](bold usd)[}::{](frame)[€](bold eur)[}::{](frame)[¥](bold jpy)[}}::](frame)[≡](bold accent)'
-error_symbol   = '[┕━ ≡::{{\$}::{€}::{¥}}::⊥](bold warn)'
+error_symbol   = '[┕━](frame) [≡](bold accent)[::{{](frame)[\$](bold usd)[}::{](frame)[€](bold eur)[}::{](frame)[¥](bold jpy)[}}::](frame)[≡](bold accent)'
 vimcmd_symbol  = '[┕━ ≡::{{\$}::{€}::{¥}}::≡](bold mode)'
 
+# modules
 [time]
 disabled = false
 time_format = '%T'
@@ -59,15 +62,16 @@ style = 'dim'
 [status]
 disabled = false
 format = '[::{$status}::]($style) '
-style = 'bold warn'
+style = 'dim'
 
-[palettes.clarity]
-frame  = '5'    # #696ebf  purple
-dim    = '8'    # #4a697d  slate
-text   = '7'    # #bfbaac  stone
-accent = '13'   # #8086e8  bright purple
-usd    = '11'   # #d9a400  gold
-eur    = '12'   # #AFDDFF  ice
-jpy    = '15'   # #fdf6e3  ivory
-warn   = '1'    # #EE615C  red
-mode   = '14'   # #33c5ba  cyan
+# palette (terminal color slots)
+[palettes.sex_money_magick]
+frame  = '8'
+dim    = '8'
+text   = '7'
+accent = '5'
+usd    = '3'
+eur    = '14'
+jpy    = '13'
+warn   = '1'
+mode   = '6'
