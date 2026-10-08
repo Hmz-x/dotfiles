@@ -99,10 +99,6 @@ install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
   "$dotfiles_dir/mpv/mpv.conf" "$HOME/.config/mpv"
 
-# lunarvim (lvim)
-install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
-  "$dotfiles_dir/lvim/"* "$HOME/.config/lvim"
-
 # lazyvim nvim
 install --compare -D --owner="$user" --group="$user" --mode=$chmod_val \
   "$dotfiles_dir/nvim/"* "$HOME/.config/nvim/"
